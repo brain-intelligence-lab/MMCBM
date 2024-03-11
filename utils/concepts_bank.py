@@ -342,7 +342,6 @@ class ConceptsLearner:
         return activations, cls
 
     def cav_leaner(self):
-        # ToDO: Implement CAV Learner
         lib_path = os.path.join(self.bank_dir,
                                 f"{self.backbone.name}_concept_{self.location}_{self.svm_C}_{self.n_samples}"
                                 f"_rshot{self.report_shot}_csho{self.concept_shot}.pkl")
