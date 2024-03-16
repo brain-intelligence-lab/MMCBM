@@ -129,7 +129,7 @@ class MMWeightMatrix(nn.Module):
 
     @property
     def weight(self):
-        return torch.concat([self.modality_weight_dict[m].weight for m in self.modality_map.values()], dim=-1)
+        return torch.concat([self.modality_weight_dict[m].weight for m in self.mm_order], dim=-1)
 
     def __getitem__(self, modality):
         if 'MM' in modality:

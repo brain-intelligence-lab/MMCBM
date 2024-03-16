@@ -138,10 +138,10 @@ standardization_int = {
 }
 
 pathology_labels = {'血管瘤': 0, '转移癌': 1, '黑色素瘤': 2, 'noise': 3,
-                    'Choroidal Hemangioma': 0, 'Choroidal Metastatic Carcinoma': 1, 'Uveal Melanoma': 2, }
-pathology_labels_en = {'Choroidal Hemangioma': 0, 'Choroidal Metastatic Carcinoma': 1, 'Uveal Melanoma': 2}
+                    'Choroidal Hemangioma': 0, 'Choroidal Metastatic Carcinoma': 1, 'Choroidal Melanoma': 2, }
+pathology_labels_en = {'Choroidal Hemangioma': 0, 'Choroidal Metastatic Carcinoma': 1, 'Choroidal Melanoma': 2}
 pathology_labels_cn_to_en = {'血管瘤': 'Choroidal Hemangioma', '转移癌': 'Choroidal Metastatic Carcinoma',
-                             '黑色素瘤': 'Uveal Melanoma'}
+                             '黑色素瘤': 'Choroidal Melanoma'}
 id_to_labels = {0: '血管瘤', 1: '转移癌', 2: '黑色素瘤', 3: 'noise'}
 prognosis_labels = {'无转移': 0, '转移': 1, '死亡': 2, 'noise': 3}
 

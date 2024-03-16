@@ -4,7 +4,7 @@ import concurrent.futures
 
 from tqdm import tqdm
 from inference.init_model import get_name
-
+# python execute_concept.py -cbm m2 --clip_name report_strict -act sigmoid -aow -ps 0
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", default='', type=str, help="MRI contrast(default, normal)")

@@ -10,7 +10,7 @@ class DataSplit:
     def __init__(self, data_path="../data", csv_path='./CSV', prognosis=False,
                  valid_only=False, test_only=False, same_valid=False, angle=None,
                  under_sample=False, exist_ok=False, save_csv=True,
-                 modality_shuffle=False,
+                 modality_shuffle=False, print_info=True,
                  um_3m_data=False):
         self.valid_only = valid_only
         self.test_only = test_only
@@ -22,6 +22,7 @@ class DataSplit:
         self.save_csv = save_csv
         self.modality_shuffle = modality_shuffle
         self.um_3m_data = um_3m_data  # UM_all: only use 3 modality data for UM
+        self.print_info = print_info
 
         self.data_path = data_path
         self.csv_path = csv_path
@@ -141,7 +142,8 @@ class DataSplit:
         if path is None:
             path = f'{self.csv_path}/{name}.csv'
         if os.path.exists(path):
-            print(char_color(f'load {name} from {path}', color='green'))
+            if self.print_info:
+                print(char_color(f'load {name} from {path}', color='green'))
             df = pd.read_csv(path).agg(
                 lambda x: x.map(literal_eval) if '{' in str(x.iloc[0]) else x)
             return df
