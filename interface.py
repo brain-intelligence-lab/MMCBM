@@ -147,7 +147,7 @@ with gr.Blocks() as demo:
             )
 
     with gr.Row(equal_height=True):
-        with gr.Column(scale=2):
+        with gr.Column(scale=2, min_width=160):
             with gr.Accordion("Different modal images, please click to upload.", open=True, elem_id="input-panel"):
                 with gr.Row(equal_height=True):
                     name.render()
@@ -180,16 +180,16 @@ with gr.Blocks() as demo:
                     gr.ClearButton([us], value="Clear US", min_width=1)
                 with gr.Row():
                     gr.ClearButton([fa_e, fa_m, fa_l, icga_e, icga_m, icga_l, us], value="Clear All")
-        with gr.Column(scale=1):
+        with gr.Column(scale=2, min_width=160):
             with gr.Accordion("Top-K", open=True):
                 sliders = [gr.Slider(step=0.01, label=None) if i < top_k.value
                            else gr.Slider(step=0.01, label=None, visible=False) for i in range(max_k)]
-        with gr.Column(scale=1):
+        with gr.Column(scale=2, min_width=160):
             with gr.Accordion("Bottom-K", open=True):
                 bottom_sliders = [gr.Slider(step=0.01, label=None) if i < bottom_k.value
                                   else gr.Slider(step=0.01, label=None, visible=False) for i in range(max_k)]
 
-        with gr.Column(scale=3):
+        with gr.Column(scale=3, min_width=160):
             with gr.Accordion("Output", open=True, elem_id="output-panel"):
                 with gr.Row():
                     label = gr.Label(num_top_classes=3)
