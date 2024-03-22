@@ -58,10 +58,11 @@ class Intervention:
         self.bottomk_sliders = sliders
 
     def get_attention_matrix(self):
-        return self.predictor.attention_matrix
+        return self.predictor.get_attention_matrix()
 
     def set_attention_matrix(self, attention_matrix):
-        self.predictor.attention_matrix = attention_matrix
+        self.predictor.set_attention_matrix(attention_matrix)
+        self.attention_score = self.predictor.get_attention_score()
 
     def predict_concept(self, name, pathology, language, imgs):
         inp = dict(FA=imgs[:3], ICGA=imgs[3:6], US=imgs[6:])
@@ -122,7 +123,8 @@ class Intervention:
                                                                          *self.indices[:top_k],
                                                                          *self.indices[-bottom_k:]
                                                                      ],
-                                                                     result)
+                                                                     result,
+                                                                     inplace=True)
         labels = self.predictor.get_labels_prop(self.attention_score, language=language)
         self.predicted = max(labels, key=lambda k: labels[k])
         return labels
@@ -147,11 +149,16 @@ class Intervention:
             width=1500
         )
 
-    def report(self, chat_history, language):
+    def report(self, chat_history, top_k, language):
         if hasattr(self, 'top_k_concepts'):
+            top_k_concepts, top_k_values, indices = self.predictor.predict_topk_concepts(
+                self.attention_score,
+                top_k=top_k,  # all concepts
+                language=language
+            )
             yield from self.predictor.generate_report(chat_history,
-                                                      self.top_k_concepts,
-                                                      self.top_k_values,
+                                                      top_k_concepts,
+                                                      top_k_values,
                                                       self.predicted,
                                                       language=language)
         else:

@@ -110,11 +110,17 @@ class Infer:
             raise AttributeError('Please run get_attention_score first')
         return self.attention_matrix
 
-    def get_attention_score(self, inp, pathology, name):
-        inp = self.image_reader(data_i=inp, pathology=pathology, name=name)
-        self.modality = ([m for m in self.modality_order if m in inp['modality']]
-                         if 'MM' not in inp['modality'] else ['MM'])
-        self.attention_matrix = self.infer_epoch.attention_score(inp)
+    def set_attention_matrix(self, attention_matrix):
+        self.attention_matrix = attention_matrix
+
+    def get_attention_score(self, inp=None, pathology=None, name=None):
+        if inp is not None:
+            inp = self.image_reader(data_i=inp, pathology=pathology, name=name)
+            self.modality = ([m for m in self.modality_order if m in inp['modality']]
+                             if 'MM' not in inp['modality'] else ['MM'])
+            self.set_attention_matrix(self.infer_epoch.attention_score(inp))
+        else:
+            self.get_attention_matrix()
         self.cls = self.attention_matrix.sum(dim=-1).argmax(dim=-1).item()
         attention_score = self.attention_matrix[:, self.cls, self.get_modality_mask() == 1]
         self.set_normalize_bound(attention_score[0])
@@ -143,6 +149,7 @@ class Infer:
         return top_k_concepts, self.top_k_values.cpu().numpy().tolist(), indices
 
     def modify_attention_score(self, attention_score, indices, result, inplace=True):
+        attention_score = attention_score.clone()
         attention_score[0] = self.unnormalize(attention_score[0])
         attention_score[:, indices] = self.unnormalize(
             torch.tensor(result, dtype=torch.float, device=attention_score.device), indices)
@@ -158,6 +165,7 @@ class Infer:
         if attention_score is None:
             prediction = self.get_prop_from_attention_matrix(self.attention_matrix).squeeze().softmax(0).tolist()
         else:
+            attention_score = attention_score.clone()
             attention_score[0] = self.unnormalize(attention_score[0])
             attention_score = torch.tensor(attention_score, dtype=torch.float)
             attention_matrix = self.attention_matrix_from_modified_attention_score(attention_score, self.cls)

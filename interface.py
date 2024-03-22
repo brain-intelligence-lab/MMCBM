@@ -194,7 +194,7 @@ with gr.Blocks() as demo:
                 with gr.Row():
                     label = gr.Label(num_top_classes=3)
                 with gr.Row():
-                    chatbot = gr.Chatbot(label=f"当前模型：ChatGPT-3.5", elem_id="gpt-chatbot", layout='panel')
+                    chatbot = gr.Chatbot(label=f"Current Model：ChatGPT-3.5", elem_id="gpt-chatbot", layout='panel')
                 with gr.Row():
                     download = gr.File(label="Download")
                 with gr.Row():
@@ -225,9 +225,9 @@ with gr.Blocks() as demo:
     btn_intervene.click(fn=predict.set_attention_matrix, inputs=attn()).then(
         fn=predict.modify, inputs=sliders + bottom_sliders + [top_k(), bottom_k(), language()],
         outputs=label).then(
-        fn=predict.download('Intervention-concepts-modify.csv'), inputs=language(), outputs=download)
-    btn_report.click(fn=predict.set_attention_matrix, inputs=attn()).then(
-        fn=predict.report, inputs=[chatbot, language()], outputs=chatbot)
+        fn=predict.download('Intervention-concepts-modify.csv'),
+        inputs=language(), outputs=download)
+    btn_report.click(fn=predict.report, inputs=[chatbot, top_k(), language()], outputs=chatbot)
 
 if __name__ == "__main__":
     demo.queue().launch(server_name="0.0.0.0", server_port=7860, share=True)

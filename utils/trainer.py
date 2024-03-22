@@ -413,20 +413,13 @@ class ConceptEpoch(SingleEpoch):
     def clip_embedding(self, inp, modality):
         if self.cache_embeddings is not None:
             if 'cav' in self.clip_name:
-                self.cache['MM'] = [i for i in
-                                    self.clip_model.encode('MM', inp).detach().cpu().numpy()] if 'MM' in modality \
-                    else [None] * len(self.cache['name'])
+                self.cache['MM'] = [i for i in self.clip_model.encode_image(
+                    'MM', inp).detach().cpu().numpy()] if 'MM' in modality else [None] * len(self.cache['name'])
 
         embeddings = {}
         for modality, data in inp.items():
             # data = data.to(self.device)
-            if 'cav' in self.clip_name:
-                embedding = self.clip_model.encode(modality, data).detach().float()
-            else:
-                B = data.shape[0]
-                data = data.reshape(-1, *data.shape[2:])
-                embedding = self.clip_model.encode_image(data).detach().float()
-                embedding = embedding.reshape(B, -1, embedding.shape[-1])
+            embedding = self.clip_model.encode_image(modality=modality, image=data).detach().float()
             inp[modality] = embedding
             embeddings[modality] = embedding.cpu().numpy()
 

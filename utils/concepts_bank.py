@@ -178,7 +178,7 @@ class ConceptsLoader:
                 modality = raw['modality']
                 image = self.transformer({raw['modality']: image})[raw['modality']].to(self.device).unsqueeze(
                     0).unsqueeze(0)
-                latent = self.backbone.encode(modality, image).squeeze(dim=1).detach().cpu()
+                latent = self.backbone.encode_image(modality=modality, image=image).squeeze(dim=1).detach().cpu()
                 modalities.append(modality)
                 paths.append(raw['path'])
                 latents.append(latent)
@@ -246,24 +246,19 @@ class ConceptsLearner:
         self.neg_samples = neg_samples if neg_samples > 0 else n_samples
         self.svm_C = svm_C
         self.cav_split = cav_split
-        self.init_clip_model()
-
-    def init_clip_model(self):
         if not hasattr(self, 'clip_model'):
-            if 'cav' in self.clip_name:
+            if 'cav' in self.clip_name and 'clip' not in self.clip_name:
                 from .dataloader import val_transforms
-                model, transforms = self.backbone, val_transforms(True, img_size)
-                setattr(self, 'clip_model', model)
-                setattr(self, 'transforms', transforms)
+                self.clip_model, self.transforms = backbone, val_transforms(True, img_size)
             elif 'med' in self.clip_name:
-                setattr(self, 'clip_model', MedClip(self.device, self.clip_name))
-                setattr(self, 'transforms', getattr(getattr(self, 'clip_model'), 'transforms'))
+                self.clip_model = MedClip(self.device, self.clip_name)
+                self.transforms = self.clip_model.transforms
             elif 'bio' in self.clip_name:
-                setattr(self, 'clip_model', BioMedClip(self.device))
-                setattr(self, 'transforms', getattr(getattr(self, 'clip_model'), 'transforms'))
+                self.clip_model = BioMedClip(self.device)
+                self.transforms = self.clip_model.transforms
             else:
-                setattr(self, 'clip_model', Clip(self.device, self.clip_name, self.download_root))
-                setattr(self, 'transforms', getattr(getattr(self, 'clip_model'), 'transforms'))
+                self.clip_model = Clip(self.device, self.clip_name, self.download_root)
+                self.transforms = self.clip_model.transforms
 
     def init_concepts(self):
         import pandas as pd
@@ -283,7 +278,7 @@ class ConceptsLearner:
             # self.concepts = pd.read_csv('data/reports.csv')['concept'].unique()
             self.concept_loaders = ConceptsLoader(self.bank_dir,
                                                   self.location,
-                                                  backbone=self.backbone,
+                                                  backbone=self.clip_model,
                                                   device=self.device,
                                                   transfomer=getattr(self, 'transforms'),
                                                   report_shot=self.report_shot,
@@ -305,10 +300,10 @@ class ConceptsLearner:
             pass
 
     def get_clip_model(self):
-        return getattr(self, 'clip_model')
+        return self.clip_model
 
     def get_clip_trans(self):
-        return getattr(self, 'transforms')
+        return self.transforms
 
     @torch.no_grad()
     def clip_learner(self):
@@ -343,7 +338,7 @@ class ConceptsLearner:
 
     def cav_leaner(self):
         lib_path = os.path.join(self.bank_dir,
-                                f"{self.backbone.name}_concept_{self.location}_{self.svm_C}_{self.n_samples}"
+                                f"{None if self.backbone is None else self.backbone.name}_concept_{self.location}_{self.svm_C}_{self.n_samples}"
                                 f"_rshot{self.report_shot}_csho{self.concept_shot}.pkl")
         if os.path.exists(lib_path):
             concept_dict = torch.load(lib_path, map_location=torch.device(self.device))
@@ -412,9 +407,9 @@ class ConceptsLearner:
         # print(f"File: {lib_path}, Total: {total_concepts}")
 
     def __call__(self):
-        if 'clip' in self.clip_name:
+        if 'clip' in self.clip_name and 'cav' not in self.clip_name:
             return self.clip_learner()
-        elif 'cav' in self.clip_name and self.backbone is not None:
+        elif 'cav' in self.clip_name:
             return self.cav_leaner()
         raise KeyError(f"Unknown mode: {self.clip_name}")
 
@@ -565,7 +560,7 @@ class ConceptBank:
             return new_score
 
     def compute_dist(self, emb, m_mask=False):
-        if 'clip' in self.clip_name:
+        if 'clip' in self.clip_name and 'cav' not in self.clip_name:
             margins = (emb @ self.vectors.T) * self.scales.T
         elif 'cav' in self.clip_name:
             if 'cav1' in self.clip_name:

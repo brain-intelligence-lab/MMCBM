@@ -9,6 +9,25 @@ from transformers.image_transforms import convert_to_rgb, to_channel_dimension_f
 from utils.dataloader import clip_transforms
 
 
+class BaseCLIP:
+    def _encode_image(self, image):
+        raise NotImplementedError
+
+    def encode_image(self, modality=None, image=None):
+        if isinstance(image, dict):
+            result = []
+            for k, v in image.items():
+                result.append(self.encode_image(image=v))
+            return torch.max_pool1d(torch.concat(result, dim=1).permute(0, 2, 1), kernel_size=7).squeeze(-1)
+        if image.ndim == 5:
+            B = image.shape[0]
+            image = image.reshape(-1, *image.shape[2:])
+            embedding = self._encode_image(image)
+            embedding = embedding.reshape(B, -1, embedding.shape[-1])
+            return embedding
+        return self._encode_image(image)
+
+
 class MedCLIPFeatureExtractor(CLIPFeatureExtractor):
     def __init__(self,
                  do_resize=True,
@@ -53,7 +72,7 @@ class MedCLIPFeatureExtractor(CLIPFeatureExtractor):
         return torch.from_numpy(image).float()
 
 
-class Clip:
+class Clip(BaseCLIP):
     def __init__(self, device, clip_name, download_root):
         self.device = device
         from clip import clip
@@ -73,14 +92,13 @@ class Clip:
         text_features /= text_features.norm(dim=1, keepdim=True)
         return text_features
 
-    def encode_image(self, pixel_values=None):
-        # image encoder
-        image_features = self.model.encode_image(pixel_values)
-        image_features /= image_features.norm(dim=1, keepdim=True)
-        return image_features
+    def _encode_image(self, image):
+        embedding = self.model.encode_image(image)
+        embedding /= embedding.norm(dim=1, keepdim=True)
+        return embedding
 
 
-class MedClip:
+class MedClip(BaseCLIP):
     def __init__(self, device, clip_name):
         from medclip import MedCLIPModel, constants, MedCLIPVisionModel, MedCLIPVisionModelViT
         self.device = device
@@ -143,14 +161,13 @@ class MedClip:
         # text_embeds = text_embeds / text_embeds.norm(dim=-1, keepdim=True)
         return text_embeds
 
-    def encode_image(self, pixel_values=None):
-        # image encoder
-        vision_output = self.model.vision_model(pixel_values=pixel_values)
+    def _encode_image(self, image=None):
+        embedding = self.model.vision_model(pixel_values=image)
         # img_embeds = vision_output / vision_output.norm(dim=-1, keepdim=True)
-        return vision_output
+        return embedding
 
 
-class BioMedClip:
+class BioMedClip(BaseCLIP):
     def __init__(self, device):
         import open_clip
         self.device = device
@@ -168,6 +185,6 @@ class BioMedClip:
         text = self.tokenizer(text, context_length=256).to(self.device)
         return self.model.encode_text(text, normalize=True)
 
-    def encode_image(self, pixel_values=None):
-        # image encoder
-        return self.model.encode_image(pixel_values, normalize=True)
+    def _encode_image(self, image=None):
+        embedding = self.model.encode_image(image, normalize=True)
+        return embedding

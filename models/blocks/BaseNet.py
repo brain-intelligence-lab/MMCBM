@@ -206,7 +206,7 @@ class BaseNet(nn.Module, BaseObject):
             return self.modality(modality, inp, train_encoder), self.kl_loss(modality)
         return self.modality(modality, inp, train_encoder)
 
-    def encode(self, inp, modality):
+    def encode_image(self, modality, inp):
         with torch.no_grad():
             if modality != 'MM':
                 return {modality: self.encoders[modality](inp[modality])}
@@ -391,7 +391,7 @@ class SingleBaseNet(nn.Module, BaseObject):
         return self.classifier(features, modality)
 
     @torch.no_grad()
-    def encode(self, modality, image):
+    def encode_image(self, modality, image):
         if modality != 'MM':
             return self.encoder({modality: image})[modality]
         else:
