@@ -1,9 +1,10 @@
-# MMCBM
+# MMCBM 
+[![arXiv](https://img.shields.io/badge/arXiv-MMCBM-b31b1b.svg)](https://arxiv.org/abs/2307.14433)
 
 ## Introduction
-[ariv]
 This is the official repository for **MMCBM: Interpretable Diagnosis of Choroid Neoplasias via the Multimodal Concept
 Bottleneck Model.**
+
 ![model](images/Fig1_v2.png)
 
 ## Installation
