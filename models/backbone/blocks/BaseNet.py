@@ -247,7 +247,7 @@ class CycleBaseNet(BaseNet):
     def __init__(self, modality, Encoder_fn, out_features, name, variation=False):
         super().__init__(modality, Encoder_fn, lambda **kwargs: None, name, variation)
         from params import model_modality_map
-        from .layers import CycleBlock
+        from .transformer import CycleBlock
         from .classifiers import MMClassifier
         self.cycle_blocks = nn.ModuleDict()
         del self.classifiers

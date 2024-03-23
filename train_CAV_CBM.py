@@ -26,7 +26,7 @@ def get_model_opti(args):
     if 'clip' in args.clip_name:
         backbone = None
     else:
-        from models.MultiModels import MMAttnSCLSEfficientNet
+        from models.backbone.MultiModels import MMAttnSCLSEfficientNet
         backbone = MMAttnSCLSEfficientNet(
             input_channels=3,
             model_name=args.model,
@@ -64,7 +64,7 @@ def get_model_opti(args):
                                     concept_shot=args.concept_shot,
                                     cav_split=args.cav_split,
                                     )
-    from models.CBMs import MMLinearCBM, SLinearCBM, M2LinearCBM
+    from models.MMCBM.CBMs import MMLinearCBM, SLinearCBM, M2LinearCBM
     if args.cbm_model == 'mm':
         # initialize the Concept Bottleneck Model
         model = MMLinearCBM(
@@ -107,7 +107,7 @@ def get_model_opti(args):
             bias=args.bias,
         )
     elif args.cbm_model == 'sa':
-        from models.CBMs import SALinearCBM
+        from models.MMCBM.CBMs import SALinearCBM
         model = SALinearCBM(
             idx_to_class=id_to_labels,
             concept_bank=args.concept_bank,

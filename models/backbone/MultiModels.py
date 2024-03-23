@@ -1,7 +1,10 @@
-from .blocks.layers import DenseNetEncoder, SwinEncoder
-from .blocks.BaseNet import *
-from .blocks.encoders import *
-from .blocks.classifiers import *
+import torch.nn as nn
+from models.backbone.blocks import BaseNet, CycleBaseNet, EfficientEncoder, SwinEncoder, DenseNetEncoder
+from models.backbone.blocks import Classifier, PrognosisClassifier, RNNClassifier, AttnPoolClassifier, MaxPoolClassifier
+from models.backbone.blocks import SingleBaseNet, MMDictClassifier, MMFusionClassifier
+from models.backbone.blocks import VariationEfficientEncoder, Prognosis
+from models.backbone.blocks import SingleEfficientEncoder, MMEfficientEncoder, FusionEfficientEncoder, \
+    EfficientEncoderNew
 
 efficientnet_params = {
     "b0": "efficientnet-b0",
@@ -196,6 +199,7 @@ class MMAttnSCLSEfficientNet(SingleBaseNet):
                                          out_features=num_class)
             else:
                 raise ValueError(f'No such fusion: {fusion}')
+
         super(MMAttnSCLSEfficientNet, self).__init__(
             Encoder_fn=lambda **kwargs: MMEfficientEncoder(modalities=modalities,
                                                            model_name=efficientnet_params[model_name],
@@ -229,7 +233,7 @@ class MMMaxSCLSEfficientNet(SingleBaseNet):
 
 class MMFusionResNet(SingleBaseNet):
     def __init__(self, num_layers, spatial_dims: int, input_channels: int = 3, num_class=3):
-        from models.blocks.encoders import ResNetEncoder
+        from models.backbone.blocks.efficientnet import ResNetEncoder
         super(MMFusionResNet, self).__init__(
             Encoder_fn=lambda **kwargs: ResNetEncoder(spatial_dims=spatial_dims,
                                                       input_channels=input_channels),
@@ -300,6 +304,8 @@ class MMNUESingleCLSEfficient(SingleBaseNet):
 
 
 if __name__ == '__main__':
+    import torch
+
     x = torch.randn(1, 1, 128, 128, 128)
     y = torch.randn(1, 1, 3, 128, 128)
     num_layers = {'FA': 2, 'ICGA': 2, 'US': 0}

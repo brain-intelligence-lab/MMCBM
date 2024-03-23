@@ -7,7 +7,7 @@ from monai.networks.layers import Norm, Conv, get_pool_layer
 from monai.utils import ensure_tuple_rep
 from monai.networks.layers import Pool
 
-from .layers import MAModule, TimeRNNAttentionPooling, MergeLinearAttention
+from .transformer import MAModule, TimeRNNAttentionPooling, MergeLinearAttention
 from .BaseNet import MMBaseEncoder, SingleBaseEncoder, BaseEncoder, VariationEncoder
 
 

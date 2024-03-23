@@ -288,7 +288,7 @@ class SingleEpoch:
 
 
 class ConceptEpoch(SingleEpoch):
-    from models.CBMs import MMLinearCBM
+    from models.MMCBM.CBMs import MMLinearCBM
     def __init__(self,
                  model: MMLinearCBM,
                  optimizer,

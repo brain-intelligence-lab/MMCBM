@@ -405,7 +405,7 @@ class SALinearCBM(SLinearCBM):
                                           **kwargs
                                           )
         # A single linear layer will be used as the classifier
-        from models.blocks.layers import SelfLinearAttentionPooling
+        from models.backbone.blocks.transformer import SelfLinearAttentionPooling
         self.attn_pool = SelfLinearAttentionPooling(input_dim=self.concept_bank['MM'].n_concepts)
 
     def pooling_fusion(self, x):

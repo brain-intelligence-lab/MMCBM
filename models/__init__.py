@@ -1,2 +1,2 @@
 from .CLIPs import MedClip, BioMedClip, Clip
-from .CBMs import MMLinearCBM
+from models.MMCBM.CBMs import MMLinearCBM

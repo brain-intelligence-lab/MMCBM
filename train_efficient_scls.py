@@ -20,7 +20,7 @@ from utils.base_train_single import start_train
 
 
 def get_model_opti(args):
-    from models.MultiModels import MMAttnSCLSEfficientNet
+    from models.backbone.MultiModels import MMAttnSCLSEfficientNet
     model = MMAttnSCLSEfficientNet(
         input_channels=3,
         model_name=args.model,
