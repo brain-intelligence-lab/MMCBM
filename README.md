@@ -1,5 +1,5 @@
-# MMCBM 
-[![arXiv](https://img.shields.io/badge/arXiv-MMCBM-b31b1b.svg)](https://arxiv.org/abs/2403.05606)
+# [![arXiv](https://img.shields.io/badge/arXiv-MMCBM-b31b1b.svg)](https://arxiv.org/abs/2403.05606) MMCBM 
+
 
 ## Introduction
 This is the official repository for **MMCBM: Interpretable Diagnosis of Choroid Neoplasias via the Multimodal Concept
