@@ -18,7 +18,7 @@ from utils.metrics import *
 from loss import Loss
 from utils.decorator import decorator_args
 from params import id_to_labels
-from trainer.base_train_concept import start_train
+from trainer.train_helper_mmcbm import TrainHelperMMCBM
 from models.MMCBM.concepts_bank import ConceptBank
 
 
@@ -126,7 +126,7 @@ def get_model_opti(args):
 
 
 @decorator_args
-def get_args(args):
+def get_args(args) -> argparse.Namespace:
     # enabling cudnn determinism appears to speed up training by a lot
     torch.backends.cudnn.deterministic = not args.cudnn_nondet
     if args.wandb:
@@ -171,4 +171,4 @@ if __name__ == "__main__":
     args.loss = Loss(loss_type=args.loss, model=model if args.weight_norm else None)
     print(args)
     # start training
-    start_train(args, model, opti)
+    TrainHelperMMCBM(args, model, opti).start_train()

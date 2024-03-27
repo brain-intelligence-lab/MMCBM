@@ -16,7 +16,7 @@ from monai.utils import set_determinism
 from utils.metrics import *
 from loss import Loss
 from utils.decorator import decorator_args
-from trainer.base_train_single import start_train
+from trainer.train_helper_backbone import TrainHelperBackbone
 
 
 def get_model_opti(args):
@@ -113,7 +113,7 @@ def main():
     args.mode = 'max'
     set_determinism(args.seed)
     model, opti = get_model_opti(args)
-    start_train(args, model, opti)
+    TrainHelperBackbone(args, model, opti).start_train()
 
 
 if __name__ == "__main__":
@@ -124,4 +124,4 @@ if __name__ == "__main__":
     args.loss = Loss(loss_type=args.loss)
     print(args)
     # start training
-    start_train(args, model, opti)
+    TrainHelperBackbone(args, model, opti).start_train()

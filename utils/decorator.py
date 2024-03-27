@@ -6,7 +6,7 @@ from functools import wraps
 # -------------------------------------- decorators -------------------------------------- start
 def decorator_args(function):
     @wraps(function)
-    def decorated() -> dict:
+    def decorated():
         from params import get_args
         args = get_args()
         function(args)

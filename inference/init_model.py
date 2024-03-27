@@ -4,7 +4,7 @@ import torch
 
 from pathlib import Path
 from utils.decorator import decorator_args
-from trainer.train_utils import EarlyStopping
+from trainer.train_helper import EarlyStopping
 from utils.logger import JsonLogs, char_color, make_dirs
 from monai.utils import set_determinism
 

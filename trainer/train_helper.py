@@ -69,6 +69,95 @@ class AverageValueMeter(object):
         self.std = 0.0
 
 
+class BatchLogger:
+    def __init__(self,
+                 model_modality,
+                 metrics: list or tuple = None,
+                 early_stopper=None,
+                 metrics_logger=None,
+                 pred_logger=None,
+                 ):
+        self.modality = model_modality
+        self.metrics = metrics
+        self.df = pd.DataFrame(columns=['epoch', 'scores', 'preds', 'labels'])
+        self.init()
+        self.early_stopper = early_stopper
+        self.metrics_logger = metrics_logger
+        self.pred_logger = pred_logger
+
+    def init(self):
+        self.loss_meters = AverageValueMeter()
+        self.preds = []
+        self.labels = []
+        self.names = []
+
+    def run(self, pre, label, names, loss, stage_name):
+        logs = {}
+
+        if isinstance(pre, (list, tuple)):
+            pre = pre[0]
+        self.preds.append(pre.cpu())
+        self.labels.append(label.cpu())
+        self.names.extend(names)
+        # update loss logs
+        if loss is not None:
+            loss_value = loss.cpu().detach().squeeze().numpy().item()
+            self.loss_meters.add(loss_value)
+            logs.update({'loss': self.loss_meters.mean})
+
+        # update metrics logs
+        if self.metrics is not None:
+            for metric_fn in self.metrics:
+                if metric_fn.gross:
+                    continue
+                metric_value = metric_fn(torch.cat(self.preds, dim=0),
+                                         torch.cat(self.labels, dim=0),
+                                         stage_name).squeeze().item()
+                logs.update({metric_fn.__name__: metric_value})
+        return logs, pre.detach()
+
+    def epoch_end(self, epoch, stage_name, model, optimizer):
+        if len(self.preds) == 0:
+            return None
+
+        if self.metrics is not None:
+            gross_logs = {'loss': self.loss_meters.mean}
+            preds = torch.cat(self.preds, dim=0)
+            labels = torch.cat(self.labels, dim=0)
+            for metric_fn in self.metrics:
+                metric_value = metric_fn(preds, labels, stage_name).squeeze().item()
+                gross_logs.update({'gross_' + metric_fn.__name__: metric_value})
+                if metric_fn.gross:
+                    continue
+
+            if self.pred_logger is not None:
+                self.pred_logger({
+                    'stage_name': stage_name,
+                    'epoch': epoch,
+                    'modality': self.modality,
+                    'names': self.names,
+                    'labels': labels.cpu().numpy().tolist(),
+                    'scores': preds.cpu().numpy().tolist(),
+                })
+
+            if self.metrics_logger is not None:
+                self.metrics_logger({
+                    'stage_name': stage_name,
+                    'epoch': epoch,
+                    'modality': self.modality,
+                    **gross_logs
+                })
+
+            # update gross metrics logs
+            if stage_name == 'valid':
+                self.early_stopper(
+                    val_record=gross_logs['gross_' + self.metrics[0].__name__],
+                    model=model,
+                    optimizer=optimizer
+                )
+            return gross_logs
+
+
 class PolyLR(torch.optim.lr_scheduler.LambdaLR):
     def __init__(self, optimizer, epochs):
         super().__init__(optimizer, lambda epoch: (1 - epoch / epochs) ** 0.9)
@@ -97,112 +186,128 @@ class PolyOptimizer:
         return self.optimizer.param_groups
 
 
-def train_fold(args, model, optimizer, epocher_fn, infer_fn=None):
-    """
-    :param args:
-    :param model:
-    :param optimizer:
-    """
-    if args.wandb:
-        import wandb
-        wandb.init(project=args.dir_name, reinit=True,
-                   config=args, name='_'.join(args.dir_name.split('/')[1:]))
-        wandb.watch(model, args.loss, log='all', log_freq=10)
+class TrainHelper:
+    def __init__(self, args, model, optimizer):
+        self.args = args
+        self.model = model
+        self.optimizer = PolyOptimizer(optimizer, self.args.epochs)
 
-    JsonLogs(dir_path=f'{args.output_dir}/{args.dir_name}')(args)
-    stoppers = EarlyStopping(dir=f'{args.output_dir}/{args.dir_name}/epoch_stopper',
-                             patience=args.patience,
-                             mode=args.mode)
-    args.device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
-    make_dirs(f'{args.output_dir}/{args.dir_name}')
-    print(char_color(f'Using device {args.device}'))
-    print(char_color(f'Using path {args.output_dir}/{args.dir_name}'))
-    if args.resume:
-        stoppers.load_checkpoint(model=model, ignore=args.ignore,
-                                 name=f'checkpoint_{args.idx}.pth' if args.idx else 'MM.pth')
-    model.to(device=args.device)
+        if self.args.wandb:
+            import wandb
+            wandb.init(project=self.args.dir_name, reinit=True,
+                       config=self.args, name='_'.join(self.args.dir_name.split('/')[1:]))
+            wandb.watch(self.model, self.args.loss, log='all', log_freq=10)
+        JsonLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}')(self.args)
+        self.stoppers = EarlyStopping(dir=f'{self.args.output_dir}/{self.args.dir_name}/epoch_stopper',
+                                      patience=self.args.patience,
+                                      mode=self.args.mode)
+        self.args.device = torch.device(self.args.device if torch.cuda.is_available() else 'cpu')
+        make_dirs(f'{self.args.output_dir}/{self.args.dir_name}')
+        print(char_color(f'Using device {self.args.device}'))
+        print(char_color(f'Using path {self.args.output_dir}/{self.args.dir_name}'))
 
-    loaders = get_loaders_from_args(args)
-    if args.infer:
-        return None if infer_fn is None else infer_fn(args, model, loaders)
+        if self.args.resume:
+            self.stoppers.load_checkpoint(model=self.model, ignore=self.args.ignore,
+                                          name=f'checkpoint_{self.args.idx}.pth' if self.args.idx else 'MM.pth')
+        self.model.to(device=self.args.device)
+        self.loaders = get_loaders_from_args(self.args)
+        if self.args.infer:
+            self.pred_logger = None
+            self.metrics_logger = None
+        else:
+            # output parameters
+            self.pred_logger = CSVLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}',
+                                       file_name=f'pred_output')
+            self.metrics_logger = CSVLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}',
+                                          file_name=f'metrics_output')
 
-    # output parameters
-    pred_logger = CSVLogs(dir_path=f'{args.output_dir}/{args.dir_name}', file_name=f'pred_output')
-    metrics_logger = CSVLogs(dir_path=f'{args.output_dir}/{args.dir_name}', file_name=f'metrics_output')
+    def infer(self):
+        pass
 
-    if args.epochs > 0 and not args.plot_curve:
-        logger = Logs(dir_path=f'{args.output_dir}/{args.dir_name}', file_name='param')
+    def get_epochs(self, logger):
+        raise NotImplementedError
 
-        for key, value in args.__dict__.items():
+    def start_train(self):
+        """
+        :param args:
+        :param model:
+        :param optimizer:
+        """
+        if self.args.infer:
+            return self.infer()
+
+        if self.args.epochs > 0 and not self.args.plot_curve:
+            self.train()
+            self.pred_logger.output_error_name()
+
+        if self.args.plot_curve or self.args.epochs > 0:
+            save_metrics(self.args)
+            plot_curve(f'{self.args.output_dir}/{self.args.dir_name}', self.metrics_logger, hue='modality',
+                       split='stage_name')
+            plot_curve(f'{self.args.output_dir}/{self.args.dir_name}', self.metrics_logger, hue='stage_name',
+                       split='modality')
+            plot_confusion_matrix(f'{self.args.output_dir}/{self.args.dir_name}', csv_logger=self.pred_logger,
+                                  stage_name='valid', prognosis=self.args.prognosis)
+            plot_confusion_matrix(f'{self.args.output_dir}/{self.args.dir_name}', csv_logger=self.pred_logger,
+                                  stage_name='test', prognosis=self.args.prognosis)
+            # plot_roc_curve(f'{args.output_dir}/{args.dir_name}', pred_logger)
+
+        if self.args.wandb:
+            import wandb
+            wandb.finish()
+
+    def train(self):
+        logger = Logs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}', file_name='param')
+
+        for key, value in self.args.__dict__.items():
             logger.log(f'{key}: {value}')
-        logger = Logs(dir_path=f'{args.output_dir}/{args.dir_name}', file_name='print')
-        optimizer = PolyOptimizer(optimizer, args.epochs)
-        epochers = epocher_fn(args, model, optimizer, logger, pred_logger, metrics_logger)
-        train(args, model, loaders, epochers, optimizer, stoppers, logger)
-        pred_logger.output_error_name()
+        logger = Logs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}', file_name='print')
+        trainepoch, validepoch, testepoch = self.get_epochs(logger)
+        train_loader, val_loader, test_loader = self.loaders
 
-    if args.plot_curve or args.epochs > 0:
-        save_metrics(args)
-        plot_curve(f'{args.output_dir}/{args.dir_name}', metrics_logger, hue='modality', split='stage_name')
-        plot_curve(f'{args.output_dir}/{args.dir_name}', metrics_logger, hue='stage_name', split='modality')
-        plot_confusion_matrix(f'{args.output_dir}/{args.dir_name}', csv_logger=pred_logger,
-                              stage_name='valid', prognosis=args.prognosis)
-        plot_confusion_matrix(f'{args.output_dir}/{args.dir_name}', csv_logger=pred_logger,
-                              stage_name='test', prognosis=args.prognosis)
-        # plot_roc_curve(f'{args.output_dir}/{args.dir_name}', pred_logger)
+        if self.args.plot:
+            print('plotting')
+            if not train_loader.is_empty():
+                trainepoch.plot_epoch(train_loader)
+            if not val_loader.empty():
+                validepoch.plot_epoch(val_loader)
+            if not test_loader.empty():
+                testepoch.plot_epoch(test_loader)
+            raise SystemExit
 
-    del model
-    if args.wandb:
-        import wandb
-        wandb.finish()
+        for i in range(self.args.epochs):
+            # record learning rate
+            print(char_color(f" [Epoch: {i}/{self.args.epochs}], "
+                             f"lr: {self.optimizer.param_groups[0]['lr']}, "
+                             f"path: {self.args.dir_name}"))
 
+            logger.log(f"[Epoch: {i}/{self.args.epochs}], "
+                       f"lr: {self.optimizer.param_groups[0]['lr']}, "
+                       f"path: {self.args.dir_name}")
 
-def train(args, model, loaders, epochers, optimizer, stoppers, logger):
-    train_loader, val_loader, test_loader = loaders
-    trainepoch, validepoch, testepoch = epochers
-    if args.plot:
-        print('plotting')
-        if not train_loader.is_empty():
-            trainepoch.plot_epoch(train_loader)
-        if not val_loader.empty():
-            validepoch.plot_epoch(val_loader)
-        if not test_loader.empty():
-            testepoch.plot_epoch(test_loader)
-        raise SystemExit
+            # start epoch
+            trainlogs, trainbest = trainepoch(train_loader)
+            logger.log(f'train: {trainlogs}')
+            logger.log(f'train_best: {trainbest}')
 
-    for i in range(args.epochs):
-        # record learning rate
-        print(char_color(f" [Epoch: {i}/{args.epochs}], "
-                         f"lr: {optimizer.param_groups[0]['lr']}, "
-                         f"path: {args.dir_name}"))
+            if not val_loader.empty():
+                validlogs, validbest = validepoch(val_loader)
+                logger.log(f'val: {validlogs}')
+                logger.log(f'val_best: {validbest}')
 
-        logger.log(f"[Epoch: {i}/{args.epochs}], "
-                   f"lr: {optimizer.param_groups[0]['lr']}, "
-                   f"path: {args.dir_name}")
+            if not test_loader.empty():
+                testlogs, testbest = testepoch(test_loader)
+                logger.log(f'test: {testlogs}')
+                logger.log(f'test_best: {testbest}')
 
-        # start epoch
-        trainlogs, trainbest = trainepoch(train_loader)
-        logger.log(f'train: {trainlogs}')
-        logger.log(f'train_best: {trainbest}')
-
-        if not val_loader.empty():
-            validlogs, validbest = validepoch(val_loader)
-            logger.log(f'val: {validlogs}')
-            logger.log(f'val_best: {validbest}')
-
-        if not test_loader.empty():
-            testlogs, testbest = testepoch(test_loader)
-            logger.log(f'test: {testlogs}')
-            logger.log(f'test_best: {testbest}')
-
-        # early stopper update
-        stoppers(
-            val_record=None,
-            model=model,
-            whole=True,
-            epoch=i,
-            step=10
-        )
+            # early stopper update
+            self.stoppers(
+                val_record=None,
+                model=self.model,
+                whole=True,
+                epoch=i,
+                step=10
+            )
 
 
 def save_metrics(args):
@@ -247,7 +352,7 @@ def top_metrics_of_stage(df, stage, modality, metric, k=1, epoch=None):
     return df_s
 
 
-def load_metrics(path,  file_name='metrics_output'):
+def load_metrics(path, file_name='metrics_output'):
     if isinstance(path, pd.DataFrame):
         df = path
     else:
