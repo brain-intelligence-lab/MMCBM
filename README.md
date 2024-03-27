@@ -44,7 +44,7 @@ Bottleneck Model.**
 ## Usage
 
 1. Web Interface using Gradio (Recommended), our web interface is available
-   at [Interface Link](https://intervention.liuy.site).
+   at [Interface Link](https://mmcbm.liuy.site).
 2. you can also run this website locally by running the following command in the terminal:
    ```bash
    python interface.py
