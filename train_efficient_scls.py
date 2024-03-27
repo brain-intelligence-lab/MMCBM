@@ -14,9 +14,9 @@ import torch.optim.lr_scheduler
 from utils.logger import *
 from monai.utils import set_determinism
 from utils.metrics import *
-from utils.loss import *
+from loss import Loss
 from utils.decorator import decorator_args
-from utils.base_train_single import start_train
+from trainer.base_train_single import start_train
 
 
 def get_model_opti(args):
@@ -33,7 +33,7 @@ def get_model_opti(args):
 
 
 @decorator_args
-def get_args(args):
+def get_args(args) -> argparse.Namespace:
     # enabling cudnn determinism appears to speed up training by a lot
     torch.backends.cudnn.deterministic = not args.cudnn_nondet
     args.down_sample = False

@@ -1,11 +1,11 @@
 # project imports
-from utils.logger import char_color, Logs, CSVLogs
-from utils.trainer import BatchLogger, ConceptEpoch
+from utils.logger import char_color, CSVLogs
+from trainer.trainer import BatchLogger, ConceptEpoch
 from utils.EarlyStop import EarlyStopping
 import warnings
 from visualize.utils import ActPlot
 from params import modality_model_map
-from utils.train_utils import train_fold
+from trainer.train_utils import train_fold
 
 warnings.filterwarnings("ignore")
 

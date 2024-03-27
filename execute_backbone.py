@@ -61,30 +61,30 @@ commands = [
     f'python {scripts} --name {name} --lr {args.lr} --epochs {args.epochs} --seed {args.seed} ' \
     f'-k {f} --bz 8 --idx {args.idx} --device {d} {tail}'
     for d, f in zip(args.device, args.fold)]
-# 创建进度条
+# Create progress bar
 progress_bar = tqdm(total=len(commands), desc='Running Processes')
 
 
 def run_command(command):
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                start_new_session=True)
-    print(f'启动进程 {process.pid}，执行命令：{command}')
+    print(f'Starting Process {process.pid}，Executing command：{command}')
     out, err = process.communicate()
     if process.returncode == 0:
-        print(f'进程 {process.pid} 执行成功')
+        print(f'Process {process.pid} execute successfully')
         # print(f'进程 {process.pid} 的标准输出：')
         # print(out.decode())
     else:
-        print(f'进程 {process.pid} 执行失败')
-        print(f'进程 {process.pid} 的标准错误输出：')
+        print(f'Process {process.pid} execute failed')
+        print(f'Process {process.pid} Standard error output：')
         print(err.decode())
-        print(f'进程 {process.pid} 执行的命令：{command}')
+        print(f'Process {process.pid} Executed command：{command}')
     progress_bar.update(1)
 
 
-# 使用 ThreadPoolExecutor 管理子进程
+# Use ThreadPoolExecutor to manage subprocesses.
 with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
     futures = {executor.submit(run_command, command) for command in commands}
 
-# 关闭进度条
+# Close progress bar.
 progress_bar.close()

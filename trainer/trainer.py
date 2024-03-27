@@ -7,7 +7,7 @@ import torch
 from tqdm import tqdm as tqdm
 
 import params
-from .train_utils import AverageValueMeter
+from trainer.train_utils import AverageValueMeter
 
 
 class BatchLogger:
@@ -112,7 +112,7 @@ class SingleEpoch:
                  ):
         self.model = model
         self.optimizer = optimizer
-        self.loss = loss
+        self.loss = self.model.get_loss if loss is None else loss
         self.labels = []
         self.preds = []
         self.names = []
@@ -310,7 +310,7 @@ class ConceptEpoch(SingleEpoch):
             plot_fn=plot_fn,
             device=device
         )
-        from .chatgpt import ChatGPT
+        from utils.chatgpt import ChatGPT
         from params import openai_info
         if concept_bank is None:
             concept_bank = model.concept_bank

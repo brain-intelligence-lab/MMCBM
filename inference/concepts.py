@@ -1,6 +1,6 @@
 import os
 from utils.dataloader import get_loaders_from_args
-from utils.trainer import ConceptEpoch
+from trainer.trainer import ConceptEpoch
 from utils.decorator import cache_df
 
 

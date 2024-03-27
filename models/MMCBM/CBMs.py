@@ -213,7 +213,7 @@ class CBM(nn.Module):
         else:
             raise NotImplementedError(self.fusion)
 
-    def concept_fusion(self, x: dict):
+    def concept_fusion(self, x: dict) -> dict:
         # x (B, T, H)
         x = {k: self.pooling_fusion(v) for k, v in x.items()}
         self.run_hooks(x)

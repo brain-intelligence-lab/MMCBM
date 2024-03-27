@@ -248,7 +248,7 @@ class ConceptsLearner:
         self.cav_split = cav_split
         if not hasattr(self, 'clip_model'):
             if 'cav' in self.clip_name and 'clip' not in self.clip_name:
-                from .dataloader import val_transforms
+                from utils.dataloader import val_transforms
                 self.clip_model, self.transforms = backbone, val_transforms(True, img_size)
             elif 'med' in self.clip_name:
                 self.clip_model = MedClip(self.device, self.clip_name)

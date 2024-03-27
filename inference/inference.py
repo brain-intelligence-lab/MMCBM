@@ -8,7 +8,7 @@ from copy import copy
 from params import openai_info, pathology_labels_cn_to_en
 from utils.chatgpt import ChatGPT
 from utils.dataloader import get_loaders_from_args, ImagesReader
-from utils.trainer import InferEpoch
+from trainer.trainer import InferEpoch
 from . import init_model_json
 
 

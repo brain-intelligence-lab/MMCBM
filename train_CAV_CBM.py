@@ -15,11 +15,11 @@ from utils.EarlyStop import EarlyStopping
 from utils.logger import *
 from monai.utils import set_determinism
 from utils.metrics import *
-from utils.loss import *
+from loss import Loss
 from utils.decorator import decorator_args
 from params import id_to_labels
-from utils.base_train_concept import start_train
-from utils.concepts_bank import ConceptBank
+from trainer.base_train_concept import start_train
+from models.MMCBM.concepts_bank import ConceptBank
 
 
 def get_model_opti(args):
