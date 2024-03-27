@@ -1,8 +1,0 @@
-/run_analysis.py
-/auto_intervention.py
-/models/ProtoNet/
-/data_statistic.py
-/debug_model.py
-/models/MMCBM/OCBMs.py
-/loss/proto_loss.py
-/train_xproton.py
