@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import torch
 import torch.nn as nn
 
@@ -420,7 +427,8 @@ class EfficientNet(FusionEncoder):
             depth_divisor: int = 8,
             modality=None,
             encoders=None,
-            pretrained=True
+            pretrained=True,
+            avg_pooling=True,
     ) -> None:
         """
         EfficientNet based on `Rethinking Model Scaling for Convolutional Neural Networks <https://arxiv.org/pdf/1905.11946.pdf>`_.
@@ -582,6 +590,7 @@ class EfficientNet(FusionEncoder):
         self._bn1 = get_norm_layer(name=norm, spatial_dims=spatial_dims, channels=out_channels)
 
         # final linear layer
+        self.avg_pooling = avg_pooling
         self._avg_pooling = adaptivepool_type(1)
         self._dropout = nn.Dropout(dropout_rate)
         # self._fc = nn.Linear(out_channels, self.num_classes)
@@ -619,12 +628,12 @@ class EfficientNet(FusionEncoder):
         # Head
         x = self._conv_head(self._conv_head_padding(x))
         x = self._swish(self._bn1(x))
+        if self.avg_pooling:
+            # Pooling and final linear layer
+            x = self._avg_pooling(x)
 
-        # Pooling and final linear layer
-        x = self._avg_pooling(x)
-
-        x = x.flatten(start_dim=1)
-        x = self._dropout(x)
+            x = x.flatten(start_dim=1)
+            x = self._dropout(x)
         return x
 
     def get_layers(self) -> list:
@@ -660,11 +669,12 @@ class EfficientNet(FusionEncoder):
 class EfficientEncoder(BaseEncoder):
     def __init__(self, model_name, spatial_dims=2, input_channels=3, num_layers=0, concat=False,
                  pretrained: bool = True, encoder_num=1,
-                 bidirectional=False, rnn_type=nn.LSTM, rnn_attn=False):
+                 bidirectional=False, rnn_type=nn.LSTM, rnn_attn=False, avg_pooling=True):
         super(EfficientEncoder, self).__init__(out_channel=0, concat=concat, spatial_dims=spatial_dims)
         for _ in range(encoder_num):
             self.encoders.append(EfficientNet(model_name=model_name, spatial_dims=spatial_dims,
-                                              in_channels=input_channels, pretrained=pretrained))
+                                              in_channels=input_channels, pretrained=pretrained,
+                                              avg_pooling=avg_pooling))
             self.out_channel = self.encoders[0].out_channels
             if num_layers != 0 and spatial_dims == 2:
                 self.rnns.append(
@@ -768,11 +778,11 @@ class SingleEfficientEncoder(SingleBaseEncoder):
 
 class MMEfficientEncoder(MMBaseEncoder):
     def __init__(self, modalities, model_name, spatial_dims=2, input_channels=3,
-                 pretrained: bool = True):
+                 pretrained: bool = True, avg_pooling=True):
         super(MMEfficientEncoder, self).__init__(out_channel=0, spatial_dims=spatial_dims)
         self.encoder = nn.ModuleDict({
             m: EfficientNet(model_name=model_name, spatial_dims=spatial_dims,
-                            in_channels=input_channels, pretrained=pretrained)
+                            in_channels=input_channels, pretrained=pretrained, avg_pooling=avg_pooling)
             for m in modalities
         })
         for v in self.encoder.values():

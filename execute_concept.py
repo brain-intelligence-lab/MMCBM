@@ -1,12 +1,21 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import subprocess
 import argparse
 import concurrent.futures
 
 from tqdm import tqdm
 from inference.init_model import get_name
+from params import get_args
 
-# python execute_concept.py -cbm m2 --clip_name report_strict -act sigmoid -aow -ps 0
+# python execute_concept.py -cbm m2 --clip_name cav --cbm_location report_strict -act sigmoid -aow
 parser = argparse.ArgumentParser()
+parser.add_argument('--wandb', action='store_true', default=False)
 parser.add_argument("--name", default='', type=str, help="MRI contrast(default, normal)")
 parser.add_argument("--modality", default='MM', type=str, help="MRI contrast(default, normal)")
 parser.add_argument('--device', '-d', type=str, default='0')
@@ -42,7 +51,6 @@ parser.add_argument('--bias', action='store_true', default=False)
 parser.add_argument('--plot_curve', action='store_true', default=False)
 parser.add_argument('--weight-norm', action='store_true', default=False)
 args = parser.parse_args()
-
 if args.fold:
     args.fold = args.fold.split(',')
     args.fold = [int(i) for i in args.fold]
@@ -67,7 +75,7 @@ if args.backbone_fold == -1:
     commands = [
         f'python {scripts} --name {name} --backbone {backbone}/fold_{f} --lr {args.lr} --epoch 200 --seed {args.seed} ' \
         f'-k {f} --bz 8 --idx {args.idx} --device {d} --mark r{args.report_shot}_c{args.concept_shot} ' \
-        f'-rs {args.report_shot} -cs {args.concept_shot} -act {args.activation} {tail}'
+        f'-rs {args.report_shot} -cs {args.concept_shot} -act {args.activation} {tail} '
         for f, d in zip(args.fold, args.device)]
 else:
     name += f'_backbone_{args.backbone_fold}'

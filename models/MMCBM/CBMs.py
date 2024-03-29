@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import torch
 import torch.nn as nn
 
@@ -486,7 +493,7 @@ class M2LinearCBM(CBM):
                                          act_on_weight=act_on_weight, init_method=init_method,
                                          modality_map=self.modality_map, bias=bias)
 
-        self.concept_bank.set_single_modality_score(True)
+        # self.concept_bank.set_single_modality_score(True)
         self.concept_bank.set_modality_map(self.modality_map)
 
         print(f'concepts: {[self.concept_bank[m].n_concepts for m in self.mm_order]} '

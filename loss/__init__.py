@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 from .cls_loss import *
 
 
@@ -24,12 +31,10 @@ class Loss(nn.Module):
             return GHMR_Loss(**kwargs)
         elif loss_type == 'LabelSmoothingCrossEntropy':
             return LabelSmoothingCrossEntropy(**kwargs)
+        elif loss_type == 'model':
+            return kwargs['model'].loss
         else:
             raise ValueError(f'Loss type {loss_type} not supported')
 
-    def forward(self, pre, inp):
-        loss = 0
-        if isinstance(pre, tuple):
-            pre, loss = pre
-        loss += self.loss(pre, inp)
-        return loss
+    def forward(self, pre, target):
+        return self.loss(pre, target)

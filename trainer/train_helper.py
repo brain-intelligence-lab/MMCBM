@@ -1,4 +1,10 @@
-# third-party imports
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import os
 import torch
 import pandas as pd
@@ -76,6 +82,7 @@ class BatchLogger:
                  early_stopper=None,
                  metrics_logger=None,
                  pred_logger=None,
+                 wandb=False
                  ):
         self.modality = model_modality
         self.metrics = metrics
@@ -84,18 +91,33 @@ class BatchLogger:
         self.early_stopper = early_stopper
         self.metrics_logger = metrics_logger
         self.pred_logger = pred_logger
+        self.wandb = wandb
+        import wandb
+        self.table = wandb.Table(columns=['Epoch', 'Time', 'Occ Map', 'Image', 'Label', 'Prediction', 'Score'])
+        self.epoch = 0
 
     def init(self):
         self.loss_meters = AverageValueMeter()
         self.preds = []
         self.labels = []
         self.names = []
+        self.iter = 0
+
+    def finish(self):
+        if self.wandb:
+            import wandb
+            wandb.log({f'final_{self.modality}_table': self.table})
 
     def run(self, pre, label, names, loss, stage_name):
+
         logs = {}
 
         if isinstance(pre, (list, tuple)):
+            other_outputs = pre[1:]
             pre = pre[0]
+        else:
+            other_outputs = None
+
         self.preds.append(pre.cpu())
         self.labels.append(label.cpu())
         self.names.extend(names)
@@ -112,24 +134,61 @@ class BatchLogger:
                     continue
                 metric_value = metric_fn(torch.cat(self.preds, dim=0),
                                          torch.cat(self.labels, dim=0),
-                                         stage_name).squeeze().item()
+                                         stage_name)
+                if isinstance(metric_value, torch.Tensor):
+                    metric_value = metric_value.squeeze().item()
                 logs.update({metric_fn.__name__: metric_value})
-        return logs, pre.detach()
+        if self.wandb and self.iter % 50 == 0:
+            import wandb
+            wandb.log({stage_name: {self.modality: logs}})
+            if other_outputs is not None and stage_name == 'test':
+
+                occ_maps, inp = other_outputs
+                for modality in inp.keys():
+                    if self.modality != 'MM':
+                        modality = self.modality
+                    occ_map = occ_maps[modality]
+                    images = inp[modality]
+                    if occ_map.ndim == 4:
+                        occ_map = occ_map.reshape(images.shape[0], -1, *occ_map.shape[1:])
+                    occ_map = occ_map.cpu().numpy()
+                    occ_map = (255 * (occ_map - occ_map.min()) / (occ_map.max() - occ_map.min())).astype(np.uint8)
+                    images = images.cpu().numpy()
+                    images = (255 * (images - images.min()) / (images.max() - images.min())).astype(np.uint8)
+
+                    for oms, image, l, p in zip(occ_map, images, label.cpu().numpy(), pre.cpu().numpy()):
+                        for t, (om, img) in enumerate(zip(oms, image)):
+                            # occ_img = wandb.Image(om.transpose(1, 2, 0).reshape(om.shape[-1], -1))
+                            occ_img = [wandb.Image(o) for o in om]
+                            img_wandb = wandb.Image(img.transpose(1, 2, 0))
+                            label_val = l
+                            prediction = p.argmax()
+                            score = p
+                            # 将数据添加到 W&B Table
+                            self.table.add_data(self.epoch, t, occ_img, img_wandb, label_val, prediction, score)
+                    if self.modality != 'MM':
+                        break
+        self.iter += 1
+        return logs, pre
 
     def epoch_end(self, epoch, stage_name, model, optimizer):
         if len(self.preds) == 0:
             return None
-
+        self.epoch = epoch
         if self.metrics is not None:
             gross_logs = {'loss': self.loss_meters.mean}
             preds = torch.cat(self.preds, dim=0)
             labels = torch.cat(self.labels, dim=0)
             for metric_fn in self.metrics:
-                metric_value = metric_fn(preds, labels, stage_name).squeeze().item()
+                metric_value = metric_fn(preds, labels, stage_name)
+                if isinstance(metric_value, torch.Tensor):
+                    metric_value = metric_value.squeeze().item()
                 gross_logs.update({'gross_' + metric_fn.__name__: metric_value})
                 if metric_fn.gross:
                     continue
-
+            if self.wandb:
+                import wandb
+                wandb.log(gross_logs)
             if self.pred_logger is not None:
                 self.pred_logger({
                     'stage_name': stage_name,
@@ -155,6 +214,11 @@ class BatchLogger:
                     model=model,
                     optimizer=optimizer
                 )
+            if self.wandb:
+                import wandb
+                wandb.log({stage_name: {self.modality: gross_logs}})
+                if stage_name == 'test':
+                    wandb.log({f'{stage_name}_{self.modality}_table': self.table})
             return gross_logs
 
 
@@ -194,7 +258,8 @@ class TrainHelper:
 
         if self.args.wandb:
             import wandb
-            wandb.init(project=self.args.dir_name, reinit=True,
+            wandb.login()
+            wandb.init(project=self.args.dir_name.split('/')[0], reinit=True,
                        config=self.args, name='_'.join(self.args.dir_name.split('/')[1:]))
             wandb.watch(self.model, self.args.loss, log='all', log_freq=10)
         JsonLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}')(self.args)
@@ -308,6 +373,9 @@ class TrainHelper:
                 epoch=i,
                 step=10
             )
+            testepoch.finish()
+            trainepoch.finish()
+            validepoch.finish()
 
 
 def save_metrics(args):

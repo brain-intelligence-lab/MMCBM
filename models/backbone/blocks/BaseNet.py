@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import torch
 import torch.nn as nn
 
@@ -46,7 +53,7 @@ class SingleBaseEncoder(nn.Module):
 
     def to_T(self, x):
         if self.spatial_dims == 2:
-            x = x.reshape(self.b, -1, x.shape[-1])
+            x = x.reshape(self.b, -1, *x.shape[1:])
         return x
 
     def encode(self, x, m):
@@ -206,13 +213,13 @@ class BaseNet(nn.Module, BaseObject):
             return self.modality(modality, inp, train_encoder), self.kl_loss(modality)
         return self.modality(modality, inp, train_encoder)
 
-    def encode_image(self, modality, inp):
+    def encode_image(self, modality, image):
         with torch.no_grad():
             if modality != 'MM':
-                return {modality: self.encoders[modality](inp[modality])}
+                return {modality: self.encoders[modality](image[modality])}
             out = {}
-            for m in inp.keys():
-                out.update({m: self.encoders[m](inp[m])})
+            for m in image.keys():
+                out.update({m: self.encoders[m](image[m])})
             return out
 
     def classify(self, inp):
@@ -390,12 +397,15 @@ class SingleBaseNet(nn.Module, BaseObject):
         features = self.modality(modality, inp)
         return self.classifier(features, modality)
 
-    @torch.no_grad()
-    def encode_image(self, modality, image):
-        if modality != 'MM':
-            return self.encoder({modality: image})[modality]
+    def encode_image(self, modality, image, keep_dict=False):
+        if not isinstance(image, dict):
+            image = {modality: image}
+        if modality != 'MM' and modality in image.keys():
+            return self.encoder({modality: image[modality]})[modality]
         else:
             features = self.encoder(image)
+            if keep_dict:
+                return features
             return self.classifier.fusion(features)
 
     def classify(self, inp):
@@ -412,9 +422,12 @@ class SingleBaseNet(nn.Module, BaseObject):
         :param modality: 根据输入 modality 返回模型不同部分，作为 Optimizer 输入
         :return:
         '''
-        if modality == 'classifier':
+        if modality == 'classifiers':
             return self.classifier
         if modality == 'encoders':
             return self.encoder
         else:
-            return nn.ModuleList([self.encoder[modality], self.classifier[modality]])
+            return nn.ModuleDict({
+                'encoder': self.encoder[modality],
+                'classifier': self.classifier[modality]
+            })

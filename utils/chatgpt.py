@@ -1,10 +1,16 @@
-import time
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
 
-import openai
+import time
 
 
 class ChatGPT:
     def __init__(self, api_base, api_key, model, prompts, conversation_track=False, stream=False):
+        import openai
         openai.api_key = api_key
         openai.base_url = api_base
         openai.default_headers = {"x-foo": "true"}
@@ -59,6 +65,7 @@ class ChatGPT:
         return response
 
     def generate_response_chatgpt(self, message_list):
+        import openai
         if self.stream:
             try:
                 stream = openai.chat.completions.create(

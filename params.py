@@ -78,6 +78,7 @@ def get_args():
     parser.add_argument('--act_on_weight', '-aow', action='store_true', default=False)
     parser.add_argument('--bias', action='store_true', default=False)
     parser.add_argument('--weight_norm', action='store_true', default=False)
+    parser.add_argument('--occ_act', default='abs', type=str, help='sigmoid, softmax')
 
     args = parser.parse_args()
     args.dir_name = ''
@@ -88,8 +89,8 @@ def get_args():
 
 ################################################### Configuration ##################################################
 openai_info = {
-    'api_base': '',
-    'api_key': '',
+    'api_base': 'https://openai.liuy.site/v1/',
+    'api_key': 'sk-lWQydh90SCAD0olBA0EfC37c76C74fF9A8Af389cAa095b16',
     'model': 'gpt-3.5-turbo',
     'prompts': [
         {"role": "user",
@@ -108,8 +109,8 @@ openai_info = {
     ]
 }
 tencent_info = {
-    'SecretId': '',
-    'SecretKey': ''
+    'SecretId': 'AKIDsa4ITO1OXQYT8WeP2QZVCerOfiW6RYP1',
+    'SecretKey': 'RgibhcQ4TlqgHdjZ8ar24sQimeGbgW7R'
 }
 
 data_info = {

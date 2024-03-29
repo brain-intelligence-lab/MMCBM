@@ -1,4 +1,10 @@
-# project imports
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 from utils.logger import char_color, CSVLogs, MarkDownLogs
 from trainer.trainer import ConceptEpoch
 from utils.EarlyStop import EarlyStopping
@@ -24,6 +30,7 @@ class TrainHelperMMCBM(TrainHelper):
                                             logger=logger,
                                             patience=args.patience,
                                             mode=args.mode),
+                wandb=args.wandb,
             ) for m in modality_model_map[args.modality]
         }
         trainepoch = ConceptEpoch(
@@ -35,6 +42,7 @@ class TrainHelperMMCBM(TrainHelper):
             batch_loggers=batch_loggers,
             plot_fn=ActPlot(dir=f'{args.output_dir}/{args.dir_name}') if args.plot else None,
             concept_bank=args.concept_bank,
+            pre_embeddings=args.pre_embeddings
         )
         validepoch = ConceptEpoch(
             model=self.model,
@@ -45,6 +53,7 @@ class TrainHelperMMCBM(TrainHelper):
             batch_loggers=batch_loggers,
             plot_fn=ActPlot(dir=f'{args.output_dir}/{args.dir_name}') if args.plot else None,
             concept_bank=args.concept_bank,
+            pre_embeddings=args.pre_embeddings
         )
         testepoch = ConceptEpoch(
             model=self.model,
@@ -55,6 +64,7 @@ class TrainHelperMMCBM(TrainHelper):
             batch_loggers=batch_loggers,
             plot_fn=ActPlot(dir=f'{args.output_dir}/{args.dir_name}') if args.plot else None,
             concept_bank=args.concept_bank,
+            pre_embeddings=args.pre_embeddings
         )
         return trainepoch, validepoch, testepoch
 

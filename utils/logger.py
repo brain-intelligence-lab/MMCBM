@@ -1,4 +1,10 @@
-# third party
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import argparse
 import os
 import json
@@ -23,6 +29,13 @@ class Logs:
 
     def __call__(self, t):
         self.log(t)
+
+
+class TensorboardLogs:
+    def __init__(self, dir_path):
+        dir_path = os.path.join(dir_path, 'TensorboardLogger')
+        from torch.utils.tensorboard import SummaryWriter
+        self.writer = SummaryWriter(dir_path)
 
 
 class JsonLogs:

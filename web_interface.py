@@ -1,10 +1,14 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import gradio as gr
 import torch
 
 from web.intervention import Intervention
-
-patients = ['马平社', '谢春艳', '邵佳南', '周庆玉', '何德翠', '宋志忠D', '祝丽华D', '王湛铭', '李启明', '武元春D',
-            '王振铎', '叶爱芳', '洪文远', '王胖子D', '汪育元', '郑桂荣', '王海', '韩志袁', '关金平']
 
 max_k = 20
 github = """
@@ -139,7 +143,7 @@ with gr.Blocks() as demo:
             gr.Examples(
                 # examples=predict.get_test_data(num_of_each_pathology=1, mask=False,
                 #                                names=patients),
-                examples=predict.get_test_data(num_of_each_pathology=1, mask=True),
+                examples=predict.get_test_data(dir_path='images/examples'),
                 inputs=[name, pathology, fa_e, fa_m, fa_l, icga_e, icga_m, icga_l, us],  # type: ignore
                 outputs=None,  # type: ignore
                 label=None,
@@ -230,4 +234,4 @@ with gr.Blocks() as demo:
     btn_report.click(fn=predict.report, inputs=[chatbot, top_k(), language()], outputs=chatbot)
 
 if __name__ == "__main__":
-    demo.queue().launch(server_name="0.0.0.0", server_port=7860, share=True)
+    demo.queue().launch(server_name="0.0.0.0", server_port=7861, share=True)

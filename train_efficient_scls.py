@@ -1,12 +1,8 @@
 # -*- encoding: utf-8 -*-
 """
-@File    :   train_GIRNet_MIxInpMSE.py
-@Contact :   liu.yang.mine@gmail.com
-@License :   (C)Copyright 2018-2022
-
-@Modify Time      @Author    @Version    @Desciption
-------------      -------    --------    -----------
-2022/7/6 9:12 PM   liu.yang      1.0         None
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
 """
 
 import torch.optim.lr_scheduler

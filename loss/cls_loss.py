@@ -15,15 +15,12 @@ class MSE(BaseLoss):
 
 
 class CrossEntropy(BaseLoss):
-    def __init__(self, model=None, **kwargs):
-        super(CrossEntropy, self).__init__(model=model, **kwargs)
+    def __init__(self, **kwargs):
+        super(CrossEntropy, self).__init__(**kwargs)
         self.loss = nn.CrossEntropyLoss()
 
     def compute(self, pre, inp):
-        loss = self.loss(pre, inp)
-        if self.model is not None:
-            loss += torch.linalg.vector_norm(self.model.weight, ord=1, dim=-1).max() * 1e-2
-        return loss
+        return self.loss(pre, inp)
 
 
 class CrossFocal(BaseLoss):

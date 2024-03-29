@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import os
 import time
 
@@ -29,15 +36,9 @@ class Infer:
         )
         self.image_reader = ImagesReader(transform=self.concept_bank.transform)
         self.is_normalize = normalize
-        self.concepts = self.concept_bank.concept_names
         self.modality_mask = self.concept_bank.modality_mask
         self.modality_order = model.mm_order
         self.modality = ['MM']
-        if os.path.exists(translate_file):
-            self.concepts_en = pd.DataFrame({'concept': self.concepts}).merge(
-                pd.read_csv(translate_file), on='concept', how='left')['translation'].tolist()
-        else:
-            self.concepts_en = self.concepts
         self.labels = list(pathology_labels_cn_to_en.keys())
         self.labels_en = list(pathology_labels_cn_to_en.values())
         self.language = language
@@ -55,7 +56,8 @@ class Infer:
             modality = self.modality
         if isinstance(modality, str):
             modality = [modality]
-        concepts = self.concepts_en if self.language == 'en' else self.concepts
+        self.concept_bank.language = self.language
+        concepts = self.concept_bank['_'.join(modality)].concept_names
         if 'MM' not in modality:
             concepts = [c for m in modality for c in concepts if m in c]
         return concepts

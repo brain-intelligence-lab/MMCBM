@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import os
 
 import torch
@@ -10,12 +17,16 @@ from monai.utils import set_determinism
 
 
 def get_name(args):
-    name = f'{args.name}{args.cbm_model}CBM'
+    name = f'{args.name}{args.cbm_model}CBM' if 'm' in args.cbm_model else f'{args.name}{args.cbm_model}Proto'
     tail = f' --cbm_model {args.cbm_model}'
 
     if args.clip_name != 'cav':
         name += f'_{args.clip_name}'
         tail += f' --clip_name {args.clip_name}'
+
+    if args.occ_act != 'abs':
+        name += f'_OCC{args.occ_act}'
+        tail += f' --occ_act {args.occ_act}'
 
     name += f'_{args.activation}'
     tail += f' --activation {args.activation}'
@@ -28,13 +39,15 @@ def get_name(args):
 
     name += f'_{args.cbm_location}'
     tail += f' --cbm_location {args.cbm_location}'
+    if args.wandb:
+        tail += ' --wandb'
 
     if args.add:
         name += '_add'
         tail += ' --add'
 
     if args.pos_samples != 50:
-        name += f'_n{args.pos_samples}'
+        name += f'_pos{args.pos_samples}'
         tail += f' --pos_samples {args.pos_samples}'
     if args.neg_samples != 0:
         name += f'_neg{args.neg_samples}'

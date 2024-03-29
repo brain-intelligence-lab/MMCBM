@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import sys
 import time
 
@@ -9,7 +16,7 @@ from tqdm import tqdm as tqdm
 import params
 
 
-class SingleEpoch:
+class Epoch:
     def __init__(self,
                  model,
                  optimizer,
@@ -22,7 +29,7 @@ class SingleEpoch:
                  ):
         self.model = model
         self.optimizer = optimizer
-        self.loss = self.model.get_loss if loss is None else loss
+        self.loss = self.model.loss if loss is True else loss
         self.labels = []
         self.preds = []
         self.names = []
@@ -34,7 +41,6 @@ class SingleEpoch:
         self.batch_loggers = batch_loggers
         self.mix_up_alpha = mix_up_alpha
         self.plot_fn = plot_fn
-
         self.best_score = {}
 
     def _format_logs(self, logs):
@@ -53,6 +59,11 @@ class SingleEpoch:
             self.model.train()
         else:
             self.model.eval()
+
+    def finish(self):
+        if self.batch_loggers:
+            for k, batch in self.batch_loggers.items():
+                batch.finish()
 
     def on_epoch_end(self):
         self.epoch += 1
@@ -97,6 +108,15 @@ class SingleEpoch:
             x = [self._to(_x, device) for _x in x]
         if isinstance(x, dict):
             x = {k: self._to(v, device) for k, v in x.items()}
+        return x
+
+    def detach(self, x):
+        if isinstance(x, torch.Tensor):
+            return x.detach()
+        if isinstance(x, (list, tuple)):
+            return [self.detach(_x) for _x in x]
+        if isinstance(x, dict):
+            x = {k: self.detach(v) for k, v in x.items()}
         return x
 
     def on_batch_start(self, data):
@@ -146,7 +166,7 @@ class SingleEpoch:
             loss.backward()
             self.optimizer.step()
 
-            pre = pre.detach()
+            pre = self.detach(pre)
             loss = loss.detach()
         else:
             with torch.no_grad():
@@ -197,10 +217,9 @@ class SingleEpoch:
         return logs, self.best_score
 
 
-class ConceptEpoch(SingleEpoch):
-    from models.MMCBM.CBMs import MMLinearCBM
+class ConceptEpoch(Epoch):
     def __init__(self,
-                 model: MMLinearCBM,
+                 model,
                  optimizer,
                  loss=None,
                  stage_name: str = 'train',
@@ -209,6 +228,7 @@ class ConceptEpoch(SingleEpoch):
                  plot_fn=None,
                  device='cpu',
                  cache_embeddings=None,
+                 pre_embeddings=True
                  ):
         super().__init__(
             model=model,
@@ -233,6 +253,7 @@ class ConceptEpoch(SingleEpoch):
         self.analysis = []
         self.cache_embeddings = cache_embeddings
         self.imgs = None
+        self.pre_embeddings = pre_embeddings
 
     def generate_report(self, md_logger, modality=None):
         analysis = pd.DataFrame(self.analysis)
@@ -270,8 +291,7 @@ class ConceptEpoch(SingleEpoch):
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
-
-            pre = pre.detach()
+            pre = self.detach(pre)
             loss = loss.detach()
         else:
             with torch.no_grad():
@@ -310,7 +330,8 @@ class ConceptEpoch(SingleEpoch):
             self.cache['name'] = list(data['name'])
             self.cache['pathology'] = list(data['pathology'])
             self.cache['stage_name'] = [self.stage_name] * len(data['name'])
-        inp = self.clip_embedding(inp, f_modality[0])
+        if self.pre_embeddings:
+            inp = self.clip_embedding(inp, f_modality[0])
         return inp, self.to_cuda(data['label']), f_modality, f_name
 
     def on_epoch_end(self):
@@ -323,20 +344,15 @@ class ConceptEpoch(SingleEpoch):
     def clip_embedding(self, inp, modality):
         if self.cache_embeddings is not None:
             if 'cav' in self.clip_name:
-                self.cache['MM'] = [i for i in self.clip_model.encode_image(
+                self.cache['MM'] = [i for i in self.concept_bank.encode_image(
                     'MM', inp).detach().cpu().numpy()] if 'MM' in modality else [None] * len(self.cache['name'])
 
-        embeddings = {}
-        for modality, data in inp.items():
-            # data = data.to(self.device)
-            embedding = self.clip_model.encode_image(modality=modality, image=data).detach().float()
-            inp[modality] = embedding
-            embeddings[modality] = embedding.cpu().numpy()
+        inp = self.concept_bank.encode_image(image=inp, keep_dict=True)
 
         if self.cache_embeddings is not None:
             for m in ['FA', 'US', 'ICGA']:
-                self.cache[m] = [embeddings[m][i] for i in range(len(embeddings[m]))] \
-                    if m in embeddings.keys() else [None] * len(self.cache['name'])
+                self.cache[m] = [inp[m][i].detach().cpu().numpy() for i in range(len(inp[m]))] \
+                    if m in inp.keys() else [None] * len(self.cache['name'])
             self.cache_embeddings.extend(
                 [{k: v[i] for k, v in self.cache.items()} for i in range(len(self.cache['name']))])
         return inp

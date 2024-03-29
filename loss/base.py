@@ -10,7 +10,7 @@ class BaseLoss:
     def compute(self, pre, inp):
         raise NotImplementedError
 
-    def __call__(self, pre, inp):
+    def __call__(self, pre, inp=None):
         if self.loss_weight != 1:
             return self.loss_weight * self.compute(pre, inp)
         return self.compute(pre, inp)

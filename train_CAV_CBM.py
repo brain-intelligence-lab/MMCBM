@@ -1,12 +1,8 @@
 # -*- encoding: utf-8 -*-
 """
-@File    :   train_GIRNet_MIxInpMSE.py
-@Contact :   liu.yang.mine@gmail.com
-@License :   (C)Copyright 2018-2022
-
-@Modify Time      @Author    @Version    @Desciption
-------------      -------    --------    -----------
-2022/7/6 9:12 PM   liu.yang      1.0         None
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
 """
 
 import torch.optim.lr_scheduler
@@ -32,7 +28,8 @@ def get_model_opti(args):
             model_name=args.model,
             fusion='pool',
             spatial_dims=2,
-            num_class=args.out_channel
+            num_class=args.out_channel,
+            avg_pooling=True,
         )
         if args.backbone is None:
             raise ValueError("Please specify the backbone")
@@ -44,12 +41,6 @@ def get_model_opti(args):
                                  cp=False)
         backbone.to(args.device)
         backbone.eval()
-    # bank_dir = args.dir_name
-    # if args.name != "":
-    #     bank_dir += f'_{args.name}'
-    # bank_dir += f'/fold_{args.k}'
-    # if args.mark != "":
-    #     bank_dir += f'_{args.mark}'
     bank_dir = os.path.join(args.output_dir, args.dir_name)
     # initialize the concept bank
     args.concept_bank = ConceptBank(device=args.device,
@@ -129,22 +120,25 @@ def get_model_opti(args):
 def get_args(args) -> argparse.Namespace:
     # enabling cudnn determinism appears to speed up training by a lot
     torch.backends.cudnn.deterministic = not args.cudnn_nondet
-    if args.wandb:
-        import wandb
-        wandb.login()
     args.down_sample = False
     args.prognosis = False
     ##################### debug #####################
     # args.device = 0
+    # args.wandb = True
+    # args.clip_name = 'cav'
+    # args.cbm_model = 'occ'
     # args.modality = 'MM'
-    # args.name = 'Debug'
-    args.mark = f'{args.cbm_location}_{args.mark}'
-    # args.cbm_location = 'report'
-    args.infer = False
-    args.resume = False
+    # args.name = 'OccCBM'
+    # args.fusion = 'max'
+    # args.mark = f'{args.cbm_location}_{args.mark}'
+    # args.cbm_location = 'report_strict'
+    # args.infer = False
+    # args.resume = False
     # args.activation = 'sigmoid'
+    # args.act_on_weight = True
     # args.idx = 180
-    # args.backbone = 'Efficientb0_SCLS_attnscls_CrossEntropy_42_add'
+    # args.num_worker = 0
+    # args.backbone = 'Efficientb0_SCLS_attnscls_CrossEntropy_32/fold_0'
     ##################### debug #####################
     if 'clip' in args.clip_name:
         args.dir_name = f'CLip'
@@ -168,7 +162,7 @@ if __name__ == "__main__":
     args = get_args()
     set_determinism(args.seed)
     model, opti = get_model_opti(args)
-    args.loss = Loss(loss_type=args.loss, model=model if args.weight_norm else None)
+    args.loss = Loss(loss_type=args.loss, model=model)
     print(args)
     # start training
     TrainHelperMMCBM(args, model, opti).start_train()

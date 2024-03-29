@@ -1,6 +1,12 @@
-# project imports
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 from utils.logger import CSVLogs, char_color
-from trainer.trainer import SingleEpoch
+from trainer.trainer import Epoch
 from utils.EarlyStop import EarlyStopping
 import warnings
 from visualize.utils import ActPlot
@@ -29,7 +35,7 @@ class TrainHelperBackbone(TrainHelper):
                                             mode=self.args.mode),
             ) for m in modality_model_map[self.args.modality]
         }
-        trainepoch = SingleEpoch(
+        trainepoch = Epoch(
             model=self.model,
             loss=self.args.loss,
             optimizer=self.optimizer,
@@ -39,7 +45,7 @@ class TrainHelperBackbone(TrainHelper):
             plot_fn=ActPlot(dir=f'{self.args.output_dir}/{self.args.dir_name}') if self.args.plot else None,
             mix_up_alpha=self.args.mix_up_alpha,
         )
-        validepoch = SingleEpoch(
+        validepoch = Epoch(
             model=self.model,
             loss=self.args.loss,
             optimizer=self.optimizer,
@@ -49,7 +55,7 @@ class TrainHelperBackbone(TrainHelper):
             plot_fn=ActPlot(dir=f'{self.args.output_dir}/{self.args.dir_name}') if self.args.plot else None,
             mix_up_alpha=self.args.mix_up_alpha,
         )
-        testepoch = SingleEpoch(
+        testepoch = Epoch(
             model=self.model,
             loss=self.args.loss,
             optimizer=self.optimizer,

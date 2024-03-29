@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import json
 from tencentcloud.common import credential  # 这里需要安装腾讯翻译sdk
 from tencentcloud.common.profile.client_profile import ClientProfile

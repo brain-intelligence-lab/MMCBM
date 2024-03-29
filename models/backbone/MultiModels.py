@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import torch.nn as nn
 from models.backbone.blocks import BaseNet, CycleBaseNet, EfficientEncoder, SwinEncoder, DenseNetEncoder
 from models.backbone.blocks import Classifier, PrognosisClassifier, RNNClassifier, AttnPoolClassifier, MaxPoolClassifier
@@ -22,7 +29,7 @@ efficientnet_params = {
 
 class MMEfficientNet(BaseNet):
     def __init__(self, modality, num_layers, spatial_dims, input_channels=3, num_class=3, model_name='b2',
-                 pretrained=True, rnn_type=nn.LSTM, bidirectional=False, rnn_attn=False):
+                 pretrained=True, rnn_type=nn.LSTM, bidirectional=False, rnn_attn=False, avg_pooling=True):
         if isinstance(input_channels, int):
             input_channels = {'FA': input_channels, 'ICGA': input_channels, 'US': input_channels}
         super(MMEfficientNet, self).__init__(
@@ -36,7 +43,8 @@ class MMEfficientNet(BaseNet):
                                                                encoder_num=num_encoder,
                                                                bidirectional=bidirectional,
                                                                rnn_type=rnn_type,
-                                                               rnn_attn=rnn_attn),
+                                                               rnn_attn=rnn_attn,
+                                                               avg_pooling=avg_pooling),
             Classifier_fn=lambda out_channel, num_layers: Classifier(in_features=out_channel,
                                                                      out_features=num_class,
                                                                      attn=True,
@@ -184,7 +192,7 @@ class MMSCLSEfficientNet(SingleBaseNet):
 
 class MMAttnSCLSEfficientNet(SingleBaseNet):
     def __init__(self, spatial_dims: int, input_channels: int = 3, num_class=3, model_name='b0',
-                 pretrained=True, fusion='pool'):
+                 pretrained=True, fusion='pool', avg_pooling=True):
         modalities = ['FA', 'ICGA', 'US']
 
         def get_cls(out_channel):
@@ -206,6 +214,7 @@ class MMAttnSCLSEfficientNet(SingleBaseNet):
                                                            spatial_dims=spatial_dims,
                                                            input_channels=input_channels,
                                                            pretrained=pretrained,
+                                                           avg_pooling=avg_pooling
                                                            ),
             Classifier_fn=get_cls,
             name=f'EfficientNet{model_name}'

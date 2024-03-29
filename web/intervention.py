@@ -1,15 +1,13 @@
 # -*- encoding: utf-8 -*-
 """
-@File    :   train_GIRNet_MIxInpMSE.py
-@Contact :   liu.yang.mine@gmail.com
-@License :   (C)Copyright 2018-2022
-
-@Modify Time      @Author    @Version    @Desciption
-------------      -------    --------    -----------
-2022/7/6 9:12 PM   liu.yang      1.0         None
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
 """
+
 import os
 import gradio as gr
+import pandas as pd
 
 from params import pathology_labels_cn_to_en, data_info
 from utils.dataloader import *
@@ -33,8 +31,32 @@ class Intervention:
         )
         self.file_path = self.predictor.save_path
 
-    def get_test_data(self, num_of_each_pathology=None, names=None, mask=True):
-        test = DataSplit(data_path=data_info['data_path'], csv_path=data_info['csv_path']).get_test_data()
+    def load_images(self, dir_path):
+        from pathlib import Path
+        dir_path = Path(dir_path)
+        if dir_path.is_dir():
+            sub_path = []
+            for dir_name in dir_path.iterdir():
+                sun_images = self.load_images(dir_name)
+                if isinstance(sun_images, list):
+                    sub_path.extend(sun_images)
+                else:
+                    sub_path.append(sun_images)
+            return sub_path
+        return dir_path
+
+    def get_test_data(self, dir_path=None, num_of_each_pathology=None, names=None, mask=True):
+        if dir_path is not None:
+            dir_path = self.load_images(dir_path)
+            dir_path = pd.DataFrame([{'pathology': p.parent.parent.parent.name,
+                                      'name': p.parent.parent.name,
+                                      'modality': p.parent.name,
+                                      'path': str(p)} for p in dir_path])
+            test = dir_path.groupby(['pathology', 'name']).apply(
+                lambda x: x.groupby('modality').apply(lambda y: y['path'].to_list()).to_dict()).reset_index().rename(
+                columns={0: 'path'})
+        else:
+            test = DataSplit(data_path=data_info['data_path'], csv_path=data_info['csv_path']).get_test_data()
         if num_of_each_pathology is not None and names is None:
             test = test.groupby('pathology').head(num_of_each_pathology)
         elif names is not None:
@@ -42,7 +64,10 @@ class Intervention:
 
         def _fn(x):
             if mask:
-                path = [int(random.random() * 10000000000), pathology_labels_cn_to_en[x['pathology']]]
+                try:
+                    path = [int(random.random() * 10000000000), pathology_labels_cn_to_en[x['pathology']]]
+                except KeyError:
+                    path = [int(random.random() * 10000000000), x['pathology']]
             else:
                 path = [x['name'], x['pathology']]
             [path.extend(x['path'][m]) for m in ['FA', 'ICGA', 'US']]

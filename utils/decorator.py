@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@Author :   liuyang
+@github :   https://github.com/ly1998117/MMCBM
+@Contact :  liu.yang.mine@gmail.com
+"""
+
 import os
 import pandas as pd
 from functools import wraps
@@ -16,6 +23,7 @@ def decorator_args(function):
             args.dir_name += f'/fold_{args.k}'
             if args.mark != "":
                 args.dir_name += f'_{args.mark}'
+            args.pre_embeddings = True  # used for MMCBM
         return args
 
     return decorated

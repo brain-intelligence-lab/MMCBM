@@ -47,7 +47,7 @@ Bottleneck Model.**
    at [Interface Link](https://mmcbm.liuy.site).
 2. you can also run this website locally by running the following command in the terminal:
    ```bash
-   python interface.py
+   python web_interface.py
    ```
    then open the browser and enter `http://127.0.0.1:7860/` to access the website.
 
