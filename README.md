@@ -42,7 +42,7 @@ Bottleneck Model.**
    fill in the `tencent_info` section in `params.py` with your own `app_id` and `app_key` from Tencent Cloud.
 
 ## Usage
-
+### Web Interface
 1. Web Interface using Gradio (Recommended), our web interface is available
    at [Interface Link](https://mmcbm.liuy.site).
 2. you can also run this website locally by running the following command in the terminal:
@@ -50,8 +50,14 @@ Bottleneck Model.**
    python web_interface.py
    ```
    then open the browser and enter `http://127.0.0.1:7860/` to access the website.
-
-2. Command Line without Gradio. We also provide a bash script to run the model inference from the command line:
+3. you can also build the docker image and run it:
+   ```bash
+   docker build -t mmcbm .
+   docker run --name mmcbm -p 7860:7860 mmcbm
+   ```
+   then open the browser and enter `http://127.0.0.1:7890` to access the website.
+### Command Line
+Command Line without Gradio. We also provide a bash script to run the model inference from the command line:
    ```bash
    python mmcmb_inference.py
    ```
