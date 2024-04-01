@@ -24,7 +24,7 @@ def predict_concept(imgs, top_k=10, language='en'):
 
 
 if __name__ == "__main__":
-    json_path = ('result/CAV_m2CBM_sigmoid_C0.1CrossEntropy_32_report_strict_add_aow_zero_MM_max/'
+    json_path = ('result/CAV_m2CBM_sigmoid_C0.1CrossEntropy_32_report_strict_aow_zero_MM_max/'
                  'fold_0_report_strict_r1.0_c1.0')
     backbone='Efficientb0_SCLS_attnscls_CrossEntropy_32/fold_0'
     device = 'cpu'

@@ -22,7 +22,6 @@ from . import init_model_json
 class Infer:
     def __init__(self, json_path, k=None, resume_epoch=180,
                  output_dir=None, normalize='default', language='en',
-                 translate_file='CSV/concept/concepts-translation.csv',
                  **kwargs):
         super().__init__()
         model, args = init_model_json(json_path, k, resume_epoch, **kwargs)

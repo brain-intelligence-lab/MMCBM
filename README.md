@@ -31,7 +31,7 @@ Bottleneck Model.**
       ```
     + MMCBM: at 
       ```bash
-      work_dir/result/CAV_m2CBM_sigmoid_C0.1CrossEntropy_32_report_strict_add_aow_zero_MM_max
+      work_dir/result/CAV_m2CBM_sigmoid_C0.1CrossEntropy_32_report_strict_aow_zero_MM_max
       ```
 
 ### configuration
