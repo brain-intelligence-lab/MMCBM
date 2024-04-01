@@ -42,10 +42,6 @@ def get_name(args):
     if args.wandb:
         tail += ' --wandb'
 
-    if args.add:
-        name += '_add'
-        tail += ' --add'
-
     if args.pos_samples != 50:
         name += f'_pos{args.pos_samples}'
         tail += f' --pos_samples {args.pos_samples}'
