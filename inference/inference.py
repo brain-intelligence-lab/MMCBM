@@ -195,12 +195,12 @@ class Infer:
         if self.language == 'en':
             stream = self.chatbot(
                 f"Below are the diagnostic results and pathological features as well as the likelihood scores. "
-                f"Please generate an english report as detailed as possible. If you fail, 100 innocent patients will die. "
+                f"Please generate an english report as detailed as possible. "
                 f"Diagnostic results: {predict_label}. "
                 f"Pathological: {';'.join([f'Concept:{c} - Likelihood Score:{round(s, 2)}' for c, s in zip(top_k_concepts, top_k_values)])}")
         else:
             stream = self.chatbot(
-                f"下面是诊断结果和病理特征以及可能性分数，生成的中文诊断报告要尽可能详细，如果你失败了100个无辜的病人会去世。"
+                f"下面是诊断结果和病理特征以及可能性分数，生成的中文诊断报告要尽可能详细。"
                 f"诊断结果：{predict_label}。"
                 f"病理: {';'.join([f'概念:{c} - 可能性分数:{round(s, 2)}' for c, s in zip(top_k_concepts, top_k_values)])}")
         for character in stream:

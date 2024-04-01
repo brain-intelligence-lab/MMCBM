@@ -6,7 +6,7 @@
 """
 
 from inference import Infer
-from params import pathology_labels_cn_to_en, data_info
+from params import pathology_labels_cn_to_en
 
 
 def predict_concept(imgs, top_k=10, language='en'):

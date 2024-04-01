@@ -86,15 +86,13 @@ class BatchLogger:
                  ):
         self.modality = model_modality
         self.metrics = metrics
-        self.df = pd.DataFrame(columns=['epoch', 'scores', 'preds', 'labels'])
         self.init()
         self.early_stopper = early_stopper
         self.metrics_logger = metrics_logger
         self.pred_logger = pred_logger
         self.wandb = wandb
         import wandb
-        self.table = wandb.Table(columns=['Epoch', 'Time', 'Occ Map', 'Image', 'Label', 'Prediction', 'Score'])
-        self.epoch = 0
+        self.wanbd_table = []
 
     def init(self):
         self.loss_meters = AverageValueMeter()
@@ -106,9 +104,9 @@ class BatchLogger:
     def finish(self):
         if self.wandb:
             import wandb
-            wandb.log({f'final_{self.modality}_table': self.table})
+            wandb.log({f'final_{self.modality}_table': wandb.Table(dataframe=pd.DataFrame(self.wanbd_table))})
 
-    def run(self, pre, label, names, loss, stage_name):
+    def run(self, pre, label, names, loss, stage_name, epoch):
 
         logs = {}
 
@@ -138,7 +136,7 @@ class BatchLogger:
                 if isinstance(metric_value, torch.Tensor):
                     metric_value = metric_value.squeeze().item()
                 logs.update({metric_fn.__name__: metric_value})
-        if self.wandb and self.iter % 50 == 0:
+        if self.wandb and self.iter % 10 == 0:
             import wandb
             wandb.log({stage_name: {self.modality: logs}})
             if other_outputs is not None and stage_name == 'test':
@@ -165,7 +163,18 @@ class BatchLogger:
                             prediction = p.argmax()
                             score = p
                             # 将数据添加到 W&B Table
-                            self.table.add_data(self.epoch, t, occ_img, img_wandb, label_val, prediction, score)
+                            self.wanbd_table.append({
+                                'Epoch': epoch,
+                                'Iter': self.iter,
+                                'Modality': modality,
+                                'Time': t,
+                                'Occ Map': occ_img,
+                                'Image': img_wandb,
+                                'Label': label_val,
+                                'Prediction': prediction,
+                                'Score': score
+                            })
+                            # self.table.add_data(epoch, self.iter, t, occ_img, img_wandb, label_val, prediction, score)
                     if self.modality != 'MM':
                         break
         self.iter += 1
@@ -174,7 +183,6 @@ class BatchLogger:
     def epoch_end(self, epoch, stage_name, model, optimizer):
         if len(self.preds) == 0:
             return None
-        self.epoch = epoch
         if self.metrics is not None:
             gross_logs = {'loss': self.loss_meters.mean}
             preds = torch.cat(self.preds, dim=0)
@@ -218,7 +226,8 @@ class BatchLogger:
                 import wandb
                 wandb.log({stage_name: {self.modality: gross_logs}})
                 if stage_name == 'test':
-                    wandb.log({f'{stage_name}_{self.modality}_table': self.table})
+                    wandb.log(
+                        {f'{stage_name}_{self.modality}_table': wandb.Table(dataframe=pd.DataFrame(self.wanbd_table))})
             return gross_logs
 
 
@@ -373,9 +382,9 @@ class TrainHelper:
                 epoch=i,
                 step=10
             )
-            testepoch.finish()
-            trainepoch.finish()
-            validepoch.finish()
+        testepoch.finish()
+        trainepoch.finish()
+        validepoch.finish()
 
 
 def save_metrics(args):

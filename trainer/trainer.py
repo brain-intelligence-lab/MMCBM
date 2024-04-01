@@ -174,7 +174,7 @@ class Epoch:
                 loss = self.criterion(pre, label)
 
         if self.batch_loggers:
-            log, pre = self.batch_loggers[modality].run(pre, label, f_name, loss, self.stage_name)
+            log, pre = self.batch_loggers[modality].run(pre, label, f_name, loss, self.stage_name, self.epoch)
             logs.update({f'{modality}_{self.stage_name}_{k}': v for k, v in log.items()})
         return pre
 
@@ -303,7 +303,7 @@ class ConceptEpoch(Epoch):
                     pre = self.model.forward(inp, modality)
                     loss = self.criterion(pre, label)
         if self.batch_loggers:
-            log, pre = self.batch_loggers[modality].run(pre, label, f_name, loss, self.stage_name)
+            log, pre = self.batch_loggers[modality].run(pre, label, f_name, loss, self.stage_name, self.epoch)
             logs.update({f'{modality}_{self.stage_name}_{k}': v for k, v in log.items()})
         return pre
 

@@ -37,6 +37,9 @@ class TensorboardLogs:
         from torch.utils.tensorboard import SummaryWriter
         self.writer = SummaryWriter(dir_path)
 
+    def add_image(self):
+        pass
+
 
 class JsonLogs:
     def __init__(self, dir_path, file_name='args.json'):

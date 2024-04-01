@@ -11,7 +11,6 @@ import concurrent.futures
 
 from tqdm import tqdm
 from inference.init_model import get_name
-from params import get_args
 
 # python execute_concept.py -cbm m2 --clip_name cav --cbm_location report_strict -act sigmoid -aow
 parser = argparse.ArgumentParser()
@@ -25,7 +24,6 @@ parser.add_argument('--report_shot', '-rs', type=float, default=1.0)
 parser.add_argument('--lr', type=float, default=1e-3)
 parser.add_argument('--fold', '-f', type=str, default=None)
 parser.add_argument('--exclude', '-exc', action='store_true', default=False)
-parser.add_argument('--add', action='store_false', default=True)
 parser.add_argument('--activation', '-act', default=None, type=str, help='sigmoid, softmax')
 parser.add_argument('--backbone', default='SCLS_attnscls_CrossEntropy_32', type=str, help='sigmoid, softmax')
 parser.add_argument('--backbone_fold', '-bf', type=int, default=-1)
@@ -95,8 +93,6 @@ def run_command(command):
     out, err = process.communicate()
     if process.returncode == 0:
         print(f'Process {process.pid} execute successfully')
-        # print(f'进程 {process.pid} 的标准输出：')
-        # print(out.decode())
     else:
         print(f'Process {process.pid} execute failed')
         print(f'Process {process.pid} Standard error output：')
