@@ -8,7 +8,7 @@
 
 <font size=7><div align='center' >
 [[📖 arXiv Paper](https://arxiv.org/abs/2403.05606)]
-[[📊 Dataset](https://github.com/BradyFU/Video-MME?tab=readme-ov-file#-dataset)]
+[[📊 Dataset](https://drive.google.com/drive/folders/1YwDhqC_M9ACBnGjn_8IZouWHgJx1ue5Q?usp=drive_link)]
 [[🌟 Demo](https://mmcbm.liuy.site)] </div></font>
 
 ---
