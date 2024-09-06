@@ -38,7 +38,7 @@ def get_args():
     parser.add_argument('--test', action='store_true', default=False)
     parser.add_argument('--no_data_aug', action='store_true', default=False)
     parser.add_argument("--idx", default=None, type=int)
-    parser.add_argument("--bidx", default=120, type=int)
+    parser.add_argument("--bidx", default=180, type=int)
     parser.add_argument("--seed", default=42, type=int)
     parser.add_argument('--ignore', action='store_true', default=False)
     parser.add_argument('--infer', action='store_true', default=False)

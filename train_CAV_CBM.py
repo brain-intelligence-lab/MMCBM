@@ -67,26 +67,14 @@ def get_args(args) -> argparse.Namespace:
     # args.clip_name = 'clip_ViT-L/14'
     args.cbm_model = 'b0'
     args.modality = 'MM'
-    # args.name = 'MMCBM_2'
     args.fusion = 'max'
     args.cbm_location = 'report_strict'
-    # args.mark = f'{args.cbm_location}'
-    # args.infer = True
-    # args.resume = True
-    # args.test_only = True
-    # args.idx = 130
     args.analysis_top_k = 15
-    # args.test = False
     args.activation = 'sigmoid'
     args.act_on_weight = True
     args.num_worker = 2
     # args.backbone = 'Efficientb0_SCLS_TestOnly/fold_0'
     ##################### debug #####################
-    # if 'clip' in args.clip_name:
-    #     args.dir_name = 'CLip'
-    # else:
-    #     args.dir_name = f'CAV'
-    # args.dir_name = args.clip_name.upper()
     args.metrics = [
         Accuracy(),
         Precision(),
