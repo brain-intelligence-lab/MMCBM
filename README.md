@@ -13,13 +13,20 @@
 
 ---
 ## 🔥 News
-* **`2024.09.06`** 🌟 We have open-sourced our dataset *`CTIs: the largest `*.
+* **`2024.09.06`** 🌟 We have open-sourced our dataset *`CTIs: the largest dataset on Asians to date on choroid neoplasm imaging `*.
 * **`2024.09.05`** 🌟 We have submitted our paper to Nature Communications. The paper is under review.
 * **`2024.06.03`** 🌟 We have open-sourced the checkpoint of **MMCBM**.
 
+
 ---
 ## 👀 Introduction
-This is the official repository for **MMCBM: A Concept-based Interpretable Model for the Diagnosis of Choroid Neoplasias using Multimodal Data**
+This is the official repository for **A Concept-based Interpretable Model for the Diagnosis of Choroid Neoplasias using Multimodal Data**
+This study introduces a multimodal concept-based interpretable model (MMCBM) tailored to distinguish uveal melanoma 
+(0.4-0.6 per million in Asians) from hemangioma and metastatic carcinoma following the clinical practise. We collected 
+the largest dataset on Asians to date on choroid neoplasm imaging, encompassing over 750 patients from 2013 to 2019. 
+Our model integrates domain expert insights from radiological reports and differentiates between three types of choroidal 
+tumors, achieving an $F_1$ score of 0.91.
+
 ![model](images/Fig1_v2.png)
 
 
@@ -29,6 +36,7 @@ we built the Choroid Tri-Modal Imaging (CTI) dataset, an anonymized, multimodal,
 and annotated collection of medical images from Beijing Tongren Hospital encompassing Fluorescence Angiography (FA), 
 Indocyanine Green Angiography (ICGA), and Ocular Ultrasound (US) images. 
 The construction of this dataset was approved by the Ethics Committee of Beijing Tongren Hospital.
+
 **License**:
 ```
 CTI dataset is only used for academic research. Commercial use in any form is prohibited.
@@ -92,11 +100,16 @@ For five-fold cross-validation, you can run the following command in the termina
    python web_interface.py
    ```
    then open the browser and enter `http://127.0.0.1:7860/` to access the website.
-3. you can also build the docker image and run it:
-   ```bash
-   docker build -t mmcbm .
-   docker run --name mmcbm -p 7860:7860 mmcbm
-   ```
+
+3. We also provide a human evaluation website, used for doctors to diagnose the disease based on the model's prediction.
+   + For blackbox model:
+       ```bash
+       python web_human_blackbox_evaluation.py
+       ```
+   + For MMCBM model:
+       ```bash
+       python web_human_mmcbm_evaluation.py
+       ```
    then open the browser and enter `http://127.0.0.1:7890` to access the website.
 
 📍**Command Line :**
@@ -112,10 +125,13 @@ Command Line without Gradio. We also provide a bash script to run the model infe
 If you find our work helpful for your research, please consider citing our work.   
 
 ```bibtex
-@article{fu2024video,
-  title={Video-MME: The First-Ever Comprehensive Evaluation Benchmark of Multi-modal LLMs in Video Analysis},
-  author={Fu, Chaoyou and Dai, Yuhan and Luo, Yondong and Li, Lei and Ren, Shuhuai and Zhang, Renrui and Wang, Zihan and Zhou, Chenyu and Shen, Yunhang and Zhang, Mengdan and others},
-  journal={arXiv preprint arXiv:2405.21075},
-  year={2024}
+@misc{wu2024conceptbasedinterpretablemodeldiagnosis,
+      title={A Concept-based Interpretable Model for the Diagnosis of Choroid Neoplasias using Multimodal Data}, 
+      author={Yifan Wu and Yang Liu and Yue Yang and Michael S. Yao and Wenli Yang and Xuehui Shi and Lihong Yang and Dongjun Li and Yueming Liu and James C. Gee and Xuan Yang and Wenbin Wei and Shi Gu},
+      year={2024},
+      eprint={2403.05606},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2403.05606}, 
 }
 ```
