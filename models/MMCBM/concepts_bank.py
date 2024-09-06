@@ -43,24 +43,27 @@ def report_to_concept(data_df, report_path, exclude_data_path=None, report_shot=
 
     for _, raw in report.iterrows():
         concept = raw['concept']
+        pathology = raw['pathology']
         imgs = data_df[
             (data_df['name'] == raw['name']) &
             (data_df['modality'] == raw['modality'])].to_dict('records')
         if '期' in raw['time'] and raw['modality'] != 'US':
             if '晚' in raw['time']:
                 concepts.extend(
-                    [{'concept': raw['time'] + concept, 'path': d['path'], 'modality': d['modality']} for d in
-                     imgs if d['type'] in ['later']])
+                    [{'pathology': pathology, 'concept': raw['time'] + concept, 'path': d['path'],
+                      'modality': d['modality']} for d in
+                     imgs if d['stage'] in ['later']])
             elif '中' in raw['time']:
                 pass
             else:
                 concepts.extend(
-                    [{'concept': raw['time'] + concept, 'path': d['path'], 'modality': d['modality']} for d in
-                     imgs if d['type'] in ['early', 'middle']])
+                    [{'pathology': pathology, 'concept': raw['time'] + concept, 'path': d['path'],
+                      'modality': d['modality']} for d in
+                     imgs if d['stage'] in ['early', 'middle']])
         else:
             concepts.extend(
-                [{'concept': concept, 'path': img['path'], 'modality': img['modality']} for img in
-                 imgs])
+                [{'pathology': pathology, 'concept': concept, 'path': img['path'], 'modality': img['modality']} for img
+                 in imgs])
     return pd.DataFrame(concepts)
 
 
@@ -88,16 +91,17 @@ class ConceptsLoader:
         def flatten(x):
             pathology = x['pathology']
             path = x['path']
-            type = x['type']
+            stage = x['stage']
             for modality, path in path.items():
                 for idx in range(len(path)):
                     dfs.append(
-                        {'path': path[idx], 'name': x['name'], 'pathology': pathology, 'type': type[modality][idx],
+                        {'path': path[idx], 'name': x['name'], 'pathology': pathology, 'stage': stage[modality][idx],
                          'modality': modality})
             return None
 
         pd.read_csv(f'{data_info["csv_path"]}/DATA_Cleaned.csv').agg(
-            lambda x: x.map(literal_eval) if '{' in str(x.iloc[0]) else x)[['path', 'name', 'pathology', 'type']].apply(
+            lambda x: x.map(literal_eval) if '{' in str(x.iloc[0]) else x)[
+            ['path', 'name', 'pathology', 'stage']].apply(
             flatten, axis=1)
         self.data_df = pd.DataFrame(dfs)
         self.backbone = backbone
@@ -118,18 +122,11 @@ class ConceptsLoader:
                                          exclude_data_path=self.exclude_data_path,
                                          report_shot=self.report_shot)
             self.concepts = self.translate(pd.DataFrame(concepts), o_path)
-        elif 'human' in self.location and 'clean' not in self.location:
-            o_path = f'CSV/concept/human_concepts_map.csv'
-            human_concept = pd.read_csv(o_path).fillna('')
-            self.concepts = self.translate(human_concept.loc[human_concept['report'] == True], o_path)
         elif 'human' in self.location and 'clean' in self.location:
             o_path = f'CSV/concept/human_patient_concepts_map.csv'
             human_concept = pd.read_csv(o_path).fillna('')
             human_concept['concept'] = human_concept['time'] + human_concept['concept']
             self.concepts = self.translate(human_concept.loc[human_concept['report'] == True], o_path)
-        elif 'human' in self.location and 'report' in self.location:
-            o_path = 'CSV/concept/human_report_concepts_map.csv'
-            self.concepts = self.translate(pd.read_csv(o_path).fillna(''), o_path)
         else:
             raise ValueError(f"Unknown location {self.location}")
         self.concepts['concept'] = self.concepts['modality'] + ', ' + self.concepts['concept']
@@ -141,7 +138,6 @@ class ConceptsLoader:
         self.concepts.to_csv(file_path, index=False)
 
     def get_concepts(self):
-        self.concepts['pathology'] = self.concepts['path'].apply(lambda x: x.split('/')[1])
         return self.concepts[['concept', 'pathology', 'modality']].drop_duplicates()
 
     def translate(self, df, o_path):
@@ -160,9 +156,9 @@ class ConceptsLoader:
     def get_pos_neg_images(self, concept):
         if 'report' in self.location or 'human' in self.location:
             if 'strict' in self.location:
-                pos_images = self.concepts[self.concepts['concept'] == concept][['path', 'latent']]
+                pos_images = self.concepts[self.concepts['concept'] == concept][['path', 'pathology', 'latent']]
                 neg_images = self.concepts[~self.concepts['path'].isin(pos_images['path'])][
-                    ['path', 'latent']]
+                    ['path', 'pathology', 'latent']]
                 pos_images = pos_images.to_dict('records')
                 neg_images = neg_images.loc[neg_images['path'].drop_duplicates().index].to_dict('records')
             else:
@@ -171,9 +167,9 @@ class ConceptsLoader:
         else:
             pos_modality = self.concepts[self.concepts['concept'] == concept].iloc[0]['modality']
             pos_images = self.data_df[(self.data_df['modality'] == pos_modality)][
-                ['path', 'modality']].to_dict('records')
+                ['path', 'pathology', 'modality']].to_dict('records')
             neg_images = self.data_df[(self.data_df['modality'] != pos_modality)][
-                ['path', 'modality']].to_dict('records')
+                ['path', 'pathology', 'modality']].to_dict('records')
         return pos_images, neg_images
 
     def init_pos_neg_concepts_loader(self, n_samples, neg_samples):
@@ -336,7 +332,7 @@ class ConceptsLearner:
         cls = torch.zeros(3)
         for data in tqdm(loader):
             activations.append(data['latent'])
-            cls[pathology_labels[data['path'].split('/')[1]]] = 1
+            cls[pathology_labels[data['pathology']]] = 1
         activations = np.concatenate(activations, axis=0)
         return activations, cls
 

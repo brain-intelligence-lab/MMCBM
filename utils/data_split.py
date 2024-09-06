@@ -90,7 +90,7 @@ class DataSplit:
         if os.path.exists(path):
             if self.print_info:
                 PrintColor(f'load {name} from {path}', color='green')
-            df = pd.read_csv(path).agg(
+            df = pd.read_csv(path, dtype=str).agg(
                 lambda x: x.map(literal_eval) if '{' in str(x.iloc[0]) else x)
 
             def del_modality(x):
