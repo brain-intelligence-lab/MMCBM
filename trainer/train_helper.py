@@ -91,7 +91,6 @@ class BatchLogger:
         self.metrics_logger = metrics_logger
         self.pred_logger = pred_logger
         self.wandb = wandb
-        import wandb
         self.wanbd_table = []
 
     def init(self):
@@ -263,7 +262,7 @@ class TrainHelper:
     def __init__(self, args, model, optimizer):
         self.args = args
         self.model = model
-        self.optimizer = PolyOptimizer(optimizer, self.args.epochs)
+        self.optimizer = PolyOptimizer(optimizer, self.args.epochs) if optimizer is not None else None
 
         if self.args.wandb:
             import wandb
@@ -271,7 +270,6 @@ class TrainHelper:
             wandb.init(project=self.args.dir_name.split('/')[0], reinit=True,
                        config=self.args, name='_'.join(self.args.dir_name.split('/')[1:]))
             wandb.watch(self.model, self.args.loss, log='all', log_freq=10)
-        JsonLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}')(self.args)
         self.stoppers = EarlyStopping(dir=f'{self.args.output_dir}/{self.args.dir_name}/epoch_stopper',
                                       patience=self.args.patience,
                                       mode=self.args.mode)
@@ -282,16 +280,17 @@ class TrainHelper:
 
         if self.args.resume:
             self.stoppers.load_checkpoint(model=self.model, ignore=self.args.ignore,
-                                          name=f'checkpoint_{self.args.idx}.pth' if self.args.idx else 'MM.pth')
+                                          name=f'checkpoint_{self.args.idx}.pth' if self.args.idx is not None else 'MM.pth',
+                                          strict=True)
         self.model.to(device=self.args.device)
         self.loaders = get_loaders_from_args(self.args)
-        if self.args.infer:
-            self.pred_logger = None
-            self.metrics_logger = None
-        else:
+        self.pred_logger = None
+        self.metrics_logger = None
+        if not self.args.infer:
             # output parameters
-            self.pred_logger = CSVLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}',
-                                       file_name=f'pred_output')
+            # self.pred_logger = CSVLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}',
+            #                            file_name=f'pred_output')
+
             self.metrics_logger = CSVLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}',
                                           file_name=f'metrics_output')
 
@@ -300,6 +299,28 @@ class TrainHelper:
 
     def get_epochs(self, logger):
         raise NotImplementedError
+
+    @torch.no_grad()
+    def test(self, dir_path=None, filename=None):
+        if filename is not None:
+            filename = f'output_test_{self.args.idx}_{filename}'
+        else:
+            filename = f'output_test_{self.args.idx}'
+        if self.pred_logger is not None:
+            self.pred_logger.filename(f'pred_{filename}', dir_path=dir_path)
+        if self.metrics_logger is not None:
+            self.metrics_logger.filename(f'metrics_{filename}', dir_path=dir_path)
+        validepoch, testepoch = self.get_epochs(None)[1:]
+        val_loader, test_loader = self.loaders[1:]
+        # start epoch
+        validepoch(val_loader)
+        validepoch.finish()
+        testepoch(test_loader)
+        testepoch.finish()
+
+        if self.pred_logger is not None:
+            self.pred_logger.output_error_name()
+        return self.metrics_logger.dataframe()
 
     def start_train(self):
         """
@@ -310,9 +331,13 @@ class TrainHelper:
         if self.args.infer:
             return self.infer()
 
+        if self.args.test:
+            return self.test()
+
         if self.args.epochs > 0 and not self.args.plot_curve:
             self.train()
-            self.pred_logger.output_error_name()
+            if self.pred_logger is not None:
+                self.pred_logger.output_error_name()
 
         if self.args.plot_curve or self.args.epochs > 0:
             save_metrics(self.args)
@@ -320,17 +345,13 @@ class TrainHelper:
                        split='stage_name')
             plot_curve(f'{self.args.output_dir}/{self.args.dir_name}', self.metrics_logger, hue='stage_name',
                        split='modality')
-            plot_confusion_matrix(f'{self.args.output_dir}/{self.args.dir_name}', csv_logger=self.pred_logger,
-                                  stage_name='valid', prognosis=self.args.prognosis)
-            plot_confusion_matrix(f'{self.args.output_dir}/{self.args.dir_name}', csv_logger=self.pred_logger,
-                                  stage_name='test', prognosis=self.args.prognosis)
-            # plot_roc_curve(f'{args.output_dir}/{args.dir_name}', pred_logger)
 
         if self.args.wandb:
             import wandb
             wandb.finish()
 
     def train(self):
+        JsonLogs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}')(self.args)
         logger = Logs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}', file_name='param')
 
         for key, value in self.args.__dict__.items():
@@ -338,6 +359,13 @@ class TrainHelper:
         logger = Logs(dir_path=f'{self.args.output_dir}/{self.args.dir_name}', file_name='print')
         trainepoch, validepoch, testepoch = self.get_epochs(logger)
         train_loader, val_loader, test_loader = self.loaders
+        if self.args.cache_data:
+            train_loader.cache_data(backbone=self.args.concept_bank, device=self.args.device,
+                                    dir_path=f'{self.args.output_dir}/{self.args.dir_name}/CacheData')
+            val_loader.cache_data(backbone=self.args.concept_bank, device=self.args.device,
+                                  dir_path=f'{self.args.output_dir}/{self.args.dir_name}/CacheData')
+            test_loader.cache_data(backbone=self.args.concept_bank, device=self.args.device,
+                                   dir_path=f'{self.args.output_dir}/{self.args.dir_name}/CacheData')
 
         if self.args.plot:
             print('plotting')

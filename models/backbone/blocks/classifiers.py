@@ -11,7 +11,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 from .transformer import MergeLinearAttention, LinearSelfAttention, SelfAttentionPooling
-from collections import OrderedDict
 
 
 class Classifier(nn.Module):
@@ -31,31 +30,6 @@ class Classifier(nn.Module):
         #     ('out', nn.Linear(128, out_features)),
         # ]))
         self.classifier = nn.Linear(in_features, out_features)
-
-    def forward(self, *x):
-        if self.multi and self.attn is not None:
-            x = self.attn(*x)
-        else:
-            x = torch.cat(x, dim=-1)
-        return self.classifier(x)
-
-
-class PrognosisClassifier(nn.Module):
-    def __init__(self, in_features, out_features, num_layers=1, attn=True):
-        super(PrognosisClassifier, self).__init__()
-        self.attn = None
-        self.multi = num_layers > 1
-        if num_layers > 1:
-            if attn:
-                self.attn = MergeLinearAttention(in_features=in_features, num_layers=num_layers)
-            else:
-                in_features = in_features * num_layers
-
-        self.classifier = nn.Sequential(OrderedDict([
-            ('mlp', nn.Linear(in_features, 128)),
-            ('relu', nn.LeakyReLU(.2, inplace=True)),
-            ('out', nn.Linear(128, out_features)),
-        ]))
 
     def forward(self, *x):
         if self.multi and self.attn is not None:
@@ -267,34 +241,4 @@ class MMDictClassifier(nn.Module):
         if hasattr(self, 'rnn'):
             x = self.rnn(x)[0][:, -1]
         x = self.relu(x)
-        return self.classifiers[modality](x)
-
-
-class MMFusionClassifier(nn.Module):
-    def __init__(self, in_features, out_features, num_layers, reduction=8, mask_prob=0):
-        super().__init__()
-        self.classifiers = nn.ModuleDict({
-            modality: RNNClassifier(in_features=in_features, out_features=out_features,
-                                    num_layers=num_layers if modality != 'US' else 0,
-                                    reduction=reduction)
-            for modality in ['FA', 'ICGA', 'US', 'MM']
-        })
-        self.R = np.random.RandomState()
-        self.mask_prob = mask_prob
-
-    def __getitem__(self, item):
-        return self.classifiers[item]
-
-    def do(self):
-        return self.R.rand() < self.mask_prob
-
-    def random_shuffle(self, x: list):
-        if self.do():
-            np.random.shuffle(x)
-        return x
-
-    def forward(self, x: dict, modality=None):
-        if len(x) > 1:
-            return self.classifiers['MM'](x)
-        modality = list(x.keys())[0]
         return self.classifiers[modality](x)

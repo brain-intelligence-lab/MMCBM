@@ -4,6 +4,7 @@
 @github :   https://github.com/ly1998117/MMCBM
 @Contact :  liu.yang.mine@gmail.com
 """
+import pandas as pd
 
 from utils.logger import char_color, CSVLogs, MarkDownLogs
 from trainer.trainer import ConceptEpoch
@@ -42,7 +43,7 @@ class TrainHelperMMCBM(TrainHelper):
             batch_loggers=batch_loggers,
             plot_fn=ActPlot(dir=f'{args.output_dir}/{args.dir_name}') if args.plot else None,
             concept_bank=args.concept_bank,
-            pre_embeddings=args.pre_embeddings
+            pre_embeddings=args.pre_embeddings and not args.cache_data
         )
         validepoch = ConceptEpoch(
             model=self.model,
@@ -53,7 +54,7 @@ class TrainHelperMMCBM(TrainHelper):
             batch_loggers=batch_loggers,
             plot_fn=ActPlot(dir=f'{args.output_dir}/{args.dir_name}') if args.plot else None,
             concept_bank=args.concept_bank,
-            pre_embeddings=args.pre_embeddings
+            pre_embeddings=args.pre_embeddings and not args.cache_data
         )
         testepoch = ConceptEpoch(
             model=self.model,
@@ -64,14 +65,14 @@ class TrainHelperMMCBM(TrainHelper):
             batch_loggers=batch_loggers,
             plot_fn=ActPlot(dir=f'{args.output_dir}/{args.dir_name}') if args.plot else None,
             concept_bank=args.concept_bank,
-            pre_embeddings=args.pre_embeddings
+            pre_embeddings=args.pre_embeddings and not args.cache_data
         )
         return trainepoch, validepoch, testepoch
 
     def infer(self):
         args = self.args
-        train_loader, val_loader, test_loader = self.loaders
-        md_logger = MarkDownLogs(dir_path=f'{args.output_dir}/{args.dir_name}')
+        val_loader, test_loader = self.loaders[1:]
+        # md_logger = MarkDownLogs(dir_path=f'{args.output_dir}/{args.dir_name}')
 
         csv_logger = CSVLogs(dir_path=f'{args.output_dir}/{args.dir_name}',
                              file_name=f'predict_concepts_{args.analysis_top_k}_{args.analysis_threshold}')
@@ -91,8 +92,14 @@ class TrainHelperMMCBM(TrainHelper):
         # start epoch
         # infer_epoch(train_loader)
         # infer_epoch(val_loader)
+        infer_epoch(val_loader)
+        vd = infer_epoch.get_analysis()
+        vd['stage'] = 'valid'
 
-        if not test_loader.empty():
-            infer_epoch(test_loader)
-        csv_logger(infer_epoch.get_analysis())
-        infer_epoch.generate_report(md_logger, modality='MM')
+        infer_epoch.analysis = []
+        infer_epoch(test_loader)
+        td = infer_epoch.get_analysis()
+        td['stage'] = 'test'
+        df = pd.concat([vd, td], axis=0)
+        csv_logger(df)
+        # infer_epoch.generate_report(md_logger, modality='MM')

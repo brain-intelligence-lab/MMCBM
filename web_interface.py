@@ -20,7 +20,7 @@ github = """
                 </div>
            """
 texts = [
-    {'en': '# MMCBM Interface', 'cn': '# MMCBM界面'},
+    {'en': '# MMCBM_2 Interface', 'cn': '# MMCBM界面'},
     {'en': "### Prediction: Upload Fundus Images, Click Predict button to get the Top-10 concepts and prediction. \n"
            "### Intervention: After adjusting the sliders, "
            "click the 'Intervention' button to update the prediction.",
@@ -114,106 +114,112 @@ with gr.Blocks() as demo:
     with gr.Row():
         with gr.Column(scale=10):
             title = gr.Markdown(texts[0][language.value])
+            desc = gr.Markdown(texts[1][language.value])
+
         with gr.Column(scale=1):
             link = gr.Markdown(texts[5][language.value])
-    with gr.Row():
-        with gr.Column(scale=5):
-            desc = gr.Markdown(texts[1][language.value])
-        with gr.Column(scale=1, min_width=1):
-            top_k_drop = gr.Dropdown(value=top_k.value, label="Top-K Concepts",
-                                     choices=[i for i in range(5, max_k + 1, 5)],
-                                     multiselect=False,
-                                     min_width=1)
-            top_k_drop.change(fn=top_k.fn, inputs=top_k_drop, outputs=top_k())
-        with gr.Column(scale=1, min_width=1):
-            bottom_k_drop = gr.Dropdown(value=bottom_k.value, label="Bottom-K Concepts",
-                                        choices=[i for i in range(5, max_k + 1, 5)], multiselect=False,
-                                        min_width=1)
-            bottom_k_drop.change(fn=lambda x: x, inputs=bottom_k_drop, outputs=bottom_k())
-        with gr.Column(scale=1, min_width=1):
-            lan = gr.Dropdown(label="Language", value=language.value,
-                              choices=["en", "cn"], elem_id="language",
-                              multiselect=False,
-                              min_width=1)
-            lan.change(update_texts, inputs=lan, outputs=[title, desc, btn_predict, btn_intervene, btn_report]).then(
-                fn=language.fn, inputs=lan, outputs=language()
-            )
-    with gr.Row():
-        with gr.Accordion("Image Examples, Click to apply", open=True, elem_id="input-panel"):
-            gr.Examples(
-                # examples=predict.get_test_data(num_of_each_pathology=1, mask=False,
-                #                                names=patients),
-                examples=predict.get_test_data(dir_path='images/examples'),
-                inputs=[name, pathology, fa_e, fa_m, fa_l, icga_e, icga_m, icga_l, us],  # type: ignore
-                outputs=None,  # type: ignore
-                label=None,
-                examples_per_page=4,
-            )
 
-    with gr.Row(equal_height=True):
-        with gr.Column(scale=2, min_width=160):
-            with gr.Accordion("Different modal images, please click to upload.", open=True, elem_id="input-panel"):
-                with gr.Row(equal_height=True):
-                    name.render()
-                    pathology.render()
-                with gr.Row(equal_height=True):
-                    fa_e_label.render()
-                    fa_m_label.render()
-                    fa_l_label.render()
+    with gr.Tabs() as tabs:
+        with gr.TabItem("Data", id=0):
+            pass
+        with gr.TabItem("Intervention", id=1):
+            with gr.Row():
+                with gr.Column(scale=1, min_width=1):
+                    top_k_drop = gr.Dropdown(value=top_k.value, label="Top-K Concepts",
+                                             choices=[i for i in range(5, max_k + 1, 5)],
+                                             multiselect=False,
+                                             min_width=1)
+                    top_k_drop.change(fn=top_k.fn, inputs=top_k_drop, outputs=top_k())
+                with gr.Column(scale=1, min_width=1):
+                    bottom_k_drop = gr.Dropdown(value=bottom_k.value, label="Bottom-K Concepts",
+                                                choices=[i for i in range(5, max_k + 1, 5)], multiselect=False,
+                                                min_width=1)
+                    bottom_k_drop.change(fn=lambda x: x, inputs=bottom_k_drop, outputs=bottom_k())
+                with gr.Column(scale=1, min_width=1):
+                    lan = gr.Dropdown(label="Language", value=language.value,
+                                      choices=["en", "cn"], elem_id="language",
+                                      multiselect=False,
+                                      min_width=1)
+                    lan.change(update_texts, inputs=lan, outputs=[title, desc, btn_predict, btn_intervene, btn_report]).then(
+                        fn=language.fn, inputs=lan, outputs=language()
+                    )
+            with gr.Row():
+                with gr.Accordion("Image Examples, Click to apply", open=True, elem_id="input-panel"):
+                    gr.Examples(
+                        # examples=predict.get_test_data(num_of_each_pathology=1, mask=False,
+                        #                                names=patients),
+                        examples=predict.get_test_data(dir_path='images/examples'),
+                        inputs=[name, pathology, fa_e, fa_m, fa_l, icga_e, icga_m, icga_l, us],  # type: ignore
+                        outputs=None,  # type: ignore
+                        label=None,
+                        examples_per_page=4,
+                    )
 
-                with gr.Row(equal_height=True):
-                    fa_e.render()
-                    fa_m.render()
-                    fa_l.render()
-                with gr.Row(equal_height=True):
-                    icga_e_label.render()
-                    icga_m_label.render()
-                    icga_l_label.render()
 
-                with gr.Row(equal_height=True):
-                    icga_e.render()
-                    icga_m.render()
-                    icga_l.render()
-                with gr.Row(equal_height=True):
-                    us_label.render()
-                with gr.Row(equal_height=True):
-                    us.render()
-                with gr.Row():
-                    gr.ClearButton([fa_e, fa_m, fa_l], value="Clear FA", min_width=1)
-                    gr.ClearButton([icga_e, icga_m, icga_l], value="Clear ICGA", min_width=1)
-                    gr.ClearButton([us], value="Clear US", min_width=1)
-                with gr.Row():
-                    gr.ClearButton([fa_e, fa_m, fa_l, icga_e, icga_m, icga_l, us], value="Clear All")
-        with gr.Column(scale=2, min_width=160):
-            with gr.Accordion("Top-K", open=True):
-                sliders = [gr.Slider(step=0.01, label=None) if i < top_k.value
-                           else gr.Slider(step=0.01, label=None, visible=False) for i in range(max_k)]
-        with gr.Column(scale=2, min_width=160):
-            with gr.Accordion("Bottom-K", open=True):
-                bottom_sliders = [gr.Slider(step=0.01, label=None) if i < bottom_k.value
-                                  else gr.Slider(step=0.01, label=None, visible=False) for i in range(max_k)]
+            with gr.Row(equal_height=True):
+                with gr.Column(scale=2, min_width=160):
+                    with gr.Accordion("Different modal images, please click to upload.", open=True, elem_id="input-panel"):
+                        with gr.Row(equal_height=True):
+                            name.render()
+                            pathology.render()
+                        with gr.Row(equal_height=True):
+                            fa_e_label.render()
+                            fa_m_label.render()
+                            fa_l_label.render()
 
-        with gr.Column(scale=3, min_width=160):
-            with gr.Accordion("Output", open=True, elem_id="output-panel"):
-                with gr.Row():
-                    label = gr.Label(num_top_classes=3)
-                with gr.Row():
-                    chatbot = gr.Chatbot(label=f"Current Model：ChatGPT-3.5", elem_id="gpt-chatbot", layout='panel')
-                with gr.Row():
-                    download = gr.File(label="Download")
-                with gr.Row():
-                    btn_predict.render()
-                    btn_intervene.render()
-                    btn_report.render()
-                    clear = gr.ClearButton([chatbot, *sliders, *bottom_sliders, label, download])
-    with gr.Row():
-        plot = gr.BarPlot(show_label=False)
-        clear.add(plot)
+                        with gr.Row(equal_height=True):
+                            fa_e.render()
+                            fa_m.render()
+                            fa_l.render()
+                        with gr.Row(equal_height=True):
+                            icga_e_label.render()
+                            icga_m_label.render()
+                            icga_l_label.render()
+
+                        with gr.Row(equal_height=True):
+                            icga_e.render()
+                            icga_m.render()
+                            icga_l.render()
+                        with gr.Row(equal_height=True):
+                            us_label.render()
+                        with gr.Row(equal_height=True):
+                            us.render()
+                        with gr.Row():
+                            gr.ClearButton([fa_e, fa_m, fa_l], value="Clear FA", min_width=1)
+                            gr.ClearButton([icga_e, icga_m, icga_l], value="Clear ICGA", min_width=1)
+                            gr.ClearButton([us], value="Clear US", min_width=1)
+                        with gr.Row():
+                            gr.ClearButton([fa_e, fa_m, fa_l, icga_e, icga_m, icga_l, us], value="Clear All")
+                with gr.Column(scale=2, min_width=160):
+                    with gr.Accordion("Top-K", open=True):
+                        sliders = [gr.Slider(step=0.01, label=None) if i < top_k.value
+                                   else gr.Slider(step=0.01, label=None, visible=False) for i in range(max_k)]
+                with gr.Column(scale=2, min_width=160):
+                    with gr.Accordion("Bottom-K", open=True):
+                        bottom_sliders = [gr.Slider(step=0.01, label=None) if i < bottom_k.value
+                                          else gr.Slider(step=0.01, label=None, visible=False) for i in range(max_k)]
+
+                with gr.Column(scale=3, min_width=160):
+                    with gr.Accordion("Output", open=True, elem_id="output-panel"):
+                        with gr.Row():
+                            label = gr.Label(num_top_classes=3)
+                        with gr.Row():
+                            chatbot = gr.Chatbot(label=f"Current Model：ChatGPT-3.5", elem_id="gpt-chatbot", layout='panel')
+                        with gr.Row():
+                            download = gr.File(label="Download")
+                        with gr.Row():
+                            btn_predict.render()
+                            btn_intervene.render()
+                            btn_report.render()
+                            clear = gr.ClearButton([chatbot, *sliders, *bottom_sliders, label, download])
+            with gr.Row():
+                plot = gr.BarPlot(show_label=False)
+                clear.add(plot)
 
     predict.set_topk_sliders(sliders)
     predict.set_bottomk_sliders(bottom_sliders)
     btn_predict.click(fn=predict.predict_topk_concept,
-                      inputs=[name, pathology, fa_e, fa_m, fa_l, icga_e, icga_m, icga_l, us, top_k(), language()],
+                      inputs=[name, fa_e, fa_m, fa_l, icga_e, icga_m, icga_l, us, top_k(), language()],
                       outputs=sliders).then(
         fn=predict.predict_bottomk_concept,
         inputs=bottom_k(),

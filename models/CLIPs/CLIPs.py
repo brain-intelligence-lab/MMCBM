@@ -65,7 +65,7 @@ class Clip(BaseCLIP):
     def __init__(self, device, clip_name, download_root):
         self.device = device
         from clip import clip
-        self.model, self._transforms = clip.load(name=clip_name.split('_')[1], device=self.device,
+        self.model, self._transforms = clip.load(name=clip_name.split('_')[-1], device=self.device,
                                                  download_root=download_root)
         self.model.to(self.device)
         self.tokenizer = lambda c: clip.tokenize(f"{c}").to(self.device)
@@ -82,8 +82,35 @@ class Clip(BaseCLIP):
         return text_features
 
     def _encode_image(self, image):
-        embedding = self.model.encode_image(image)
+        embedding = self.model.encode_image(image).type(torch.float32)
         embedding /= embedding.norm(dim=1, keepdim=True)
+        return embedding
+
+
+class OpenClip(BaseCLIP):
+    def __init__(self, device, clip_name, normalize=True):
+        self.device = device
+        import open_clip
+        clip_name = clip_name.split('_')[1]
+        self.model, _, self._transforms = open_clip.create_model_and_transforms(
+            model_name=clip_name,
+            pretrained='clip_concepts_saved/clip-vit-L-14.pt')
+        self.model.to(self.device)
+        self.tokenizer = open_clip.get_tokenizer(model_name=clip_name)
+        self.logit_scale = 100.0
+        self.normalize = normalize
+
+    @property
+    def transforms(self):
+        return clip_transforms(self._transforms)
+
+    def encode_text(self, text=None):
+        text = self.tokenizer(text).to(self.device)
+        text_features = self.model.encode_text(text, normalize=self.normalize)
+        return text_features
+
+    def _encode_image(self, image):
+        embedding = self.model.encode_image(image, normalize=self.normalize).type(torch.float32)
         return embedding
 
 

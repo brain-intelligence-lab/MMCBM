@@ -104,8 +104,6 @@ def init_model(k, cs=1, seed=32, cbm_location='report', cbm_model='m2', device='
     def get_args(args):
         # enabling cudnn determinism appears to speed up training by a lot
         args.down_sample = False
-        args.prognosis = False
-        # save_name = 'Model'
         args.bias = bias
         args.init_method = init_method
         args.clip_name = clip_name
@@ -192,7 +190,7 @@ def init_model_json(json_path, k=None, resume_epoch=180, **kwargs):
 
     json_path = Path(json_path)
     # update kwargs to ignore_keys
-    kwargs.update({'idx': 180, 'output_dir': json_path.parents[-2]})
+    kwargs.update({'output_dir': json_path.parents[-2]})
     ignore_keys = list(kwargs.keys())
 
     args = get_args()
@@ -210,11 +208,12 @@ def init_model_json(json_path, k=None, resume_epoch=180, **kwargs):
     # 加载模型
     set_determinism(args.seed)
     if args.clip_name == 'backbone':
-        from train_efficient_scls import get_model_opti
+        from models import get_backbone
+        model = get_backbone(args)
     else:
         from train_CAV_CBM import get_model_opti
+        model, opti = get_model_opti(args)
 
-    model, opti = get_model_opti(args)
     print(args.dir_name)
     stoppers = EarlyStopping(dir=f'{args.output_dir}/{args.dir_name}/epoch_stopper',
                              patience=args.patience,
@@ -223,8 +222,9 @@ def init_model_json(json_path, k=None, resume_epoch=180, **kwargs):
     make_dirs(f'{args.output_dir}/{args.dir_name}')
     print(char_color(f'Using device {args.device}'))
     print(char_color(f'Using path {args.output_dir}/{args.dir_name}'))
-    stoppers.load_checkpoint(model=model, ignore=args.ignore,
-                             name=f'checkpoint_{resume_epoch}.pth' if args.idx else 'MM.pth')
+    stoppers.load_checkpoint(model=model, ignore=True,
+                             name=f'checkpoint_{resume_epoch}.pth' if args.idx else 'MM.pth',
+                             cp=False)
     model.to(device=args.device)
     model.eval()
     return model, args

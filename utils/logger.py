@@ -8,6 +8,7 @@
 import argparse
 import os
 import json
+import logging
 from ast import literal_eval
 import time
 import pandas as pd
@@ -15,6 +16,28 @@ import pandas as pd
 ########################################################################################
 import numpy as np
 from sklearn.metrics import confusion_matrix
+
+
+class Logger:
+    def __init__(self, dir_path, file_name='logs'):
+        self.dir_path = dir_path
+        self.file_name = file_name
+        self.logs = []
+        self.path = os.path.join(dir_path, f'{file_name}.txt')
+
+    def log(self, text):
+        self.logs.append(text)
+        with open(self.path, 'a+') as f:
+            print(text, file=f)
+
+    def __call__(self, text):
+        self.log(text)
+
+    def __str__(self):
+        return '\n'.join(self.logs)
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class Logs:
@@ -113,6 +136,14 @@ class CSVLogs:
         os.makedirs(self.dir_path, exist_ok=True)
         self.df = pd.DataFrame()
         self.path = os.path.join(self.dir_path, f'{file_name}.csv')
+
+    def filepath(self, filepath):
+        self.path = filepath
+
+    def filename(self, filename, dir_path=None):
+        if dir_path is None:
+            dir_path = self.dir_path
+        self.path = os.path.join(dir_path, f'{filename}.csv')
 
     def cache(self, text):
         try:
@@ -214,3 +245,31 @@ def deepsearch(path, op, n=0):
     except:
         print('ERROR: ', path)
         return
+
+
+class CharColor:
+    color_codes = {
+        'black': '30',
+        'red': '31',
+        'green': '32',
+        'yellow': '33',
+        'blue': '34',
+        'magenta': '35',
+        'cyan': '36',
+        'white': '37'
+    }
+
+    @classmethod
+    def char(cls, s, front=50, color='green'):
+        color_code = cls.color_codes.get(color.lower(), '32')  # 默认为绿色
+        new_char = "\033[0;" + color_code + ";" + str(int(front)) + "m" + s + "\033[0m"
+        return new_char
+
+
+class PrintColor(CharColor):
+    def __init__(self, s, front=50, color='green'):
+        PrintColor.print(s, front=front, color=color)
+
+    @classmethod
+    def print(cls, s, front=50, color='green'):
+        print(super().char(s, front=front, color=color))

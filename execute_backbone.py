@@ -4,70 +4,64 @@
 @github :   https://github.com/ly1998117/MMCBM
 @Contact :  liu.yang.mine@gmail.com
 """
-
+import os
 import subprocess
 import argparse
 import concurrent.futures
-
 from tqdm import tqdm
 
-parser = argparse.ArgumentParser()
+# python execute_concept.py -cbm m2 --clip_name cav --cbm_location report_strict -act sigmoid -aow
+parser = argparse.ArgumentParser(description="Train CAV CBM model.")
 
-parser.add_argument('--device', '-d', type=str, default=None)
-parser.add_argument('--seed', '-s', type=int, default=32)
-parser.add_argument('--epochs', type=int, default=200)
-parser.add_argument('--idx', type=int, default=180)
-parser.add_argument('--lr', type=float, default=1e-4)
-parser.add_argument('--fold', '-f', type=str, default=None)
-parser.add_argument('--fusion', '-fu', type=str, default='pool')
-parser.add_argument('--infer', action='store_true', default=False)
-parser.add_argument('--resume', action='store_true', default=False)
-parser.add_argument('--model', type=str, default='b0')
-parser.add_argument("--modality", default='MM', type=str, help="MRI contrast(default, normal)")
+# 添加命令行参数
+parser.add_argument('--name', type=str, required=True, help='Name of the experiment')
+parser.add_argument('--extra_data', type=str, required=True, help='Extra data description')
+parser.add_argument('--device', type=str, required=True, help='GPU device number')
+parser.add_argument('--bz', type=int, required=True, help='Batch size')
+parser.add_argument('--lr', type=float, required=True, help='Batch size')
+parser.add_argument('--k', type=str, required=True, help='K-fold number')
+parser.add_argument('--model', type=str, default='b0', help='Clip name')
+parser.add_argument('--seed', type=int, default=32, help='Random seed')
+parser.add_argument('--valid_only', action='store_true', help='Only validate the model', default=False)
 
 args = parser.parse_args()
 
-if args.fold is None:
-    args.fold = [0, 1, 2, 3, 4]
-elif isinstance(args.fold, str):
-    args.fold = args.fold.split(',')
-    args.fold = [int(i) for i in args.fold]
+if args.k:
+    args.k = args.k.split(',')
+    args.k = [int(i) for i in args.k]
 else:
-    raise ValueError('fold must be None or str')
+    args.k = [0, 1, 2, 3, 4]
+print(args.k)
 
-if args.device is None:
-    args.device = [0, 1, 2, 3, 4]
-elif isinstance(args.device, str):
-    args.device = args.device.split(',')
-    args.device = [int(i) for i in args.device]
+if isinstance(args.device, str):
+    if ',' in args.device:
+        args.device = args.device.split(',')
+        args.device = [int(i) for i in args.device]
+    else:
+        args.device = [int(args.device) for _ in range(len(args.fold))]
+    print(args.device)
 else:
     raise ValueError('device must be None or str')
 
 scripts = 'train_efficient_scls.py'
-name = f'attnscls_CrossEntropy_{args.seed}'
+k = args.k
+device = args.device
+commands = []
 
-tail = ''
-if args.fusion != 'pool':
-    name += f'_{args.fusion}'
-    tail += f' --fusion {args.fusion}'
+if hasattr(args, 'valid_only'):
+    if args.valid_only:
+        args.valid_only = ''
+    else:
+        del args.valid_only
 
-if args.model != 'b0':
-    tail += f' --model {args.model}'
+for f, d in zip(k, device):
+    args.k = f
+    args.device = d
 
-if args.modality != 'MM':
-    name += f'_{args.modality}'
-    tail += f' --modality {args.modality}'
+    commands.append(
+        ' '.join([f'python {scripts}'] + [f'--{k} {v}' for k, v in vars(args).items()])
+    )
 
-if args.infer:
-    tail += ' --infer'
-
-if args.resume:
-    tail += ' --resume'
-
-commands = [
-    f'python {scripts} --name {name} --lr {args.lr} --epochs {args.epochs} --seed {args.seed} ' \
-    f'-k {f} --bz 8 --idx {args.idx} --device {d} {tail}'
-    for d, f in zip(args.device, args.fold)]
 # Create progress bar
 progress_bar = tqdm(total=len(commands), desc='Running Processes')
 
@@ -79,8 +73,6 @@ def run_command(command):
     out, err = process.communicate()
     if process.returncode == 0:
         print(f'Process {process.pid} execute successfully')
-        # print(f'进程 {process.pid} 的标准输出：')
-        # print(out.decode())
     else:
         print(f'Process {process.pid} execute failed')
         print(f'Process {process.pid} Standard error output：')

@@ -10,6 +10,7 @@ import time
 
 import torch
 import numpy as np
+from .logger import PrintColor
 
 
 class EarlyStopping:
@@ -78,30 +79,28 @@ class EarlyStopping:
         if self.mode == 'max':
             if score <= self.best_score + self.delta:
                 self.counter += 1
-                print(
-                    self.char_color(
-                        f'{self.name} EarlyStopping counter: {self.counter} out of {self.patience}       best score: {self.best_score}'
-                    )
+                PrintColor(
+                    f'{self.name} EarlyStopping counter: {self.counter} out of {self.patience}       best score: {self.best_score}'
                 )
+
                 if self.counter >= self.patience:
                     self.early_stop = True
             else:
-                print(self.char_color(f"{self.name} {self.best_score} -> {score}"))
+                PrintColor(f"{self.name} {self.best_score} -> {score}")
                 self.best_score = score
                 self.save_checkpoint(val_record, model, optimizer)
                 self.counter = 0
         elif self.mode == 'min':
             if score >= self.best_score + self.delta:
                 self.counter += 1
-                print(
-                    self.char_color(
-                        f'{self.name} EarlyStopping counter: {self.counter} out of {self.patience}       best score: {self.best_score}'
-                    )
+                PrintColor(
+                    f'{self.name} EarlyStopping counter: {self.counter} out of {self.patience}       best score: {self.best_score}'
                 )
+
                 if self.counter >= self.patience:
                     self.early_stop = True
             else:
-                print(self.char_color(f"{self.name} {self.best_score} -> {score}"))
+                PrintColor(f"{self.name} {self.best_score} -> {score}")
                 self.best_score = score
                 self.save_checkpoint(val_record, model, optimizer)
                 self.counter = 0
@@ -122,8 +121,7 @@ class EarlyStopping:
                 "best_score": self.best_score,
             })
         if self.verbose:
-            print(self.char_color(
-                f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...'))
+            PrintColor(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
         if optimizer is None:
             torch.save(
                 {
@@ -177,9 +175,6 @@ class EarlyStopping:
         except RuntimeError:
             raise RuntimeError(f'\033[1;31mmodel[{name}] load failed\033[0m')
 
-        try:
-            print(self.char_color(f"{name} load score: {self.best_score}       lr: {checkpoint['lr']}"))
-        except KeyError:
-            print(self.char_color(f"{name} load score: {self.best_score}"))
+        PrintColor(f"{name} load score: {self.best_score} from {dir_path}")
         model.eval()
         return True

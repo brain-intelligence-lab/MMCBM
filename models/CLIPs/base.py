@@ -9,6 +9,10 @@ import torch
 
 
 class BaseCLIP:
+    @property
+    def name(self):
+        return self.__class__.__name__
+
     def _encode_image(self, image):
         raise NotImplementedError
 

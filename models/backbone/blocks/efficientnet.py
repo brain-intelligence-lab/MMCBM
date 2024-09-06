@@ -692,29 +692,6 @@ class EfficientEncoder(BaseEncoder):
                                          num_layers=encoder_num)
 
 
-class VariationEfficientEncoder(VariationEncoder):
-    def __init__(self, model_name, input_channels=3, num_layers=0, pretrained: bool = True, encoder_num=1,
-                 rnn_type=nn.LSTM, istrain=True):
-        super().__init__(istrain=istrain)
-        for _ in range(encoder_num):
-            self.encoders.append(EfficientNet(model_name=model_name, in_channels=input_channels, pretrained=pretrained))
-            self.out_channel = 512
-            if num_layers != 0:
-                self.rnns.append(
-                    rnn_type(
-                        input_size=self.encoders[0].out_channels,
-                        hidden_size=512,
-                        num_layers=num_layers,
-                        batch_first=True,
-                        bidirectional=False
-                    )
-                )
-            in_features = self.out_channel if num_layers != 0 else self.encoders[0].out_channels
-            self.variations.append(
-                nn.Linear(in_features=in_features, out_features=self.out_channel * 2)
-            )
-
-
 class FusionEfficientEncoder(MMFusionEncoder):
     def __init__(self,
                  modalities=None,
@@ -742,23 +719,6 @@ class FusionEfficientEncoder(MMFusionEncoder):
                                        in_channels=input_channels,
                                        pretrained=pretrained,
                                        encoders=encoders)
-
-
-class EfficientEncoderNew(MMBaseEncoder):
-    def __init__(self, model_name, spatial_dims=2, input_channels=3, pretrained: bool = True, enc_no_grad=False):
-        super(EfficientEncoderNew, self).__init__(out_channel=1280, spatial_dims=spatial_dims, enc_no_grad=enc_no_grad)
-        self.encoder = nn.ModuleDict({
-            m: EfficientNet(modality=m,
-                            spatial_dims=2,
-                            model_name=model_name,
-                            in_channels=input_channels,
-                            pretrained=pretrained) for m in ['US', 'ICGA', 'FA']
-        })
-
-    def __getitem__(self, item):
-        if 'MM' == item:
-            return self.encoder
-        return self.encoder[item]
 
 
 ########################################## Single Encoders ##########################################

@@ -10,10 +10,9 @@ from params import pathology_labels_cn_to_en
 
 
 def predict_concept(imgs, top_k=10, language='en'):
-    name, pathology = imgs[:2]
     imgs = imgs[2:]
     inp = dict(FA=imgs[:3], ICGA=imgs[3:6], US=imgs[6:])
-    attention_score = predictor.get_attention_score(inp=inp, name=name, pathology=pathology)
+    attention_score = predictor.get_attention_score(inp=inp)
     top_k_concepts, top_k_values, indices = predictor.predict_topk_concepts(
         attention_score,
         top_k,

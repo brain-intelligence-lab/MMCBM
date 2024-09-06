@@ -14,15 +14,54 @@ import numpy as np
 from sklearn.svm import SVC
 from tqdm import tqdm
 
-from params import img_size
+from params import modalities
 
 ###################################################### CLip ##############################################
-from models import Clip, MedClip, BioMedClip
+from models import Clip, OpenClip, MedClip, BioMedClip
 
 ###################################################### Concept Loader ##############################################
 import pandas as pd
 
 from utils.logger import char_color
+
+
+def report_to_concept(data_df, report_path, exclude_data_path=None, report_shot=1.):
+    concepts = []
+    report = pd.read_csv(report_path)
+    if exclude_data_path is not None:
+        exclude_data = pd.read_csv(exclude_data_path)
+        report = report.loc[~report['name'].isin(exclude_data['name'])]
+    if report_shot != 1:
+        def r_ample(x):
+            sample_size = max(1, int(len(x['name'].drop_duplicates()) * report_shot))
+            return x.sample(n=sample_size)
+
+        rs = report.groupby(['pathology']).apply(r_ample).reset_index(drop=True)
+        # import pdb
+        # pdb.set_trace()
+        report = report.loc[report['name'].isin(rs['name'])]
+
+    for _, raw in report.iterrows():
+        concept = raw['concept']
+        imgs = data_df[
+            (data_df['name'] == raw['name']) &
+            (data_df['modality'] == raw['modality'])].to_dict('records')
+        if '期' in raw['time'] and raw['modality'] != 'US':
+            if '晚' in raw['time']:
+                concepts.extend(
+                    [{'concept': raw['time'] + concept, 'path': d['path'], 'modality': d['modality']} for d in
+                     imgs if d['type'] in ['later']])
+            elif '中' in raw['time']:
+                pass
+            else:
+                concepts.extend(
+                    [{'concept': raw['time'] + concept, 'path': d['path'], 'modality': d['modality']} for d in
+                     imgs if d['type'] in ['early', 'middle']])
+        else:
+            concepts.extend(
+                [{'concept': concept, 'path': img['path'], 'modality': img['modality']} for img in
+                 imgs])
+    return pd.DataFrame(concepts)
 
 
 class ConceptsLoader:
@@ -74,42 +113,10 @@ class ConceptsLoader:
             return
 
         if 'report' in self.location:
-            concepts = []
             o_path = f'CSV/concept/patient_concepts_map.csv'
-            report = pd.read_csv(o_path)
-            if self.exclude_data_path is not None:
-                exclude_data = pd.read_csv(self.exclude_data_path)
-                report = report.loc[~report['name'].isin(exclude_data['name'])]
-            if self.report_shot != 1:
-                def r_ample(x):
-                    sample_size = max(1, int(len(x['name'].drop_duplicates()) * self.report_shot))
-                    return x.sample(n=sample_size)
-
-                rs = report.groupby(['pathology']).apply(r_ample).reset_index(drop=True)
-                # import pdb
-                # pdb.set_trace()
-                report = report.loc[report['name'].isin(rs['name'])]
-
-            for _, raw in report.iterrows():
-                concept = raw['concept']
-                imgs = self.data_df[
-                    (self.data_df['name'] == raw['name']) &
-                    (self.data_df['modality'] == raw['modality'])].to_dict('records')
-                if '期' in raw['time'] and raw['modality'] != 'US':
-                    if '晚' in raw['time']:
-                        concepts.extend(
-                            [{'concept': raw['time'] + concept, 'path': d['path'], 'modality': d['modality']} for d in
-                             imgs if d['type'] in ['later']])
-                    elif '中' in raw['time']:
-                        pass
-                    else:
-                        concepts.extend(
-                            [{'concept': raw['time'] + concept, 'path': d['path'], 'modality': d['modality']} for d in
-                             imgs if d['type'] in ['early', 'middle']])
-                else:
-                    concepts.extend(
-                        [{'concept': concept, 'path': img['path'], 'modality': img['modality']} for img in
-                         imgs])
+            concepts = report_to_concept(self.data_df, o_path,
+                                         exclude_data_path=self.exclude_data_path,
+                                         report_shot=self.report_shot)
             self.concepts = self.translate(pd.DataFrame(concepts), o_path)
         elif 'human' in self.location and 'clean' not in self.location:
             o_path = f'CSV/concept/human_concepts_map.csv'
@@ -130,7 +137,7 @@ class ConceptsLoader:
             cs = self.concepts.groupby('modality').apply(
                 lambda x: x['concept'].drop_duplicates().sample(frac=self.concept_shot)).reset_index(drop=True)
             self.concepts = self.concepts.loc[self.concepts['concept'].isin(cs)]
-
+        self.concepts = self.concepts.loc[self.concepts['modality'].isin(modalities)]
         self.concepts.to_csv(file_path, index=False)
 
     def get_concepts(self):
@@ -246,28 +253,16 @@ class ConceptsLearner:
 
         self.location = location
         self.backbone = backbone
+        self.clip_model = backbone
+        self.transforms = backbone.transforms
         self.device = device
         self.report_shot = report_shot
         self.concept_shot = concept_shot
         self.exclude_data_path = exclude_data_path
-        self.download_root = 'clip_concepts_saved'
         self.n_samples = n_samples
         self.neg_samples = neg_samples if neg_samples > 0 else n_samples
         self.svm_C = svm_C
         self.cav_split = cav_split
-        if not hasattr(self, 'clip_model'):
-            if 'cav' in self.clip_name and 'clip' not in self.clip_name:
-                from utils.dataloader import val_transforms
-                self.clip_model, self.transforms = backbone, val_transforms(True, img_size)
-            elif 'med' in self.clip_name:
-                self.clip_model = MedClip(self.device, self.clip_name)
-                self.transforms = self.clip_model.transforms
-            elif 'bio' in self.clip_name:
-                self.clip_model = BioMedClip(self.device)
-                self.transforms = self.clip_model.transforms
-            else:
-                self.clip_model = Clip(self.device, self.clip_name, self.download_root)
-                self.transforms = self.clip_model.transforms
 
     def init_concepts(self):
         import pandas as pd
@@ -287,7 +282,7 @@ class ConceptsLearner:
             # self.concepts = pd.read_csv('data/reports.csv')['concept'].unique()
             self.concept_loaders = ConceptsLoader(self.bank_dir,
                                                   self.location,
-                                                  backbone=self.clip_model,
+                                                  backbone=self.backbone,
                                                   device=self.device,
                                                   transfomer=getattr(self, 'transforms'),
                                                   report_shot=self.report_shot,
@@ -299,7 +294,7 @@ class ConceptsLearner:
                             'ICGA': 'Indocyanine Green Angiography',
                             'US': 'Ultrasound'}[row['modality']]
                 concept = row['concept'].split(', ')[1]
-                c = f'This is a {modality} image, {concept}'
+                c = f'This is a {modality} image that shows {concept}.'
                 if c not in self.concepts:
                     value = torch.zeros(3)
                 else:
@@ -317,7 +312,7 @@ class ConceptsLearner:
     @torch.no_grad()
     def clip_learner(self):
         concept_dict = {}
-        concept_dict_path = os.path.join(self.download_root,
+        concept_dict_path = os.path.join(self.bank_dir,
                                          f"clip_concept_{self.location}_{self.clip_name.replace('/', '-')}"
                                          f"_rshot{self.report_shot}_csho{self.concept_shot}.pkl")
         if os.path.exists(concept_dict_path):
@@ -347,7 +342,7 @@ class ConceptsLearner:
 
     def cav_leaner(self):
         lib_path = os.path.join(self.bank_dir,
-                                f"{None if self.backbone is None else self.backbone.name}_concept_{self.location}_{self.svm_C}_{self.n_samples}"
+                                f"{self.backbone.name}_concept_{self.location}_{self.svm_C}_{self.n_samples}"
                                 f"_rshot{self.report_shot}_csho{self.concept_shot}.pkl")
         if os.path.exists(lib_path):
             concept_dict = torch.load(lib_path, map_location=torch.device(self.device))
@@ -609,7 +604,7 @@ class ConceptBank:
         for m in self.modality_mask.keys():
             if m in self.modality:
                 mask = mask + self.modality_mask[m].flatten()
-        return mask
+        return mask.cpu()
 
     def modality_score_reshape(self, score):
         """
@@ -635,27 +630,18 @@ class ConceptBank:
 
     def compute_dist(self, emb, m_mask=False):
         if 'clip' in self.clip_name and 'cav' not in self.clip_name:
-            margins = (emb @ self.vectors.T) * self.scales.T
+            margins = emb @ self.vectors.T
         elif 'cav' in self.clip_name:
-            if 'cav1' in self.clip_name:
-                margins = (self.scales * (self.vectors @ emb.T) + self.intercepts).T
-            elif 'cav2' in self.clip_name:
-                vectors = self.vectors / self.norms
-                emb = emb / torch.norm(emb, p=2, dim=1, keepdim=True).detach()
-                margins = (self.scales * (vectors @ emb.T) + self.intercepts).T
+            # Computing the geometric margin to the decision boundary specified by CAV.
+            # margins = (self.scales * (torch.matmul(self.vectors, emb.T) + self.intercepts) / (self.norms)).T
+            if emb.ndim == 3:
+                margins = ((self.scales * (self.vectors * emb).sum(-1).T + self.intercepts) / self.norms).T
             else:
-                # Computing the geometric margin to the decision boundary specified by CAV.
-                # margins = (self.scales * (torch.matmul(self.vectors, emb.T) + self.intercepts) / (self.norms)).T
-                if emb.ndim == 3:
-                    margins = ((self.scales * (self.vectors * emb).sum(-1).T + self.intercepts) / self.norms).T
-                else:
-                    margins = ((self.scales * (self.vectors @ emb.T) + self.intercepts) / self.norms).T
+                margins = ((self.scales * (self.vectors @ emb.T) + self.intercepts) / self.norms).T
         else:
             raise KeyError(f"Unknown mode: {self.clip_name}")
 
-        if 'norm' in self.clip_name:
-            margins = margins / torch.norm(margins, p=2, dim=1, keepdim=True).detach()
-        elif 'softmax' in self.clip_name:
+        if 'softmax' in self.clip_name:
             margins = margins.softmax(dim=-1)
         elif 'tanh' in self.clip_name:
             margins = torch.tanh(margins)

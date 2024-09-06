@@ -242,11 +242,17 @@ class ConceptEpoch(Epoch):
         )
         from utils.chatgpt import ChatGPT
         from params import openai_info
-        if concept_bank is None:
-            concept_bank = model.concept_bank
-        self.clip_name = concept_bank.clip_name
-        self.concept_bank = concept_bank
-        self.clip_model = self.concept_bank.clip_model
+
+        if concept_bank is not None:
+            self.concept_bank = concept_bank
+            self.clip_name = self.concept_bank.clip_name
+        elif hasattr(model, 'concept_bank'):
+            self.concept_bank = model.concept_bank
+            self.clip_name = self.concept_bank.clip_name
+        else:
+            self.concept_bank = None
+            self.clip_name = None
+            self.clip_model = None
         self.chatgpt = ChatGPT(api_base=openai_info['api_base'], api_key=openai_info['api_key'],
                                model=openai_info['model'], prompts=openai_info['prompts'],
                                conversation_track=False)
@@ -315,7 +321,7 @@ class ConceptEpoch(Epoch):
         """
         # self.f_name = f"{'_'.join(data['name'])}&{'_'.join(data['pathology'])}"
         f_name = list(map(lambda x: '_'.join(x), zip(data['pathology'], data['name'])))
-        self.imgs = data['img']  # {'US': [b1, b2, b3]}
+        # self.imgs = data['img']  # {'US': [b1, b2, b3]}
         f_modality = data['modality']
         inp = data['data']
         for m, x in inp.items():
@@ -330,7 +336,7 @@ class ConceptEpoch(Epoch):
             self.cache['name'] = list(data['name'])
             self.cache['pathology'] = list(data['pathology'])
             self.cache['stage_name'] = [self.stage_name] * len(data['name'])
-        if self.pre_embeddings:
+        if self.pre_embeddings and self.concept_bank is not None:
             inp = self.clip_embedding(inp, f_modality[0])
         return inp, self.to_cuda(data['label']), f_modality, f_name
 
@@ -344,8 +350,8 @@ class ConceptEpoch(Epoch):
     def clip_embedding(self, inp, modality):
         if self.cache_embeddings is not None:
             if 'cav' in self.clip_name:
-                self.cache['MM'] = [i for i in self.concept_bank.encode_image(
-                    'MM', inp).detach().cpu().numpy()] if 'MM' in modality else [None] * len(self.cache['name'])
+                self.cache['MM'] = self.to_cpu(self.concept_bank.encode_image(
+                    modality='MM', image=inp)) if 'MM' in modality else [None] * len(self.cache['name'])
 
         inp = self.concept_bank.encode_image(image=inp, keep_dict=True)
 
@@ -354,7 +360,8 @@ class ConceptEpoch(Epoch):
                 self.cache[m] = [inp[m][i].detach().cpu().numpy() for i in range(len(inp[m]))] \
                     if m in inp.keys() else [None] * len(self.cache['name'])
             self.cache_embeddings.extend(
-                [{k: v[i] for k, v in self.cache.items()} for i in range(len(self.cache['name']))])
+                [{k: {_k: _v[i] for _k, _v in v.items()} if isinstance(v, dict) else v[i] for k, v in
+                  self.cache.items()} for i in range(len(self.cache['name']))])
         return inp
 
 
@@ -362,7 +369,6 @@ class InferEpoch(ConceptEpoch):
     def __init__(self,
                  model,
                  device='cpu',
-                 images_reader=None
                  ):
         super().__init__(
             model=model,
@@ -372,6 +378,28 @@ class InferEpoch(ConceptEpoch):
             device=device
         )
         self.modality = []
+
+    def on_batch_start(self, data):
+        f_name = data['name']
+        # self.imgs = data['img']  # {'US': [b1, b2, b3]}
+        f_modality = data['modality']
+        inp = data['data']
+        for m, x in inp.items():
+            if 'meta' not in m and torch.isnan(x).any():
+                import pdb
+                pdb.set_trace()
+                raise ValueError('NaN found in tensor')
+
+        inp = self.to_cuda(inp)
+        if self.cache_embeddings is not None:
+            self.cache = {}
+            self.cache['name'] = list(data['name'])
+            self.cache['pathology'] = list(data['pathology'])
+            self.cache['stage_name'] = [self.stage_name] * len(data['name'])
+        if self.pre_embeddings and self.concept_bank is not None:
+            inp = self.clip_embedding(inp, f_modality[0])
+        # return inp, self.to_cuda(data['label']), f_modality, f_name
+        return inp, None, f_modality, f_name
 
     def on_epoch_end(self):
         self.epoch += 1
@@ -399,8 +427,8 @@ class InferEpoch(ConceptEpoch):
                 pre = self.run_batch(f_modality[0], inp, label, f_name, logs, train=False)
 
                 self.names.extend(f_name)
-                self.modality.extend(f_modality * len(label))
-                self.labels.append(label.cpu())
+                self.modality.extend(f_modality * len(f_name))
+                # self.labels.append(label.cpu())
                 self.preds.append(pre.cpu().argmax(1))
 
                 if self.verbose:
@@ -417,6 +445,11 @@ class InferEpoch(ConceptEpoch):
         inp, label, self.modality, f_name = self.on_batch_start(inp)
         with torch.no_grad():
             return self.model.attention_matrix(inp, self.modality[0])
+
+    @torch.no_grad()
+    def inference(self, inp):
+        inp, label, self.modality, f_name = self.on_batch_start(inp)
+        return self.model(inp, self.modality[0])
 
     @torch.no_grad()
     def predict_from_modified_attention_score(self, attention_score, cls=None):

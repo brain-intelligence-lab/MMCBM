@@ -7,6 +7,7 @@
 
 import os
 import gradio as gr
+import numpy as np
 import pandas as pd
 
 from params import pathology_labels_cn_to_en, data_info
@@ -31,6 +32,12 @@ class Intervention:
         )
         self.file_path = self.predictor.save_path
 
+    def set_random(self, random):
+        self.predictor.set_random(random)
+
+    def get_random(self):
+        return self.predictor.get_random()
+
     def load_images(self, dir_path):
         from pathlib import Path
         dir_path = Path(dir_path)
@@ -45,7 +52,8 @@ class Intervention:
             return sub_path
         return dir_path
 
-    def get_test_data(self, dir_path=None, num_of_each_pathology=None, names=None, mask=True):
+    def get_test_data(self, data=None, dir_path=None, num_of_each_pathology=None, names=None, mask=False,
+                      format='list'):
         if dir_path is not None:
             dir_path = self.load_images(dir_path)
             dir_path = pd.DataFrame([{'pathology': p.parent.parent.parent.name,
@@ -55,8 +63,12 @@ class Intervention:
             test = dir_path.groupby(['pathology', 'name']).apply(
                 lambda x: x.groupby('modality').apply(lambda y: y['path'].to_list()).to_dict()).reset_index().rename(
                 columns={0: 'path'})
+        elif data is not None:
+            test = data
         else:
             test = DataSplit(data_path=data_info['data_path'], csv_path=data_info['csv_path']).get_test_data()
+        if format == 'dataframe':
+            return test
         if num_of_each_pathology is not None and names is None:
             test = test.groupby('pathology').head(num_of_each_pathology)
         elif names is not None:
@@ -89,9 +101,9 @@ class Intervention:
         self.predictor.set_attention_matrix(attention_matrix)
         self.attention_score = self.predictor.get_attention_score()
 
-    def predict_concept(self, name, pathology, language, imgs):
+    def predict_concept(self, name, language, imgs):
         inp = dict(FA=imgs[:3], ICGA=imgs[3:6], US=imgs[6:])
-        self.attention_score = self.predictor.get_attention_score(inp=inp, name=name, pathology=pathology)
+        self.attention_score = self.predictor.get_attention_score(inp=inp, name=name)
         self.top_k_concepts, self.top_k_values, self.indices = self.predictor.predict_topk_concepts(
             self.attention_score,
             top_k=0,  # all concepts
@@ -99,11 +111,11 @@ class Intervention:
         )
 
     def predict_topk_concept(self, *args):
-        name, pathology = args[:2]
-        imgs = args[2:-2]
+        name = args[0]
+        imgs = args[1:-2]
         top_k, language = args[-2:]
 
-        self.predict_concept(name, pathology, language, imgs)
+        self.predict_concept(name, language, imgs)
         sliders = []
         for i in range(len(self.topk_sliders)):
             if i < top_k:
@@ -132,8 +144,12 @@ class Intervention:
                 sliders.append(gr.Slider(minimum=0, maximum=1, step=0.01, label=None, visible=False))
         return sliders
 
-    def predict_label(self, language='en'):
-        labels = self.predictor.get_labels_prop(language=language)
+    def predict_label(self, language='en', *imgs):
+        if len(imgs) != 0:
+            inp = dict(FA=imgs[:3], ICGA=imgs[3:6], US=imgs[6:])
+        else:
+            inp = None
+        labels = self.predictor.get_labels_prop(language=language, inp=inp)
         self.predicted = max(labels, key=lambda k: labels[k])
         return labels
 
@@ -150,7 +166,7 @@ class Intervention:
                                                                      ],
                                                                      result,
                                                                      inplace=True)
-        labels = self.predictor.get_labels_prop(self.attention_score, language=language)
+        labels = self.predictor.get_labels_prop(self.attention_score, language=language, random=False)
         self.predicted = max(labels, key=lambda k: labels[k])
         return labels
 
@@ -174,6 +190,9 @@ class Intervention:
             width=1500
         )
 
+    def concepts_to_dataframe(self, language):
+        return self.predictor.concepts_to_dataframe(self.attention_score, language=language)
+
     def report(self, chat_history, top_k, language):
         if hasattr(self, 'top_k_concepts'):
             top_k_concepts, top_k_values, indices = self.predictor.predict_topk_concepts(
@@ -188,6 +207,13 @@ class Intervention:
                                                       language=language)
         else:
             raise gr.Error("Please upload images and click 'Predict' button first!")
+
+    def grad_cam(self, *imgs):
+        inp = dict(FA=imgs[:3], ICGA=imgs[3:6], US=imgs[6:])
+        cams = {}
+        for modality in inp.keys():
+            cams[modality] = self.predictor.grad_cam(inp, modality)
+        return cams
 
     def clear(self):
         if hasattr(self, 'top_k_concepts'):

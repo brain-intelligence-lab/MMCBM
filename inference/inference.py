@@ -33,9 +33,11 @@ class Infer:
             model=model,
             device=args.device,
         )
-        self.image_reader = ImagesReader(transform=self.concept_bank.transform)
+        self.image_reader = ImagesReader(
+            transform=self.concept_bank.transform if self.concept_bank is not None
+            else self.infer_epoch.model.transform)
         self.is_normalize = normalize
-        self.modality_mask = self.concept_bank.modality_mask
+        self.modality_mask = self.concept_bank.modality_mask if self.concept_bank is not None else None
         self.modality_order = model.mm_order
         self.modality = ['MM']
         self.labels = list(pathology_labels_cn_to_en.keys())
@@ -47,10 +49,21 @@ class Infer:
                                prompts=openai_info['prompts'],
                                stream=True, )
 
+    def raise_noninteract_error(self):
+        if not hasattr(self.infer_epoch.model, 'attention_matrix'):
+            raise AttributeError('Current model does not support interactive inference')
+
     def set_language(self, language):
         self.language = language
 
+    def set_random(self, random):
+        self.random = random
+
+    def get_random(self):
+        return self.random
+
     def get_concepts(self, modality=None):
+        self.raise_noninteract_error()
         if modality is None:
             modality = self.modality
         if isinstance(modality, str):
@@ -62,6 +75,7 @@ class Infer:
         return concepts
 
     def get_modality_mask(self):
+        self.raise_noninteract_error()
         if 'MM' in self.modality or (len(self.modality) == 1 and 'US' in self.modality):
             return torch.ones(self.concept_bank[self.modality[0]].n_concepts)
         modality = copy(self.modality)
@@ -99,14 +113,21 @@ class Infer:
 
     @property
     def concept_bank(self):
-        return self.infer_epoch.model.concept_bank
+        if hasattr(self.infer_epoch.model, 'concept_bank'):
+            return self.infer_epoch.model.concept_bank
 
     def infer(self, dataloader=None):
         if dataloader is None:
             _, _, dataloader = get_loaders_from_args(self.args)
         return self.infer_epoch(dataloader)
 
-    def get_attention_matrix(self):
+    def get_attention_matrix(self, inp=None, name=None):
+        if inp is not None:
+            inp = self.image_reader(data_i=inp, pathology=None, name=name)
+            self.modality = ([m for m in self.modality_order if m in inp['modality']]
+                             if 'MM' not in inp['modality'] else ['MM'])
+            self.set_attention_matrix(self.infer_epoch.attention_score(inp))
+        self.raise_noninteract_error()
         if not hasattr(self, 'attention_matrix'):
             raise AttributeError('Please run get_attention_score first')
         return self.attention_matrix
@@ -114,14 +135,11 @@ class Infer:
     def set_attention_matrix(self, attention_matrix):
         self.attention_matrix = attention_matrix
 
-    def get_attention_score(self, inp=None, pathology=None, name=None):
-        if inp is not None:
-            inp = self.image_reader(data_i=inp, pathology=pathology, name=name)
-            self.modality = ([m for m in self.modality_order if m in inp['modality']]
-                             if 'MM' not in inp['modality'] else ['MM'])
-            self.set_attention_matrix(self.infer_epoch.attention_score(inp))
-        else:
-            self.get_attention_matrix()
+    def get_attention_score(self, inp=None, name=None):
+        self.raise_noninteract_error()
+        self.get_attention_matrix(inp, name)
+        if self.random:
+            self.attention_matrix = torch.rand_like(self.attention_matrix)
         self.cls = self.attention_matrix.sum(dim=-1).argmax(dim=-1).item()
         attention_score = self.attention_matrix[:, self.cls, self.get_modality_mask() == 1]
         self.set_normalize_bound(attention_score[0])
@@ -129,17 +147,21 @@ class Infer:
         return attention_score
 
     def predict_from_modified_attention_score(self, attention_score, cls):
+        self.raise_noninteract_error()
         return self.infer_epoch.predict_from_modified_attention_score(attention_score, cls)
 
     def attention_matrix_from_modified_attention_score(self, m_attention_score, cls):
+        self.raise_noninteract_error()
         attention_score = self.attention_matrix[:, cls].clone()
         attention_score[:, self.get_modality_mask() == 1] = m_attention_score
         return self.infer_epoch.attention_matrix_from_modified_attention_score(attention_score, cls)
 
     def get_prop_from_attention_matrix(self, attention_matrix):
+        self.raise_noninteract_error()
         return self.infer_epoch.get_prop_from_attention_matrix(attention_matrix)
 
     def predict_topk_concepts(self, attention_score, top_k=0, language=None):
+        self.raise_noninteract_error()
         if language is not None:
             self.set_language(language)
         concepts = self.get_concepts()
@@ -150,6 +172,7 @@ class Infer:
         return top_k_concepts, self.top_k_values.cpu().numpy().tolist(), indices
 
     def modify_attention_score(self, attention_score, indices, result, inplace=True):
+        self.raise_noninteract_error()
         attention_score = attention_score.clone()
         attention_score[0] = self.unnormalize(attention_score[0])
         attention_score[:, indices] = self.unnormalize(
@@ -160,23 +183,32 @@ class Infer:
         attention_score = self.normalize(attention_score)
         return attention_score
 
-    def get_labels_prop(self, attention_score=None, class_type='str', language=None):
+    def get_labels_prop(self, attention_score=None, class_type='str', language=None, inp=None, random=True):
         if language is not None:
             self.set_language(language)
-        if attention_score is None:
-            prediction = self.get_prop_from_attention_matrix(self.attention_matrix).squeeze().softmax(0).tolist()
+        if inp is not None:
+            inp = self.image_reader(data_i=inp, pathology=None)
+            self.modality = ([m for m in self.modality_order if m in inp['modality']]
+                             if 'MM' not in inp['modality'] else ['MM'])
+            prediction = self.infer_epoch.inference(inp).squeeze()
+        elif attention_score is None:
+            prediction = self.get_prop_from_attention_matrix(self.attention_matrix).squeeze()
         else:
             attention_score = attention_score.clone()
             attention_score[0] = self.unnormalize(attention_score[0])
             attention_score = torch.tensor(attention_score, dtype=torch.float)
             attention_matrix = self.attention_matrix_from_modified_attention_score(attention_score, self.cls)
-            prediction = self.get_prop_from_attention_matrix(attention_matrix).squeeze().softmax(0).tolist()
+            prediction = self.get_prop_from_attention_matrix(attention_matrix).squeeze()
+        if self.random and random:
+            prediction = torch.rand_like(prediction)
+        prediction = prediction.softmax(0).tolist()
         if self.language == 'en':
             return {self.labels_en[i] if class_type == 'str' else i: float(prediction[i]) for i in
                     range(len(self.labels_en))}
         return {self.labels[i] if class_type == 'str' else i: float(prediction[i]) for i in range(len(self.labels))}
 
     def concepts_to_dataframe(self, attention_score, language=None):
+        self.raise_noninteract_error()
         if language is not None:
             self.set_language(language)
         df = pd.DataFrame(
@@ -188,6 +220,7 @@ class Infer:
         return df
 
     def generate_report(self, chat_history, top_k_concepts, top_k_values, predict_label, language=None):
+        self.raise_noninteract_error()
         if language is not None:
             self.set_language(language)
         chat_history.append([None, ""])
@@ -226,3 +259,28 @@ class Infer:
             values = torch.topk(weight, topk).values
         return {labels[i]: [[concepts[j], v] for j, v in zip(indice, value)] for i, (indice, value) in
                 enumerate(zip(indices.tolist(), values.tolist()))}
+
+    def grad_cam(self, inp, modality):
+        import numpy as np
+        import cv2
+        from visualize.utils import compute_gradcam
+        inp = self.image_reader(data_i=inp, pathology=None)['data']
+        cam = compute_gradcam(self.infer_epoch.model, inp, modality).cpu().numpy()
+        inp = inp[modality].cpu().numpy()[0]
+        blue_lower_bound = np.array([128, 0, 0])  # 蓝色的低阈值
+        blue_upper_bound = np.array([255, 50, 50])  # 蓝色的高阈值
+        superimposed_img = []
+        for i, ca in zip(inp, cam):
+            i = np.transpose(np.array((i - i.min()) / (i.max() - i.min()) * 255, dtype=np.uint8), (1, 2, 0))
+            if ca.max() != ca.min():
+                ca = 1 - np.transpose(ca, (1, 2, 0))
+                ca = np.array(ca * 255, dtype=np.uint8)
+                ca = cv2.applyColorMap(ca, cv2.COLORMAP_JET)
+                # 反转掩码：非蓝色区域为1，蓝色区域为0
+                mask = cv2.bitwise_not(cv2.inRange(ca, blue_lower_bound, blue_upper_bound))
+                red_map = ca * (np.expand_dims(mask, -1) > 0)
+                red_map = cv2.addWeighted(red_map, .3, i, .7, 0.)
+            else:
+                red_map = i
+            superimposed_img.append(red_map)
+        return superimposed_img

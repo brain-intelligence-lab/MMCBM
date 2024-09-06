@@ -4,6 +4,7 @@
 @github :   https://github.com/ly1998117/MMCBM
 @Contact :  liu.yang.mine@gmail.com
 """
+import os
 
 import torch
 import re
@@ -123,7 +124,7 @@ class ConfusionMatrix(BaseObject):
 # ----------------------------------- retrieval ----------------------------------- #
 def retrieval_patient(function):
     @wraps(function)
-    def decorated(gt, pre, k, search_num, modality=None, mean=True):
+    def decorated(gt, pre, k, search_num, modality=None, mean=True, save_path=None):
         if modality is not None:
             gt = gt[gt['modality'] == modality]
             pre = pre[pre['modality'] == modality]
@@ -137,17 +138,19 @@ def retrieval_patient(function):
                 drop=True)
         metrics = []
         for name in set(gt['name'].unique()) & set(pre['name'].unique()):
-            # name_gt = gt[gt['name'] == name][['concept', 'modality', 'time']].drop_duplicates()
-            # name_mm = pre[pre['name'] == name][['concept', 'modality', 'score']].drop_duplicates()
-
             name_gt = gt[gt['name'] == name][['concept', 'time', 'modality']].drop_duplicates()
             name_mm = pre[pre['name'] == name][['concept', 'time', 'modality', 'score']].drop_duplicates()
             name_gt['concept'] = name_gt['time'] + name_gt['concept']
             name_mm['concept'] = name_mm['time'] + name_mm['concept']
             preds = torch.tensor(name_mm['score'].to_list())
             target = torch.tensor(name_mm['concept'].isin(name_gt['concept']).to_list())
-            metrics.append(function(preds, target, k))
-        return np.mean(metrics) if mean else metrics
+            metrics.append({'name': name, 'metric': function(preds, target, k)})
+
+        metrics = pd.DataFrame(metrics)
+        if save_path is not None:
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+            metrics.to_csv(save_path, index=False)
+        return metrics['metric'].mean if mean else metrics
 
     return decorated
 

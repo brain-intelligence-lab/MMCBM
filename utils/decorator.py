@@ -19,11 +19,14 @@ def decorator_args(function):
         function(args)
         if 'fold' not in args.dir_name:
             if args.name != "":
-                args.dir_name += f'_{args.name}'
+                if args.dir_name != "":
+                    args.dir_name += f'_{args.name}'
+                else:
+                    args.dir_name = args.name
             args.dir_name += f'/fold_{args.k}'
             if args.mark != "":
                 args.dir_name += f'_{args.mark}'
-            args.pre_embeddings = True  # used for MMCBM
+            args.pre_embeddings = True  # used for MMCBM_2
         return args
 
     return decorated
@@ -32,11 +35,11 @@ def decorator_args(function):
 def run_model(pm, init_model_fn, multi=False, fold=None):
     def decorator(function=None):
         @wraps(function)
-        def decorated():
+        def decorated(*arg, **kwargs):
             def _run(p, k):
                 pm, function = p
                 model, args = init_model_fn(k=k, **pm)
-                result = function(args, k, model)
+                result = function(args, k, model, *arg, **kwargs)
                 name = args.name
                 dir_base_name = os.path.join('result', *args.dir_name.split('/')[:-1])
                 del model, args  # 释放资源
@@ -47,19 +50,27 @@ def run_model(pm, init_model_fn, multi=False, fold=None):
             dir_base_name = ''
             if fold is not None:
                 result, name, dir_base_name = _run((pm, function), fold)
-                all_retrievals.extend(result)
+                if isinstance(result, list):
+                    all_retrievals.extend(result)
+                else:
+                    all_retrievals.append(result)
             else:
                 if multi:
                     import mpire as mpi
                     with mpi.WorkerPool(5, shared_objects=[pm, function], daemon=False) as p:
                         results = p.map(_run, range(5))
-                        [all_retrievals.extend(r[0]) for r in results]
+                        for r in results:
+                            if isinstance(r[0], list):
+                                all_retrievals.extend(r[0])
+                            elif isinstance(r[0], pd.DataFrame):
+                                all_retrievals.append(r[0])
+                            else:
+                                raise Exception('type error')
+
                         name = results[0][1]
                         dir_base_name = results[0][2]
                 else:
-                    for k in range(5):
-                        result, name, dir_base_name = _run((pm, function), k)
-                        all_retrievals.extend(result)
+                    raise Exception('fold must be set')
             if len(all_retrievals) > 0:
                 all_retrievals = pd.concat(all_retrievals)
             return all_retrievals, name, dir_base_name

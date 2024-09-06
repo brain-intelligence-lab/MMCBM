@@ -34,17 +34,19 @@ def get_topk(df, column='modality', k=None, concept_num_by_modality=None):
 class ConceptInfer:
     cache = True
 
-    def __init__(self, args, model, output_dir=None, concept_num_by_modality=None, dataloader=None, cache=True):
+    def __init__(self, args, model, output_dir=None, concept_num_by_modality=None, dataloader='test', cache=True):
         super().__init__()
         self.args = args
         self.save_path = os.path.join(output_dir, args.dir_name, 'ConceptInfer') if output_dir is not None \
             else f'{args.output_dir}/{args.dir_name}/ConceptInfer'
         os.makedirs(self.save_path, exist_ok=True)
         self.get_topk = lambda df, column='modality', k=None: get_topk(df, column, k, concept_num_by_modality)
-        if dataloader is None:
-            _, _, self.dataloader = get_loaders_from_args(args)
-        else:
-            self.dataloader = dataloader
+        self.dataloader = get_loaders_from_args(args)[{
+            'train': 0,
+            'val': 1,
+            'test': 2
+        }[dataloader]]
+        print(f'Infering on {dataloader} set')
         self._cache_embeddings = []
         self.test_epoch = ConceptEpoch(
             model=model,

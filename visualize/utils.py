@@ -217,17 +217,28 @@ from .avtivation_maps import CAM, GradCAM
 from torchvision.utils import make_grid
 
 
+def compute_gradcam(model, inp, modality):
+    inp = {modality: inp[modality]}
+    target_layers = f'encoder.encoder.{modality}._bn1'
+    gradcam = GradCAM(nn_module=model, target_layers=target_layers)
+    heatmap_grad = gradcam(inp, modality=modality)
+    return heatmap_grad
+
+
 class ActPlot:
-    def __init__(self, dir):
-        self.dir = os.path.join(dir, 'ActMaps')
-        os.makedirs(self.dir, exist_ok=True)
+    def __init__(self, dir, save=False):
+        self.save = save
+        if save:
+            self.dir = os.path.join(dir, 'ActMaps')
+            os.makedirs(self.dir, exist_ok=True)
 
     def __call__(self, stage_name, modality, inp, label, model):
         if modality == 'MM':
             return
+        heatmap_grad = compute_gradcam(model, inp, modality)
         img = inp[modality]
         img = img.reshape(-1, img.shape[2], img.shape[3], img.shape[4]).cpu()
-        target_layers = f'encoder.encoder.{modality}._bn1'
+
         # fc_layers = f'classifier.classifier.classifier'
         # try:
         #     cam = CAM(nn_module=model, target_layers=target_layers, fc_layers=fc_layers)
@@ -235,8 +246,6 @@ class ActPlot:
         #     self.plot_slices_cv2(img, heatmap.cpu(), name=f'{modality}_{m}_{stage_name}_cam')
         # except:
         #     print(f'No CAM for {modality} {m} {stage_name}')
-        gradcam = GradCAM(nn_module=model, target_layers=target_layers)
-        heatmap_grad = gradcam(inp, modality=modality)
         self.plot_slices_cv2(img, heatmap_grad.cpu(), name=f'{modality}_{stage_name}_{label[0].item()}_gradcam')
 
         # gradcam = GradCAM(nn_module=model, target_layers='_blocks.6')

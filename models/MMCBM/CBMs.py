@@ -72,15 +72,21 @@ class WeightMatrix(nn.Linear):
         else:
             raise NotImplementedError(activation)
 
+    @property
+    def weight_matrix(self):
+        if self.act_on_weight:
+            return self.activation(self.weight)
+        return self.weight
+
     def attention_matrix(self, input):
         # input (B, 1, H)
         q = input.unsqueeze(1)
         # weight (1, class, H)
+        k = self.weight_matrix.unsqueeze(0)
         if self.act_on_weight:
             # attention matrix (B, class, H)
-            attention_matrix = q * self.activation(self.weight).unsqueeze(0)
+            attention_matrix = q * k
         else:
-            k = self.weight.unsqueeze(0)
             # attention score (B, class, H)
             attention_matrix = self.activation(q * k)
         return attention_matrix
@@ -485,10 +491,12 @@ class M2LinearCBM(CBM):
                                           analysis_threshold=analysis_threshold,
                                           modality_mask=False)
         # A single linear layer will be used as the classifier
-        self.modality_map = {'FA': 'FA_ICGA', 'ICGA': 'FA_ICGA', 'US': 'US'}
+        from params import modalities
         self.merged_modalities = ['FA', 'ICGA']
+        self.modality_map = {m: 'FA_ICGA' if m in self.merged_modalities else m for m in modalities}
 
-        modality_feature_dict = {m: (self.concept_bank[m].n_concepts, self.n_classes) for m in ['FA_ICGA', 'US']}
+        modality_feature_dict = {m: (self.concept_bank[m].n_concepts, self.n_classes) for m in
+                                 set(self.modality_map.values())}
         self.classifier = MMWeightMatrix(modality_feature_dict=modality_feature_dict, activation=activation,
                                          act_on_weight=act_on_weight, init_method=init_method,
                                          modality_map=self.modality_map, bias=bias)

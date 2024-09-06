@@ -10,34 +10,37 @@ import random
 
 import pandas as pd
 from ast import literal_eval
-from utils.logger import char_color
+from utils.logger import PrintColor
 
 
 class DataSplit:
-    def __init__(self, data_path="../data", csv_path='./CSV', prognosis=False,
+    def __init__(self, data_path="../data", csv_path='./CSV',
                  valid_only=False, test_only=False, same_valid=False, angle=None,
                  under_sample=False, exist_ok=False, save_csv=True,
-                 modality_shuffle=False, print_info=True,
-                 um_3m_data=False):
+                 modality_shuffle=False, print_info=True, extra_data=None,
+                 modality=('FA', 'ICGA', 'US')):
         self.valid_only = valid_only
         self.test_only = test_only
         self.angle = angle
         self.same_valid = same_valid
-        self.prognosis = prognosis
         self.under_sample = under_sample
         self.exist_ok = exist_ok
         self.save_csv = save_csv
         self.modality_shuffle = modality_shuffle
-        self.um_3m_data = um_3m_data  # UM_all: only use 3 modality data for UM
         self.print_info = print_info
+        self.extra_data = extra_data
 
         self.data_path = data_path
         self.csv_path = csv_path
         os.makedirs(csv_path, exist_ok=True)
-        self.modality = ['FA', 'ICGA', 'US']
+        self.modality = modality
         self.us_type_list = ['doppler_notag', 'gray_notag', 'gray_tag', 'tag', 'e', 'm', 'l']
 
-        self.test = self._read_df('test')
+        if self.extra_data is not None and self.extra_data is not False:
+            PrintColor(f'Using extra data for test, using mode: {self.extra_data}', color='red')
+            self.test = self._read_df('test_extra', autoname=False)
+        else:
+            self.test = self._read_df('test')
         self.train = self._read_df('train')
         self.k_fold = self._read_df('k_fold')
         self.key = {
@@ -51,7 +54,7 @@ class DataSplit:
     def df(self):
         if hasattr(self, '_df'):
             return self._df
-        self._df = self._get_df()
+        self._df = self._read_df(path=f'{self.csv_path}/DATA_Cleaned.csv')
         return self._df
 
     @df.setter
@@ -59,8 +62,6 @@ class DataSplit:
         self._df = value
 
     def _file_name(self, name):
-        if self.prognosis and name is not None:
-            name = f'{name}_prognosis'
         if self.valid_only and name is not None:
             name = f'{name}_valid_only'
         if self.same_valid and name is not None:
@@ -69,15 +70,10 @@ class DataSplit:
             name = f'{name}_under_sample'
         if self.modality_shuffle and name is not None:
             name = f'{name}_modality_shuffle'
-        if self.um_3m_data and name is not None:
-            name = f'{name}_um_3m_data'
         return name
 
     def _under_sample(self):
-        if self.prognosis:
-            by = 'result'
-        else:
-            by = 'pathology'
+        by = 'pathology'
 
         def _sample(x):
             num = x.groupby(by).count().min()[0]
@@ -86,75 +82,28 @@ class DataSplit:
 
         self.df = self.df.groupby('modality').apply(_sample).reset_index(drop=True)
 
-    def _select_prognosis(self):
-        prognosis = pd.read_csv(os.path.join(self.csv_path, 'Prognosis.csv'))[['姓名', '结局']].rename(
-            columns={'姓名': 'name', '结局': 'result'})
-        self.df = pd.merge(self.df, prognosis, on='name', how='inner')
-
-    def _get_df(self):
-        df = self._read_df(path=f'{self.csv_path}/DATA_Cleaned.csv')
-        if self.um_3m_data:
-            df = df[~((df['pathology'] == '黑色素瘤') & (df['modality'].map(lambda x: len(x.split('&'))) != 3))]
-
-        if df is not None:
-            return df
-        # 生成所有数据的详细信息
-        df = []
-        for pathology in os.listdir(os.path.join(self.data_path)):
-            if 'DS_Store' in pathology:
-                continue
-            for patient in os.listdir(os.path.join(self.data_path, pathology)):
-                if 'DS_Store' in patient:
-                    continue
-                for modality in os.listdir(os.path.join(self.data_path, pathology, patient)):
-                    if 'DS_Store' in modality:
-                        continue
-                    imgs = [os.path.join(self.data_path, pathology, patient, modality, img) for img in
-                            os.listdir(os.path.join(self.data_path, pathology, patient, modality))
-                            if 'png' in img or 'jpg' in img]
-                    if len(imgs) != 3 and modality != 'US':
-                        raise
-                    imgs = sorted(imgs, key=lambda x: x.split('_')[-1])
-                    df.append({
-                        'path': imgs,
-                        'pathology': pathology,
-                        'modality': modality,
-                        'name': patient,
-                        'time': [img.split('_')[0] if modality == 'US' else img.split('_')[-3] for img in imgs],
-                        'pos': ['None' if modality == 'US' else img.split('_')[1] for img in imgs],
-                        'angle': ['None' if modality == 'US' else img.split('_')[-2] for img in imgs],
-                        'type': ['None'] if modality == 'US' else ['early', 'middle', 'later']
-                    })
-
-        df = pd.DataFrame(df)
-
-        # 成组， 列表形式保存
-        def group(x):
-            line = x.iloc[0].copy()
-            line['modality'] = '&'.join(x['modality'].values)
-            line['path'] = {k: v for k, v in zip(x['modality'].values, x['path'].values)}
-            line['time'] = {k: v for k, v in zip(x['modality'].values, x['time'].values)}
-            line['pos'] = {k: v for k, v in zip(x['modality'].values, x['pos'].values)}
-            line['type'] = {k: v for k, v in zip(x['modality'].values, x['type'].values)}
-            line['angle'] = {k: v for k, v in zip(x['modality'].values, x['angle'].values)}
-            return line
-
-        df = df.groupby(['pathology', 'name']).apply(group).reset_index(drop=True)[
-            ['name', 'path', 'pathology', 'modality', 'type', 'time', 'pos', 'angle']]
-        df.to_csv(f'{self.csv_path}/DATA_Cleaned.csv', index=False)
-        return df
-
-    def _read_df(self, name=None, path=None):
-        name = self._file_name(name)
+    def _read_df(self, name=None, path=None, autoname=True):
+        if autoname:
+            name = self._file_name(name)
         if path is None:
             path = f'{self.csv_path}/{name}.csv'
         if os.path.exists(path):
             if self.print_info:
-                print(char_color(f'load {name} from {path}', color='green'))
+                PrintColor(f'load {name} from {path}', color='green')
             df = pd.read_csv(path).agg(
                 lambda x: x.map(literal_eval) if '{' in str(x.iloc[0]) else x)
-            return df
-        print(char_color(f'No {name} file: {path}', color='red'))
+
+            def del_modality(x):
+                dk = []
+                for key in x.keys():
+                    if key not in self.modality:
+                        dk.append(key)
+                for key in dk:
+                    x.pop(key)
+                return x
+
+            return df.agg(lambda x: x.map(lambda y: del_modality(y) if isinstance(y, dict) else y))
+        PrintColor(f'No {name} file: {path}', color='red')
         return None
 
     def _save_df(self, name):
@@ -210,11 +159,7 @@ class DataSplit:
             x['k'] = fold_id
             return x
 
-        if self.prognosis:
-            by = 'result'
-        else:
-            by = 'pathology'
-        data_frame = self._select(modality, self.train).groupby(by).apply(fn)
+        data_frame = self._select(modality, self.train).groupby('pathology').apply(fn)
         return data_frame
 
     def get_5fold_data(self, k=5):
@@ -223,9 +168,6 @@ class DataSplit:
 
         if self.under_sample:
             self._under_sample()
-
-        if self.prognosis:
-            self._select_prognosis()
 
         if not self.valid_only:
             self.get_train_test_data()
@@ -240,20 +182,26 @@ class DataSplit:
 
     def get_data_split(self, modality, k):
         self.get_5fold_data()
-        if self.test_only:
-            train, val = self.k_fold.drop(columns='k').reset_index(drop=True), None
-            train = train[train['modality'] == modality]
-        else:
-            if self.valid_only:
-                train = self.k_fold[(self.k_fold['k'] != k) | (self.k_fold['k'] == -1)].drop(columns='k').reset_index(
-                    drop=True)
-                val = self.k_fold[(self.k_fold['k'] == k)].drop(columns='k').reset_index(
-                    drop=True)
+        train = self.k_fold[self.k_fold['k'] != k].drop(columns='k').reset_index(drop=True)
+        val = self.k_fold[self.k_fold['k'] == k].drop(columns='k').reset_index(drop=True)
+        if self.extra_data is not None and self.extra_data is not False:
+            if self.extra_data is True or self.extra_data == 'True':
+                inner_data = [train, val]
+            elif self.extra_data == '5fold':
+                inner_data = [train]
+            elif self.extra_data == 'all':
+                inner_data = [train, val, self._read_df('test')]
             else:
-                val = self.k_fold[self.k_fold['k'] == k].drop(columns='k').reset_index(drop=True)
-                train = self.k_fold[self.k_fold['k'] != k].drop(columns='k').reset_index(drop=True)
-            train = train[train['modality'] == modality]
-            val = val[val['modality'] == modality]
+                raise ValueError(f'extra_data: {self.extra_data} is not supported')
+            train = pd.concat(inner_data, axis=0).reset_index(drop=True)
+            val = self._read_df('test_out', autoname=False)
+        if self.test_only:
+            PrintColor("test only")
+            train = pd.concat([train, val], axis=0).reset_index(drop=True)
+            val = None
+
+        train = train[train['modality'] == modality]
+        val = val[val['modality'] == modality]
         if self.modality_shuffle:
             def m_shuffle(x):
                 path = pd.DataFrame(x['path'].to_list())
@@ -272,11 +220,3 @@ class DataSplit:
     def get_test_data(self):
         self.get_5fold_data()
         return self.test
-
-
-if __name__ == '__main__':
-    random.seed(42)
-    reader = DataSplit(data_path='../data', csv_path='../CSV/data_split', prognosis=False,
-                       valid_only=False, same_valid=False, under_sample=False, exist_ok=False)
-    train, val = reader.get_data_split('MM', 0)
-    pass
