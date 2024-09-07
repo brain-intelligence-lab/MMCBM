@@ -13,7 +13,8 @@
 
 ---
 ## 🔥 News
-* **`2024.09.06`** 🌟 We have open-sourced our dataset *`CTIs: the largest dataset on Asians to date on choroid neoplasm imaging `*.
+* **`2024.09.06`** 🌟Since our paper has not been accepted yet, we are temporarily releasing the dataset 
+(*`CTIs: the largest dataset on Asians to date on choroid neoplasm imaging `*) on Google Drive. 
 * **`2024.08.26`** 🌟 We have submitted our paper to Nature Communications. The paper is under review.
 * **`2024.06.03`** 🌟 We have open-sourced the checkpoint of **MMCBM**.
 
