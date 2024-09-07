@@ -1,1 +1,0 @@
-from .CLIPs import Clip, MedClip, BioMedClip, OpenClip
