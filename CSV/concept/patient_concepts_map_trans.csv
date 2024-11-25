@@ -1,0 +1,1000 @@
+pathology,name,modality,time,concept
+Choroidal Hemangioma,5,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Hemangioma,5,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,5,ICGA,静脉期,Large Fluorescence Changes in Venous Phase
+Choroidal Hemangioma,5,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,5,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,5,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,5,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,5,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,9,FA,静脉期,Blurred Optic Disc Margins in Venous Phase
+Choroidal Hemangioma,9,FA,静脉期,Obscured Venous-Phase Hypofluorescence
+Choroidal Hemangioma,9,FA,静脉期,Abnormal Vasodilation on the Lesion Surface During Venous Phase
+Choroidal Hemangioma,9,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,9,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,9,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,9,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,9,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,9,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Hemangioma,9,US,,Negative Imaging Findings with Movement on Dynamic Imaging
+Choroidal Hemangioma,9,US,,Fluttering with Movement on Dynamic Imaging
+Choroidal Hemangioma,13,FA,静脉期,Large Fluorescence Changes in Venous Phase
+Choroidal Hemangioma,13,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,13,ICGA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Hemangioma,13,US,,Solid Lesion with Irregular Borders
+Choroidal Hemangioma,13,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,13,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,13,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,13,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,13,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,17,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Hemangioma,17,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,17,ICGA,静脉期,Late-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,17,US,,Flat and Raised Solid Lesions
+Choroidal Hemangioma,17,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,17,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,17,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,22,FA,动脉期,Clustered Hyperfluorescence in Arterial Phase
+Choroidal Hemangioma,22,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,22,ICGA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,22,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,22,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,22,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,22,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,22,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,23,FA,动脉早期,Clustered Hyperfluorescence During Early Arterial Phase
+Choroidal Hemangioma,23,FA,动脉早期,Rich Vascular Network in Early Arterial Phase
+Choroidal Hemangioma,23,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,23,ICGA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,23,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,23,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,23,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,23,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,23,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,23,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,23,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,699,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Hemangioma,699,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,699,ICGA,早期,Early-Stage Clustered Hyperfluorescence
+Choroidal Hemangioma,699,ICGA,晚期,Late-Stage Decreasing Fluorescence Intensity
+Choroidal Hemangioma,699,ICGA,晚期,"Late-Stage ""Washout"" Phenomenon"
+Choroidal Hemangioma,699,ICGA,晚期,"Late-Stage ""Washout"" Phenomenon"
+Choroidal Hemangioma,699,US,,Solid Lesion with Irregular Borders
+Choroidal Hemangioma,699,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,699,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Hemangioma,699,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,699,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,699,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Hemangioma,699,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,699,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,699,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,30,FA,静脉早期,Hyperfluorescence Primarily During Early Venous Phase
+Choroidal Hemangioma,30,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,30,ICGA,,Predominant Hyperfluorescence
+Choroidal Hemangioma,30,US,,Flat and Raised Solid Lesions
+Choroidal Hemangioma,30,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,30,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,30,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,30,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,693,FA,动脉期,Clustered Hyperfluorescence in Arterial Phase
+Choroidal Hemangioma,693,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,693,ICGA,,Large Fluorescence Changes
+Choroidal Hemangioma,693,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,693,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,693,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,693,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,36,FA,动脉期,Large Fluorescence Changes in Arterial Phase
+Choroidal Hemangioma,36,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,36,ICGA,,Rich Vascular Network within the Lesion
+Choroidal Hemangioma,36,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,36,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,36,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Hemangioma,36,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,36,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,36,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,37,FA,动脉期,Clustered Hyperfluorescence in Arterial Phase
+Choroidal Hemangioma,37,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,37,ICGA,早期,Early-Stage Clustered Hyperfluorescence
+Choroidal Hemangioma,37,ICGA,,Rich Vascular Network within the Lesion
+Choroidal Hemangioma,37,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,37,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,37,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,37,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,37,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,37,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,38,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Hemangioma,38,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,38,ICGA,,Large Fluorescence Changes
+Choroidal Hemangioma,38,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,38,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,38,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,38,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,38,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,42,FA,动脉期,Clustered Hyperfluorescence in Arterial Phase
+Choroidal Hemangioma,42,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,42,ICGA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,42,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,42,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,42,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,42,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,42,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Connected to the Retina
+Choroidal Hemangioma,42,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,42,US,,Vitreous Opacity
+Choroidal Hemangioma,49,FA,静脉期,Late-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,49,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,49,ICGA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,49,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,49,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,49,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Hemangioma,49,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,49,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,49,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,58,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Hemangioma,58,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Hemangioma,58,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,58,ICGA,,Constant Hypofluorescence
+Choroidal Hemangioma,58,ICGA,,Pinpoint Hyperfluorescence
+Choroidal Hemangioma,58,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,58,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,58,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Hemangioma,60,FA,静脉期,Late-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,60,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,60,ICGA,早期,Early-Stage Clustered Hyperfluorescence
+Choroidal Hemangioma,60,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,60,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,60,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Hemangioma,60,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,60,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,63,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Hemangioma,63,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,63,ICGA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,63,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,63,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,63,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,63,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,63,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,63,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,64,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Hemangioma,64,FA,晚期,Late-Stage Staining
+Choroidal Hemangioma,64,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,64,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,64,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,64,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,698,FA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,698,FA,晚期,Late-Stage Staining
+Choroidal Hemangioma,698,ICGA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,698,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,698,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,698,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,698,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,69,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Hemangioma,69,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,69,ICGA,早期,Early-Stage Rich Vascular Network
+Choroidal Hemangioma,69,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,69,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,69,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Hemangioma,69,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,69,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Hemangioma,75,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Hemangioma,75,FA,晚期,Late-Stage Staining
+Choroidal Hemangioma,75,FA,,Pinpoint Hyperfluorescence
+Choroidal Hemangioma,75,ICGA,,Large Fluorescence Changes
+Choroidal Hemangioma,75,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,75,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,75,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,75,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,75,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,75,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Hemangioma,75,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,77,FA,动脉期,Hyperfluorescence Primarily During Arterial Phase
+Choroidal Hemangioma,77,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,77,ICGA,,Predominant Hyperfluorescence
+Choroidal Hemangioma,77,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,77,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,77,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,77,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,77,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,77,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Hemangioma,77,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Hemangioma,77,US,,Fluttering with Movement on Dynamic Imaging
+Choroidal Hemangioma,77,US,,Fluttering with Movement on Dynamic Imaging
+Choroidal Hemangioma,77,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,77,US,,Vitreous Opacity
+Choroidal Hemangioma,694,FA,动脉期,Clustered Hyperfluorescence in Arterial Phase
+Choroidal Hemangioma,694,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,694,ICGA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,694,ICGA,,Rich Vascular Network within the Lesion
+Choroidal Hemangioma,694,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,694,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,694,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,694,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,694,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Connected to the Retina
+Choroidal Hemangioma,694,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,87,FA,静脉期,Blurred Optic Disc Margins in Venous Phase
+Choroidal Hemangioma,87,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Hemangioma,87,FA,晚期,Late-Stage Staining
+Choroidal Hemangioma,87,ICGA,,Predominant Hypofluorescence
+Choroidal Hemangioma,87,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,87,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,87,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,87,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,87,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,87,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,91,FA,静脉期,Hemispherical Solid Lesions During Venous Phase
+Choroidal Hemangioma,91,FA,静脉期,Rich Vascular Network in Venous Phase
+Choroidal Hemangioma,91,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,91,ICGA,,Predominant Hypofluorescence
+Choroidal Hemangioma,91,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,91,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,91,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,91,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,91,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,91,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,695,FA,动脉期,Clustered Hyperfluorescence in Arterial Phase
+Choroidal Hemangioma,695,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,695,FA,,Inferior Retinal Elevation
+Choroidal Hemangioma,695,FA,,Leakage
+Choroidal Hemangioma,695,ICGA,,Predominant Hyperfluorescence
+Choroidal Hemangioma,695,US,,Solid Lesion with Irregular Borders
+Choroidal Hemangioma,695,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,695,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Hemangioma,695,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Hemangioma,695,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,695,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,695,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,695,US,,Vitreous Opacity
+Choroidal Hemangioma,695,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,98,FA,动脉期,Clustered Hyperfluorescence in Arterial Phase
+Choroidal Hemangioma,98,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,98,ICGA,,Clustered Hyperfluorescence
+Choroidal Hemangioma,98,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,98,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,98,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,98,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,98,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Hemangioma,98,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,100,FA,静脉早期, Clustered Hyperfluorescence in Early Venous Phase
+Choroidal Hemangioma,100,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,100,ICGA,,Clustered Hypofluorescence
+Choroidal Hemangioma,100,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,100,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,100,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Hemangioma,100,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,100,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,100,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,106,FA,动静脉期,Pinpoint Hyperfluorescence in Arteriovenous Phase
+Choroidal Hemangioma,106,FA,动静脉期,Increasing Fluorescence Intensity During the Arteriovenous Phase
+Choroidal Hemangioma,106,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,106,ICGA,,Pinpoint Hyperfluorescence
+Choroidal Hemangioma,106,ICGA,晚期,Late-Stage Decreasing Fluorescence Intensity
+Choroidal Hemangioma,106,ICGA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,106,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,106,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,106,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,106,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,108,FA,动静脉期,Pinpoint Hyperfluorescence in Arteriovenous Phase
+Choroidal Hemangioma,108,FA,动静脉期,Increasing Fluorescence Intensity During the Arteriovenous Phase
+Choroidal Hemangioma,108,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,108,FA,,Leakage
+Choroidal Hemangioma,108,ICGA,早期,Early-Stage Patchy (“Stippled”) Hypofluorescence
+Choroidal Hemangioma,108,ICGA,晚期,Late-Stage Decreasing Fluorescence Intensity
+Choroidal Hemangioma,108,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,108,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,108,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,108,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,108,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Metastatic Carcinoma,125,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Metastatic Carcinoma,125,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,125,ICGA,,Constant Hypofluorescence
+Choroidal Metastatic Carcinoma,125,ICGA,,Rich Vascular Network within the Lesion
+Choroidal Metastatic Carcinoma,125,ICGA,,Inferior Retinal Elevation
+Choroidal Metastatic Carcinoma,125,US,,Solid Lesion with Irregular Borders
+Choroidal Metastatic Carcinoma,125,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,125,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,125,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,125,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Metastatic Carcinoma,125,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,125,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,138,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Metastatic Carcinoma,138,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,138,ICGA,,Clustered Hypofluorescence
+Choroidal Metastatic Carcinoma,138,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,138,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,138,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,138,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,138,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Metastatic Carcinoma,138,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,138,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,141,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Metastatic Carcinoma,141,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,141,ICGA,,Predominant Hypofluorescence
+Choroidal Metastatic Carcinoma,141,US,,Solid Lesion with Irregular Borders
+Choroidal Metastatic Carcinoma,141,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,141,US,,Irregular Lesion Borders
+Choroidal Metastatic Carcinoma,141,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,141,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,141,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,141,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Metastatic Carcinoma,141,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,141,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,148,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Metastatic Carcinoma,148,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,148,ICGA,,Staining
+Choroidal Metastatic Carcinoma,148,US,,Flat and Raised Solid Lesions
+Choroidal Metastatic Carcinoma,148,US,,Irregular Lesion Borders
+Choroidal Metastatic Carcinoma,148,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,148,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,148,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,148,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Metastatic Carcinoma,148,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,148,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Metastatic Carcinoma,148,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,150,FA,静脉早期, Clustered Hypofluorescence in Early Venous Phase
+Choroidal Metastatic Carcinoma,150,FA,静脉早期,Early Pinpoint Hyperfluorescence in Venous Phase
+Choroidal Metastatic Carcinoma,150,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,150,ICGA,,Constant Hypofluorescence
+Choroidal Metastatic Carcinoma,150,US,,Flat and Raised Solid Lesions
+Choroidal Metastatic Carcinoma,150,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,150,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,151,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Metastatic Carcinoma,151,FA,静脉期,Inferior Retinal Elevation During Venous Phase
+Choroidal Metastatic Carcinoma,151,FA,静脉期,Abnormal Vasodilation on the Lesion Surface During Venous Phase
+Choroidal Metastatic Carcinoma,151,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,151,ICGA,,Predominant Hypofluorescence
+Choroidal Metastatic Carcinoma,151,US,,Solid Lesion with Irregular Borders
+Choroidal Metastatic Carcinoma,151,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,151,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,151,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,151,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Metastatic Carcinoma,151,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,151,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,156,FA,静脉期,Hypofluorescence Primarily During Venous Phase
+Choroidal Metastatic Carcinoma,156,FA,晚期,Late-Stage Staining
+Choroidal Metastatic Carcinoma,156,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,156,ICGA,,Constant Hypofluorescence
+Choroidal Metastatic Carcinoma,156,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,156,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,156,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,156,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,156,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Metastatic Carcinoma,156,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,706,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Metastatic Carcinoma,706,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,706,ICGA,,Large Fluorescence Changes
+Choroidal Metastatic Carcinoma,706,ICGA,,Constant Hypofluorescence
+Choroidal Metastatic Carcinoma,706,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,706,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,706,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,706,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,706,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Metastatic Carcinoma,706,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,164,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Metastatic Carcinoma,164,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,164,ICGA,,Rich Vascular Network within the Lesion
+Choroidal Metastatic Carcinoma,164,ICGA,,Obscured Hypofluorescence
+Choroidal Metastatic Carcinoma,164,US,,Irregular Lesion Borders
+Choroidal Metastatic Carcinoma,164,US,,Irregular Lesion Borders
+Choroidal Metastatic Carcinoma,164,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,164,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Metastatic Carcinoma,164,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,164,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Metastatic Carcinoma,164,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Metastatic Carcinoma,164,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Metastatic Carcinoma,164,US,,Secondary Retinal Detachment
+Choroidal Melanoma,166,FA,静脉早期, Clustered Hypofluorescence in Early Venous Phase
+Choroidal Melanoma,166,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,166,ICGA,,Staining
+Choroidal Melanoma,166,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,166,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,166,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,166,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Connected to the Retina
+Choroidal Melanoma,166,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,166,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,166,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,710,FA,静脉期,Venous Phase Leakage
+Choroidal Metastatic Carcinoma,710,FA,晚期,Late-Stage Increasing Fluorescence Intensity
+Choroidal Metastatic Carcinoma,710,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,710,ICGA,晚期,Late-Stage Staining
+Choroidal Metastatic Carcinoma,710,US,,Irregular Lesion Borders
+Choroidal Metastatic Carcinoma,710,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,710,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Metastatic Carcinoma,710,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,710,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Metastatic Carcinoma,710,US,,Secondary Retinal Detachment
+Choroidal Melanoma,176,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Melanoma,176,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,176,ICGA,晚期,Late-Stage Staining
+Choroidal Melanoma,176,ICGA,晚期,Late-Stage ‘Double Circulation’ Pattern in Lesions
+Choroidal Melanoma,176,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,176,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,176,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,176,US,,Abnormal Choroidal Concavity
+Choroidal Melanoma,176,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,176,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,176,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,176,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,176,US,,Secondary Retinal Detachment
+Choroidal Melanoma,182,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Melanoma,182,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,182,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,182,ICGA,晚期,Late-Stage Staining
+Choroidal Melanoma,182,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,182,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,182,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,182,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,182,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,182,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,182,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Connected to the Retina
+Choroidal Melanoma,182,US,,Fluttering with Movement on Dynamic Imaging
+Choroidal Melanoma,182,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,182,US,,Secondary Retinal Detachment
+Choroidal Melanoma,187,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Melanoma,187,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,187,ICGA,,Staining
+Choroidal Melanoma,187,ICGA,,Staining
+Choroidal Melanoma,187,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,187,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,187,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,187,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,187,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,187,US,,Secondary Retinal Detachment
+Choroidal Melanoma,191,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,191,FA,晚期,Constant Late-Stage Fluorescence
+Choroidal Melanoma,191,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,191,ICGA,,Predominant Hypofluorescence
+Choroidal Melanoma,191,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,191,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,191,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,191,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,191,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,191,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,191,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,191,US,,Secondary Retinal Detachment
+Choroidal Melanoma,196,US,,Flat and Raised Solid Lesions
+Choroidal Melanoma,196,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,196,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,196,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,196,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,203,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Melanoma,203,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,203,ICGA,,Constant Hypofluorescence
+Choroidal Melanoma,203,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,203,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,203,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,203,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,203,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,203,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,205,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,205,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,205,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,205,US,,Flat and Raised Solid Lesions
+Choroidal Melanoma,205,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,205,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,205,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,205,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Connected to the Retina
+Choroidal Melanoma,205,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,205,US,,Secondary Retinal Detachment
+Choroidal Melanoma,206,FA,静脉早期,Early Pinpoint Hyperfluorescence in Venous Phase
+Choroidal Melanoma,206,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,206,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,206,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,206,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,206,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,206,US,,No Ultrasonographic Hollowing or Abnormal Findings in the Posterior Fossa Choroid Plexus
+Choroidal Melanoma,206,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,206,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Connected to the Retina
+Choroidal Melanoma,206,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,206,US,,Secondary Retinal Detachment
+Choroidal Melanoma,726,FA,静脉期,Inferior Retinal Elevation During Venous Phase
+Choroidal Melanoma,726,FA,静脉期,Obscured Venous-Phase Hypofluorescence
+Choroidal Melanoma,726,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,726,ICGA,,Predominant Hypofluorescence
+Choroidal Melanoma,726,US,,Negative Imaging Findings with Movement on Dynamic Imaging
+Choroidal Melanoma,726,US,,Negative Imaging Findings with Movement on Dynamic Imaging
+Choroidal Melanoma,726,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,726,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,726,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,726,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,726,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,736,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,736,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,736,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,736,ICGA,,“Double Circulation” Pattern
+Choroidal Melanoma,736,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,736,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,736,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,736,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,736,US,,Secondary Retinal Detachment
+Choroidal Melanoma,215,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,215,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,215,ICGA,,Staining
+Choroidal Melanoma,215,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,215,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,215,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,215,US,,Abnormal Choroidal Concavity
+Choroidal Melanoma,215,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,215,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,215,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,215,US,,Secondary Retinal Detachment
+Choroidal Melanoma,217,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,217,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,217,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,217,US,,Flat and Raised Solid Lesions
+Choroidal Melanoma,217,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,217,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,217,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,217,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,217,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,217,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,217,US,,Secondary Retinal Detachment
+Choroidal Melanoma,240,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Melanoma,240,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,240,ICGA,,Constant Hypofluorescence
+Choroidal Melanoma,240,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,240,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,240,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,240,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,240,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,240,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,240,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,240,US,,Secondary Retinal Detachment
+Choroidal Melanoma,244,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,244,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,244,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,244,ICGA,晚期,Late-Stage Staining
+Choroidal Melanoma,244,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,244,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,244,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,244,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,244,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,244,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,244,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,244,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,745,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,745,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,745,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,745,ICGA,,Obscured Hypofluorescence
+Choroidal Melanoma,745,US,,Irregular
+Choroidal Melanoma,745,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,745,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,745,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,745,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,745,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,745,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,745,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,730,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,730,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,730,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,730,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,730,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,730,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,730,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,730,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,730,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,730,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,730,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,730,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,730,US,,Secondary Retinal Detachment
+Choroidal Melanoma,252,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,252,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,252,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,252,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,252,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,252,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,252,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,252,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,252,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,252,US,,Vitreous Opacity
+Choroidal Melanoma,252,US,,Secondary Retinal Detachment
+Choroidal Melanoma,257,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,257,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Melanoma,257,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,257,ICGA,,Constant Hypofluorescence
+Choroidal Melanoma,257,US,,Irregular
+Choroidal Melanoma,257,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,257,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,257,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,257,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,257,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,257,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,257,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,257,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,257,US,,Fluttering with Movement on Dynamic Imaging
+Choroidal Melanoma,257,US,,Negative Imaging Findings with Movement on Dynamic Imaging
+Choroidal Melanoma,257,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,257,US,,Secondary Retinal Detachment
+Choroidal Melanoma,266,FA,静脉早期, Diffuse Hyperfluorescence in Early Venous Phase
+Choroidal Melanoma,266,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,266,FA,,Patchy (“Stippled”) Hypofluorescence
+Choroidal Melanoma,266,ICGA,,Predominant Hypofluorescence
+Choroidal Melanoma,266,US,,Flat and Raised Solid Lesions
+Choroidal Melanoma,266,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,266,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,266,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,266,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,270,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Melanoma,270,FA,晚期,Late-Stage Diffuse Hyperfluorescence
+Choroidal Melanoma,270,ICGA,,Clustered Hyperfluorescence
+Choroidal Melanoma,270,ICGA,,Rich Vascular Network within the Lesion
+Choroidal Melanoma,270,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,270,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,270,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,270,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,270,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,270,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,739,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,739,FA,晚期,Late-Stage Hypofluorescence Predominates
+Choroidal Melanoma,739,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,739,ICGA,,Constant Hypofluorescence
+Choroidal Melanoma,739,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,739,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,739,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,739,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,739,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,739,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,739,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,739,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,739,US,,Secondary Retinal Detachment
+Choroidal Melanoma,273,FA,静脉期,Clustered Venous Phase Hyperfluorescence
+Choroidal Melanoma,273,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,273,ICGA,早期,Early-Stage Rich Vascular Network
+Choroidal Melanoma,273,ICGA,晚期,Late-Stage Decreasing Fluorescence Intensity
+Choroidal Melanoma,273,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,273,US,,Fluttering with Movement on Dynamic Imaging
+Choroidal Melanoma,273,US,,Flat and Raised Solid Lesions
+Choroidal Melanoma,273,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,273,US,,Vitreous Opacity
+Choroidal Melanoma,275,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,275,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,275,ICGA,,Constant Hypofluorescence
+Choroidal Melanoma,275,US,,Flat and Raised Solid Lesions
+Choroidal Melanoma,275,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,275,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,275,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,275,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,275,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,275,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,275,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,275,US,,Secondary Retinal Detachment
+Choroidal Melanoma,276,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,276,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,276,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,276,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,276,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,276,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,276,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,283,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,283,FA,晚期,Late-Stage Staining
+Choroidal Melanoma,283,US,,Irregular
+Choroidal Melanoma,283,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,283,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,283,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,283,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,283,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,283,US,,Vitreous Opacity
+Choroidal Melanoma,283,US,,Secondary Retinal Detachment
+Choroidal Melanoma,727,FA,静脉期,Obscured Venous-Phase Hypofluorescence
+Choroidal Melanoma,727,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,727,FA,,Staining
+Choroidal Melanoma,727,FA,,Patchy (“Stippled”) Hypofluorescence
+Choroidal Melanoma,727,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,727,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,727,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,727,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,727,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,727,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,727,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,727,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,727,US,,Secondary Retinal Detachment
+Choroidal Melanoma,297,FA,静脉期,Obscured Venous-Phase Hypofluorescence
+Choroidal Melanoma,297,FA,静脉期,Obscured Venous-Phase Hypofluorescence
+Choroidal Melanoma,297,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,297,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,297,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,297,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,297,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,297,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,297,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,297,US,,Secondary Retinal Detachment
+Choroidal Melanoma,302,FA,静脉早期,Early Pinpoint Hyperfluorescence in Venous Phase
+Choroidal Melanoma,302,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,302,ICGA,,“Double Circulation” Pattern
+Choroidal Melanoma,302,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,302,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,302,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,302,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,302,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,302,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,302,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,302,US,,Secondary Retinal Detachment
+Choroidal Melanoma,308,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Melanoma,308,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,308,ICGA,,Constant Hypofluorescence
+Choroidal Melanoma,308,US,,Irregular
+Choroidal Melanoma,308,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,308,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,308,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,308,US,,Abnormal Choroidal Concavity
+Choroidal Melanoma,308,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,308,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,308,US,,Secondary Retinal Detachment
+Choroidal Melanoma,734,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,734,FA,晚期,Primarily Late-Stage Hyperfluorescence
+Choroidal Melanoma,734,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,734,ICGA,,Constant Hypofluorescence
+Choroidal Melanoma,734,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,734,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,734,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,734,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,734,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,734,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,734,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,734,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,314,FA,静脉期,Clustered Hypofluorescence During Venous Phase
+Choroidal Melanoma,314,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,314,ICGA,,Clustered Hypofluorescence
+Choroidal Melanoma,314,US,,Flat and Raised Solid Lesions
+Choroidal Melanoma,314,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,314,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,314,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,314,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,314,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,314,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,314,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,314,US,,Secondary Retinal Detachment
+Choroidal Melanoma,412,FA,静脉期,Abnormal Pinpoint Hyperfluorescence During Venous Phase
+Choroidal Melanoma,412,FA,静脉期,Increasing Fluorescence Intensity During the Venous Phase
+Choroidal Melanoma,412,FA,晚期,Late-Stage Decreasing Fluorescence Intensity
+Choroidal Melanoma,412,US,,Solid Lesion with Irregular Borders
+Choroidal Melanoma,412,US,,Predominantly Hypoechoic Imaging Findings Present
+Choroidal Melanoma,412,US,,Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,412,US,,Positive Posterior Scleral Concavity
+Choroidal Melanoma,412,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Melanoma,412,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,412,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,412,US,,Vitreous Opacity
+Choroidal Melanoma,412,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,700,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,700,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,700,US,,Ultrasonographic Hollowing
+Choroidal Hemangioma,700,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,700,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Hemangioma,700,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Hemangioma,700,US,,Negative Imaging Findings with Movement on Dynamic Imaging
+Choroidal Hemangioma,700,US,,Fluttering with Movement on Dynamic Imaging
+Choroidal Hemangioma,700,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,700,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,700,ICGA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,700,FA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,700,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,12,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,12,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,12,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,12,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,12,ICGA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,12,FA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,12,FA,,Gradually Increasing Fluorescence Intensity Over Time
+Choroidal Hemangioma,12,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,73,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,73,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,73,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,73,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,73,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,73,ICGA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,73,FA,,Pinpoint Hyperfluorescence
+Choroidal Hemangioma,73,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,4,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,4,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,4,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,4,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,4,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,4,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,4,ICGA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,4,ICGA,晚期,Late-Stage Decreasing Fluorescence Intensity
+Choroidal Hemangioma,4,FA,,Inferior Retinal Elevation
+Choroidal Hemangioma,76,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,76,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,76,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,76,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,76,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,76,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,76,ICGA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,76,ICGA,,Gradually Increasing Fluorescence Intensity Over Time
+Choroidal Hemangioma,76,ICGA,晚期,"Late-Stage ""Washout"" Phenomenon"
+Choroidal Hemangioma,76,FA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,76,FA,,Blurred Optic Disc Margins
+Choroidal Hemangioma,76,FA,,Gradually Increasing Fluorescence Intensity Over Time
+Choroidal Hemangioma,76,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,56,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,56,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,56,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,56,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,56,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,56,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,56,ICGA,早期,Early-Stage Pinpoint Hyperfluorescence
+Choroidal Hemangioma,56,ICGA,,Rich Vascular Network within the Lesion
+Choroidal Hemangioma,56,FA,,Rich Vascular Network within the Lesion
+Choroidal Hemangioma,56,FA,,Leakage
+Choroidal Hemangioma,28,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,28,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,28,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,28,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,28,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Hemangioma,28,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,28,ICGA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,28,ICGA,,Dynamic Hypofluorescence Changes
+Choroidal Hemangioma,28,FA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,28,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,85,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,85,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Hemangioma,85,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,85,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Hemangioma,85,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Hemangioma,85,ICGA,早期,Early-Stage Pinpoint Hyperfluorescence
+Choroidal Hemangioma,85,ICGA,,Decreasing Fluorescence Intensity
+Choroidal Hemangioma,85,FA,,Pinpoint Hyperfluorescence
+Choroidal Hemangioma,85,FA,,Gradually Increasing Fluorescence Intensity Over Time
+Choroidal Hemangioma,85,FA,晚期,Late-Stage Leakage
+Choroidal Hemangioma,66,US,,Hemispherical Solid Lesions
+Choroidal Hemangioma,66,US,,Clear and Regular Lesion Borders
+Choroidal Hemangioma,66,US,,Predominantly Internally Isoechoic Imaging Findings Present
+Choroidal Hemangioma,66,US,,Internally Isoechoic and Hyperechoic Imaging Findings Present
+Choroidal Hemangioma,66,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Hemangioma,66,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Hemangioma,66,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Hemangioma,66,US,,Secondary Retinal Detachment
+Choroidal Hemangioma,66,US,,Rapid Filling and Slow Empying of Contrast Agent to and from the Lesion
+Choroidal Hemangioma,66,ICGA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,66,ICGA,晚期,Late-Stage Staining
+Choroidal Hemangioma,66,FA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Hemangioma,66,FA,,Inferior Retinal Elevation
+Choroidal Hemangioma,66,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,558,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,558,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,558,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,558,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,558,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,558,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,558,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,558,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,558,FA,,Gradually Increasing Fluorescence Intensity Over Time
+Choroidal Melanoma,558,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,648,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,648,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,648,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,648,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,648,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,648,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Melanoma,648,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,648,FA,,Inferior Retinal Elevation
+Choroidal Melanoma,648,FA,,Pinpoint Hyperfluorescence
+Choroidal Melanoma,648,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,648,FA,晚期,Late-Stage Diffuse Hyperfluorescence
+Choroidal Melanoma,394,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,394,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,394,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,394,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,394,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,394,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,394,US,,Secondary Retinal Detachment
+Choroidal Melanoma,394,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,394,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,394,FA,,Inferior Retinal Elevation
+Choroidal Melanoma,394,FA,,Gradually Increasing Fluorescence Intensity Over Time
+Choroidal Melanoma,394,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,495,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,495,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,495,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,495,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Melanoma,495,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Melanoma,495,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,495,US,,Secondary Retinal Detachment
+Choroidal Melanoma,495,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,495,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,495,FA,,Rich Vascular Network within the Lesion
+Choroidal Melanoma,495,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,495,FA,晚期,Late-Stage Diffuse Hyperfluorescence
+Choroidal Melanoma,495,FA,,Abnormal Vasodilation at the Lesion Surface
+Choroidal Melanoma,421,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,421,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,421,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,421,US,,Abnormal Choroidal Concavity
+Choroidal Melanoma,421,US,,Positive Posterior Scleral Concavity
+Choroidal Melanoma,421,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Melanoma,421,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,421,US,,Secondary Retinal Detachment
+Choroidal Melanoma,421,US,,Vitreous Opacity
+Choroidal Melanoma,421,FA,晚期,Late-Stage Diffuse Hyperfluorescence
+Choroidal Melanoma,421,FA,,Blurred Optic Disc Margins
+Choroidal Melanoma,406,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,406,US,,Clear and Regular Lesion Borders
+Choroidal Melanoma,406,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,406,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,406,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,406,FA,,Rich Vascular Network within the Lesion
+Choroidal Melanoma,406,FA,晚期,Late-Stage Leakage
+Choroidal Melanoma,406,FA,,Abnormal Vasodilation at the Lesion Surface
+Choroidal Melanoma,721,US,,Hemispherical Solid Lesions
+Choroidal Melanoma,721,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Melanoma,721,US,,Ultrasonographic Hollowing
+Choroidal Melanoma,721,US,,Abnormal Choroidal Concavity
+Choroidal Melanoma,721,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Melanoma,721,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Melanoma,721,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,721,ICGA,,Dynamic Hypofluorescence Changes
+Choroidal Melanoma,721,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Melanoma,721,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,135,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,135,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,135,US,,Ultrasonographic Hollowing
+Choroidal Metastatic Carcinoma,135,US,,Ultrasonographic Hollowing
+Choroidal Metastatic Carcinoma,135,US,,Abnormal Choroidal Concavity
+Choroidal Metastatic Carcinoma,135,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,135,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Metastatic Carcinoma,135,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,135,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,135,ICGA,,Large Fluorescence Changes
+Choroidal Metastatic Carcinoma,135,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,135,FA,,Gradually Increasing Fluorescence Intensity Over Time
+Choroidal Metastatic Carcinoma,135,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,177,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,177,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,177,US,,Ultrasonographic Hollowing
+Choroidal Metastatic Carcinoma,177,US,,Ultrasonographic Hollowing
+Choroidal Metastatic Carcinoma,177,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,177,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Metastatic Carcinoma,177,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,177,ICGA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Metastatic Carcinoma,177,FA,,Pinpoint Hyperfluorescence
+Choroidal Metastatic Carcinoma,177,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,128,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,128,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,128,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Metastatic Carcinoma,128,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Metastatic Carcinoma,128,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Metastatic Carcinoma,128,US,,Vitreous Opacity
+Choroidal Metastatic Carcinoma,128,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,128,FA,早期,Early-Stage Hyperfluorescence Predominates
+Choroidal Metastatic Carcinoma,128,FA,,Inferior Retinal Elevation
+Choroidal Metastatic Carcinoma,128,FA,晚期,Late-Stage Diffuse Hyperfluorescence
+Choroidal Metastatic Carcinoma,132,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,132,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,132,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,132,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,132,ICGA,早期,Early-Stage Pinpoint Hyperfluorescence
+Choroidal Metastatic Carcinoma,132,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,132,FA,,Inferior Retinal Elevation
+Choroidal Metastatic Carcinoma,132,FA,,Rich Vascular Network within the Lesion
+Choroidal Metastatic Carcinoma,132,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,132,FA,,Abnormal Vasodilation at the Lesion Surface
+Choroidal Metastatic Carcinoma,133,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,133,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,133,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,133,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Metastatic Carcinoma,133,US,,Band-shaped Echo Visualized on Lesion Surface
+Choroidal Metastatic Carcinoma,133,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,133,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Metastatic Carcinoma,133,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,133,ICGA,晚期,Constant Late-Stage Fluorescence
+Choroidal Metastatic Carcinoma,133,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,133,FA,,Gradually Increasing Fluorescence Intensity Over Time
+Choroidal Metastatic Carcinoma,133,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,117,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,117,US,,Internally Isoechoic and Hypoechoic Imaging Findings Present
+Choroidal Metastatic Carcinoma,117,US,,Point- or Band- shaped Hypoechoic Intravitreal Lesion(s) Not Connected to the Retina
+Choroidal Metastatic Carcinoma,117,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,117,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,117,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,117,FA,晚期,Late-Stage Leakage
+Choroidal Metastatic Carcinoma,117,FA,晚期,Late-Stage Diffuse Hyperfluorescence
+Choroidal Metastatic Carcinoma,707,US,,Hemispherical Solid Lesions
+Choroidal Metastatic Carcinoma,707,US,,Clear and Regular Lesion Borders
+Choroidal Metastatic Carcinoma,707,US,,Abnormal Blood Flow in Lesion Using Doppler
+Choroidal Metastatic Carcinoma,707,US,,Intravitreal Band Connected to Primary Lesion
+Choroidal Metastatic Carcinoma,707,US,,Secondary Retinal Detachment
+Choroidal Metastatic Carcinoma,707,US,,Rapid Filling and Rapid Emptying of Contrast Agent to and from the Lesion
+Choroidal Metastatic Carcinoma,707,ICGA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,707,ICGA,,Rich Vascular Network within the Lesion
+Choroidal Metastatic Carcinoma,707,FA,早期,Early-Stage Hypofluorescence Predominates
+Choroidal Metastatic Carcinoma,707,FA,,Pinpoint Hyperfluorescence
+Choroidal Metastatic Carcinoma,707,FA,晚期,Late-Stage Leakage
