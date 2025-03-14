@@ -137,3 +137,37 @@ If you find our work helpful for your research, please consider citing our work.
       url={https://arxiv.org/abs/2403.05606}, 
 }
 ```
+
+## Third-Party Libraries and Licenses
+
+This project utilizes the following third-party libraries:
+
+| Library Name               | Version       | License       |
+|----------------------------|---------------|----------------|
+| **albumentations**         | 1.3.1         | MIT            |
+| **clip**                   | 1.0           | MIT            |
+| **gradio**                 | 4.43.0        | Apache 2.0     |
+| **matplotlib**             | 3.8.2         | PSF            |
+| **MedCLIP**                | 0.0.3         | MIT            |
+| **monai**                  | 1.3.2         | Apache 2.0     |
+| **mpire**                  | 2.8.1         | MIT            |
+| **numpy**                  | 1.24.4        | BSD            |
+| **open_clip_torch**        | 2.20.0        | Apache 2.0     |
+| **openai**                 | 1.44.0        | MIT            |
+| **opencv-python**          | 4.8.0.74      | Apache 2.0     |
+| **opencv-python-headless** | 4.8.0.74      | Apache 2.0     |
+| **pandas**                 | 2.0.3         | BSD            |
+| **Pillow**                 | 9.5.0         | PIL            |
+| **requests**               | 2.32.3        | Apache 2.0     |
+| **scikit-learn**           | 1.3.0         | BSD            |
+| **seaborn**                | 0.13.2        | BSD            |
+| **tencentcloud-sdk-python**| 3.0.992       | Apache 2.0     |
+| **timm**                   | 0.9.2         | Apache 2.0     |
+| **torch**                  | 2.0.1+cu118   | BSD            |
+| **torchmetrics**           | 1.2.0         | Apache 2.0     |
+| **torchvision**            | 0.15.2+cu118  | BSD            |
+| **tqdm**                   | 4.65.0        | MPL            |
+| **transformers**           | 4.33.1        | Apache 2.0     |
+| **wandb**                  | 0.16.6        | MIT            |
+| **wget**                   | 3.2           | Public Domain  |
+
