@@ -13,7 +13,8 @@
 
 ---
 ## 🔥 News
-* **`2025.01.18`** 🌟 Our paper is set to be published under an open access license in **Nature Communications**.
+* **`2025.04.13`** 🌟 Our paper is published in **Nature Communications**.
+* **`2025.01.30`** 🌟 We have open-sourced our dataset *`CTIs`* on [figshare](https://figshare.com/articles/dataset/CTI_Dataset/28255265/2?file=51845132).
 * **`2024.09.06`** 🌟 We have temporarily open-sourced our dataset *`CTIs: the largest dataset on Asians to date on choroid neoplasm imaging `* on Google Drive.
 since our paper has not been accepted.
 * **`2024.08.26`** 🌟 We have submitted our paper to Nature Communications. The paper is under review.
