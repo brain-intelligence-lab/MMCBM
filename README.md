@@ -7,8 +7,8 @@
 ![model](images/title.png)
 
 <font size=7><div align='center' >
-[[📖 arXiv Paper](https://arxiv.org/abs/2403.05606)]
-[[📊 Dataset](https://drive.google.com/drive/folders/1YwDhqC_M9ACBnGjn_8IZouWHgJx1ue5Q?usp=drive_link)]
+[[📖 Paper](https://www.nature.com/articles/s41467-025-58801-7)]
+[[📊 Dataset](https://figshare.com/articles/dataset/CTI_Dataset/28255265/2?file=51845132)]
 [[🌟 Demo](https://mmcbm.liuy.site)] </div></font>
 
 ---
@@ -127,15 +127,24 @@ Command Line without Gradio. We also provide a bash script to run the model infe
 If you find our work helpful for your research, please consider citing our work.   
 
 ```bibtex
-@misc{wu2024conceptbasedinterpretablemodeldiagnosis,
-      title={A Concept-based Interpretable Model for the Diagnosis of Choroid Neoplasias using Multimodal Data}, 
-      author={Yifan Wu and Yang Liu and Yue Yang and Michael S. Yao and Wenli Yang and Xuehui Shi and Lihong Yang and Dongjun Li and Yueming Liu and James C. Gee and Xuan Yang and Wenbin Wei and Shi Gu},
-      year={2024},
-      eprint={2403.05606},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2403.05606}, 
+@ARTICLE{Wu2025-rm,
+  title     = "A concept-based interpretable model for the diagnosis of choroid
+               neoplasias using multimodal data",
+  author    = "Wu, Yifan and Liu, Yang and Yang, Yue and Yao, Michael S and
+               Yang, Wenli and Shi, Xuehui and Yang, Lihong and Li, Dongjun and
+               Liu, Yueming and Yin, Shiyi and Lei, Chunyan and Zhang, Meixia
+               and Gee, James C and Yang, Xuan and Wei, Wenbin and Gu, Shi",
+  journal   = "Nat. Commun.",
+  publisher = "Springer Science and Business Media LLC",
+  volume    =  16,
+  number    =  1,
+  pages     = "3504",
+  month     =  apr,
+  year      =  2025,
+  copyright = "https://creativecommons.org/licenses/by-nc-nd/4.0",
+  language  = "en"
 }
+
 ```
 
 ## Third-Party Libraries and Licenses
